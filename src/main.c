@@ -67,12 +67,12 @@ int main()
 		case 7:
 			printf("\n Enter Hebrew year: ");
 			scanf("%d",&yr);
-			printf("%s%d%s","yearType value ", get_heb_year_type(yr),"\n");
+			printf("%s%d%s","yearType value ", hc_get_heb_year_type(yr),"\n");
 			break;
 		case 8:
 			printf("\n Enter Hebrew year: ");
 			scanf("%d",&yr);
-			compute_molad_rosh_hashana(yr, GREGORIAN, &date, &time);
+			hc_compute_molad_rosh_hashana(yr, GREGORIAN, &date, &time);
 			printf("%s%d%s%d%s%d%s%d%s%d%s","Molad value: day ", date.year,
 					"-", date.month,
 					"-", date.day,

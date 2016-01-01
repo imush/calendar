@@ -1,6 +1,6 @@
 #ifndef SRC_HCONVERTER_INTERNAL_H_
 #define SRC_HCONVERTER_INTERNAL_H_
-
+#include "hconverter.h"
 /**
  * This struct contains pointers to specific functions in a calendar implementation.
  */

@@ -75,11 +75,11 @@ static int jul_compute_date(const long abs_date, hc_date *target)
 }
 
 static hc_cal_impl hc_jul_impl = {
-    .abs_date = jul_to_abs_date,
-    .compute_date = jul_compute_date,
-	.check_date = jul_check_date,
-	.is_leap_year = jul_is_leap_year,
-	.month_length = jul_month_length
+    jul_to_abs_date,
+    jul_compute_date,
+	jul_check_date,
+	jul_is_leap_year,
+	jul_month_length
 };
 
 hc_cal_impl *jul_impl = &hc_jul_impl;

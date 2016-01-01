@@ -83,11 +83,11 @@ static int greg_compute_date(const long abs_date, hc_date *target)
 }
 
 static hc_cal_impl hc_greg_impl_s = {
-    .abs_date = greg_to_abs_date,
-    .compute_date = greg_compute_date,
-	.check_date = greg_check_date,
-	.is_leap_year = greg_is_leap_year,
-	.month_length = greg_month_length
+    greg_to_abs_date,
+    greg_compute_date,
+	greg_check_date,
+	greg_is_leap_year,
+	greg_month_length
 };
 
 hc_cal_impl *greg_impl = &hc_greg_impl_s;

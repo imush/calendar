@@ -37,10 +37,7 @@ typedef struct hc_date_s {
  */
 int set_hc_date(hc_date*, int year, int month, int day, hc_calendar_type);
 
-int set_calendar_type(hc_date*, hc_calendar_type);
-int get_year(hc_date*);
-int get_month(hc_date*);
-int get_day(hc_date*);
+int hc_set_calendar_type(hc_date*, hc_calendar_type);
 hc_calendar_type get_calendar_type(hc_date *);
 
 /**
@@ -76,21 +73,32 @@ typedef struct hc_heb_time_s {
 	int hour;
 	int part;
 } hc_heb_time;
-int set_hc_heb_time(hc_heb_time*, int hour, int part);
-int get_hour(hc_heb_time*);
-int get_parts(hc_heb_time*);
+
+/**
+ * Convenience method to set hc_heb_time struct value.
+ * @param time
+ * @param hour
+ * @param part
+ */
+int hc_set_hc_heb_time(hc_heb_time*, int hour, int part);
 
 /**
  * Compute the date time of molad of Rosh Hashana for given year.
  * hc_date and hc_time objects are passed in to be documented.
  */
-int compute_molad_rosh_hashana(int year, hc_calendar_type cal_type,
+int hc_compute_molad_rosh_hashana(int year, hc_calendar_type cal_type,
 		hc_date *date, hc_heb_time *time);
+
 /**
  * Compute the date time of molad for given year and month.
  * hc_date and hc_time objects are passed in to be documented.
+ * @param year
+ * @param month
+ * @param hc_calendar_type GREGORINA, JULIAN or HEBREW
+ * @param date pointer to date struct to store result
+ * @param time pointer to hc_heb_time to store time result
  */
-int compute_molad(const int year, int month, const hc_calendar_type cal_type,
+int hc_compute_molad(const int year, int month, const hc_calendar_type cal_type,
 		hc_date *date, hc_heb_time *time);
 
 /** Number of days in excess of 58 in Cheshvan and Kislev combined.
@@ -100,6 +108,6 @@ int compute_molad(const int year, int month, const hc_calendar_type cal_type,
  *  FULL _HEB_YEAR  (2)   - 30 days in both Cheshvan and Kislev   */
 typedef enum heb_year_type {SHORT_HEB_YEAR, NORMAL_HEB_YEAR, FULL_HEB_YEAR} heb_year_type;
 
-heb_year_type get_heb_year_type(int year);
+heb_year_type hc_get_heb_year_type(int year);
 
 #endif /* SRC_HCONVERTER_H_ */

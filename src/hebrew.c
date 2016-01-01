@@ -9,7 +9,7 @@ typedef struct abs_heb_time {
     int part;
 } hc_abs_heb_time;
 
-int set_hc_heb_time(hc_heb_time* htime, int hours, int parts)
+int hc_set_hc_heb_time(hc_heb_time* htime, int hours, int parts)
 {
 	htime->hour = hours;
 	htime->part = parts;
@@ -50,9 +50,9 @@ static int heb_month_length(const int year, const int month)
         case ADAR:
             return heb_is_leap_year ? 30 :29;
         case CHESHVAN:
-            return get_heb_year_type(year) == FULL_HEB_YEAR ? 30 : 29;
+            return hc_get_heb_year_type(year) == FULL_HEB_YEAR ? 30 : 29;
         case KISLEV:
-            return get_heb_year_type(year) == SHORT_HEB_YEAR ? 29 : 30;
+            return hc_get_heb_year_type(year) == SHORT_HEB_YEAR ? 29 : 30;
         case IYAR:
         case TAMUZ:
         case ELUL:
@@ -142,7 +142,7 @@ static int compute_abs_molad_rosh_hashana(const int year, hc_abs_heb_time *abs_t
 		pre_months += 12 + heb_is_leap_year(i+1);
 	}
 
-	/* now call mult_parts */
+	/* now call mult_parts  */
 
 	in = mult_parts(29, 12, 793, pre_months);
 	add_parts(abs_time, &in);
@@ -157,7 +157,7 @@ static long rosh_hashana_abs_date(const int year)
 	hc_abs_heb_time molad;
 	compute_abs_molad_rosh_hashana(year, &molad);
 	long int day = molad.abs_date;
-	hc_day_of_week dw = (day+2) % 7;
+	hc_day_of_week dw = (day-1) % 7;
 
 	/* Now come the 3 dehiyot. These are as follows:
          Molad zoken - R"H postponed 1 day if the molad occurs after 18 hrs in the day (i.e. after noon)
@@ -186,7 +186,7 @@ static long rosh_hashana_abs_date(const int year)
 	return day;
 }
 
-heb_year_type get_heb_year_type(const int year)
+heb_year_type hc_get_heb_year_type(const int year)
 {
 	const long r0 = rosh_hashana_abs_date(year);
 	const long r1 = rosh_hashana_abs_date(year+1);
@@ -256,7 +256,7 @@ static int heb_compute_date(const long abs_date, hc_date *target)
 	return 0;
 }
 
-int compute_molad(const int year, const int month, const hc_calendar_type cal_type,
+int hc_compute_molad(const int year, const int month, const hc_calendar_type cal_type,
 		hc_date *date, hc_heb_time *time)
 {
 	hc_abs_heb_time molad;
@@ -267,24 +267,24 @@ int compute_molad(const int year, const int month, const hc_calendar_type cal_ty
 	if (cal_type != HEBREW)
 		hc_convert(date, cal_type);
 
-	set_hc_heb_time(time, molad.hour, molad.part);
+	hc_set_hc_heb_time(time, molad.hour, molad.part);
 	return 0;
 }
 
-int compute_molad_rosh_hashana(const int year, const hc_calendar_type cal_type,
+int hc_compute_molad_rosh_hashana(const int year, const hc_calendar_type cal_type,
 		hc_date *date, hc_heb_time *time)
 {
-	return compute_molad(year, 1, cal_type, date, time);
+	return hc_compute_molad(year, 1, cal_type, date, time);
 }
 
 /* set handles */
 static hc_cal_impl hc_heb_impl_s =
 {
-    .abs_date = heb_to_abs_date,
-    .compute_date = heb_compute_date,
-	.check_date = heb_check_date,
-	.is_leap_year = heb_is_leap_year,
-	.month_length = heb_month_length
+    heb_to_abs_date,
+    heb_compute_date,
+	heb_check_date,
+	heb_is_leap_year,
+	heb_month_length
 };
 
 hc_cal_impl *heb_impl = &hc_heb_impl_s;
