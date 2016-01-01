@@ -1,10 +1,1 @@
-/main.o
-/parts.o
-/datecon.o
-/check.o
-/converter
-/julian.o
-/hebrew.o
-/hconverter.o
-/gregorian.o
-/common.o
+/*.o
