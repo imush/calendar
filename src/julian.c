@@ -27,7 +27,7 @@ static int jul_check_date(const int year, const int month, const int day)
 
 static long jul_to_abs_date(const int year, const int month, const int day)
 {
-	long int ret = COMMON_BEGINNING-1;
+	long int ret = COMMON_BEGINNING;
 	int m;
 	int passed_years = year-1;
 
@@ -43,7 +43,7 @@ static long jul_to_abs_date(const int year, const int month, const int day)
 
 static int jul_compute_date(const long abs_date, hc_date *target)
 {
-	const long dy = abs_date - COMMON_BEGINNING + 1;
+	const long dy = abs_date - COMMON_BEGINNING;
 	/* compute approximate lower bound for year */
 	int yr = dy/366;
 	int mh, next_eom;

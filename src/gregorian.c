@@ -31,7 +31,7 @@ static int greg_check_date(const int year, const int month, const int day)
 
 static long greg_to_abs_date(const int year, const int month, const int day)
 {
-	long ret = COMMON_BEGINNING-1;
+	long ret = COMMON_BEGINNING;
 	int m;
 	int passed_years = year-1;
 
@@ -49,7 +49,7 @@ static long greg_to_abs_date(const int year, const int month, const int day)
 
 static int greg_compute_date(const long abs_date, hc_date *target)
 {
-	const long dy = abs_date - COMMON_BEGINNING + 1;
+	const long dy = abs_date - COMMON_BEGINNING;
 	int yr, mh;
 	long dcount, next_dec31, next_eom;
 
