@@ -84,7 +84,7 @@ int main()
 		case 9:
 			printf("\n Enter Hebrew year: ");
 			scanf("%d", &yr);
-			set_hc_date(&date, HEBREW, yr, 7, 1);
+			set_hc_date(&date, yr, 7, 1, HEBREW);
 			long absd = heb_impl->abs_date(yr, 7, 1);
 			hc_convert(&date, GREGORIAN);
 			printf("%s%ld%s","abs day ", absd,"\n");

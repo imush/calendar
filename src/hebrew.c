@@ -123,9 +123,9 @@ static int compute_abs_molad_rosh_hashana(const int year, hc_abs_heb_time *abs_t
 	hc_abs_heb_time in;
 
 	/* start with first molad */
-	abs_time->abs_date = 6;
+	abs_time->abs_date = 2;
 	abs_time->hour = 5;
-	abs_time->part = 4;
+	abs_time->part = 204;
 	long pre_months;
 
     /*

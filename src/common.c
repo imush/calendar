@@ -3,7 +3,7 @@
  */
 
 /** Days since creation to start of Gregorian and Julian calendars */
-const long COMMON_BEGINNING = 1373432;
+const long COMMON_BEGINNING = 1373429;
 
 /** Standard month lengths for Gregorian and Julian calendars */
 const int COMMON_MONTH_LENGTH[12] =
