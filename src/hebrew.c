@@ -45,17 +45,17 @@ static int heb_month_length(const int year, const int month)
         case TISHREI:
         case SHVAT:
             return 30;
-        case ADAR_2:
-            return 29;
         case ADAR:
-            return heb_is_leap_year ? 30 :29;
+            return heb_is_leap_year ? 30 : 29;
         case CHESHVAN:
             return hc_get_heb_year_type(year) == FULL_HEB_YEAR ? 30 : 29;
         case KISLEV:
             return hc_get_heb_year_type(year) == SHORT_HEB_YEAR ? 29 : 30;
+        case TEVETH:
         case IYAR:
         case TAMUZ:
         case ELUL:
+        case ADAR_2:
             return 29;
         default:
             // invalid month here

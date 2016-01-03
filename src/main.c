@@ -46,6 +46,7 @@ int main()
 			printf("\nEnter absolute day: ");
 			scanf("%d",&dy);
 			greg_impl->compute_date(dy, &date);
+
 			printf("%s%d%s%d%s%d%s", "Gregorian date (YMD): ", date.year,"-",date.month,"-",date.day,"\n");
 			break;
 		case 4:
