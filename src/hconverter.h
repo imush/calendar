@@ -19,7 +19,7 @@ typedef enum hc_day_of_week {SUNDAY, MONDAY, TUESDAY, WEDNESDAY,
 typedef enum hc_calendar_type { NONE, GREGORIAN, JULIAN, HEBREW } hc_calendar_type;
 
 /**
- * Structure representing a date
+ * Structure representing a date.
  */
 typedef struct hc_date_s {
 	hc_calendar_type calendar_type;
