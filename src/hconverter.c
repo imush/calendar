@@ -21,7 +21,7 @@ int get_year(hc_date *date) { return date->year; }
 int get_month(hc_date *date) { return date->month; }
 int get_day(hc_date *date) { return date->day; }
 
-hc_calendar_type get_calendar_type(hc_date *date) { return date->calendar_type; }
+hc_calendar_type hc_get_calendar_type(hc_date *date) { return date->calendar_type; }
 
 hc_cal_impl *get_calendar(hc_calendar_type type)
 {

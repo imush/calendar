@@ -37,8 +37,8 @@ typedef struct hc_date_s {
  */
 int set_hc_date(hc_date*, int year, int month, int day, hc_calendar_type);
 
-int hc_set_calendar_type(hc_date*, hc_calendar_type);
-hc_calendar_type get_calendar_type(hc_date *);
+int set_hc_calendar_type(hc_date*, hc_calendar_type);
+hc_calendar_type hc_get_calendar_type(hc_date *);
 
 /**
  * This function converts a date from one calendar to another.
@@ -80,10 +80,10 @@ int hc_compute_keviut(const int year, int *rosh_hashana_dow, int *pesach_dow, in
  * This type is specific to Hebrew calendar. Time is measured in
  * hours and chalokim or "parts", which are 1/1080 of an hour.
  */
-typedef struct hc_heb_time_s {
+typedef struct heb_time_s {
 	int hour;
 	int part;
-} hc_heb_time;
+} heb_time;
 
 /**
  * Convenience method to set hc_heb_time struct value.
@@ -91,14 +91,14 @@ typedef struct hc_heb_time_s {
  * @param hour
  * @param part
  */
-int hc_set_hc_heb_time(hc_heb_time*, int hour, int part);
+int hc_set_hc_heb_time(heb_time*, int hour, int part);
 
 /**
  * Compute the date time of molad of Rosh Hashana for given year.
  * hc_date and hc_time objects are passed in to be documented.
  */
 int hc_compute_molad_rosh_hashana(int year, hc_calendar_type cal_type,
-		hc_date *date, hc_heb_time *time);
+		hc_date *date, heb_time *time);
 
 /**
  * Compute the date time of molad for given year and month.
@@ -110,7 +110,7 @@ int hc_compute_molad_rosh_hashana(int year, hc_calendar_type cal_type,
  * @param time pointer to hc_heb_time to store time result
  */
 int hc_compute_molad(const int year, int month, const hc_calendar_type cal_type,
-		hc_date *date, hc_heb_time *time);
+		hc_date *date, heb_time *time);
 
 /** Number of days in excess of 58 in Cheshvan and Kislev combined.
  *  Can take 3 values

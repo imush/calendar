@@ -10,15 +10,15 @@ typedef struct abs_heb_time {
     int part;
 } hc_abs_heb_time;
 
-int hc_set_hc_heb_time(hc_heb_time* htime, int hours, int parts)
+int hc_set_hc_heb_time(heb_time* htime, int hours, int parts)
 {
 	htime->hour = hours;
 	htime->part = parts;
 	return hours >= 0 && hours < 24 && parts >= 0 && parts < 1080;
 }
 
-int get_hour(hc_heb_time* dt) { return dt->hour; }
-int get_parts(hc_heb_time* dt) {return dt->part; }
+int get_hour(heb_time* dt) { return dt->hour; }
+int get_parts(heb_time* dt) {return dt->part; }
 
 /**
     Enum of months for easier coding.
@@ -259,7 +259,7 @@ static int heb_compute_date(const long abs_date, hc_date *target)
 }
 
 int hc_compute_molad(const int year, const int month, const hc_calendar_type cal_type,
-		hc_date *date, hc_heb_time *time)
+		hc_date *date, heb_time *time)
 {
 	hc_abs_heb_time molad;
 	compute_abs_molad_rosh_hashana(year, &molad);
@@ -277,7 +277,7 @@ int hc_compute_molad(const int year, const int month, const hc_calendar_type cal
 }
 
 int hc_compute_molad_rosh_hashana(const int year, const hc_calendar_type cal_type,
-		hc_date *date, hc_heb_time *time)
+		hc_date *date, heb_time *time)
 {
 	return hc_compute_molad(year, 1, cal_type, date, time);
 }

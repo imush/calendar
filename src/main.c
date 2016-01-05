@@ -64,7 +64,7 @@ static int run_cmd(char** cmd_tokenized)
 	char *cmd = cmd_tokenized[0];
 	int year, month, day;
 	hc_date d;
-	hc_heb_time t;
+	heb_time t;
 
 
 	if (strcmp(cmd, "quit") == 0 || strcmp(cmd, "exit") == 0 || strcmp(cmd, "q") == 0)

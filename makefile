@@ -3,7 +3,7 @@
 all:	hconverter.o hconverter
 
 clean:
-	rm *.o hconverter
+	rm -f *.o hconverter
 
 hconverter:	hconverter.o
 	gcc -g -o hconverter *.o
