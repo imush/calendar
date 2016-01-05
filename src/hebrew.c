@@ -28,7 +28,7 @@ typedef enum HEB_MONTH {NULL_MONTH, NISAN, IYAR, SIVAN, TAMUZ, AV, ELUL,
     TISHREI, CHESHVAN, KISLEV, TEVETH, SHVAT, ADAR, ADAR_2} heb_month;
 
 
-static int heb_is_leap_year(const int year)
+int heb_is_leap_year(const int year)
 {
     /* check for leapness of a Hebrew year */
     static const int leap_map[19] = { 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0 };
@@ -221,7 +221,6 @@ static long heb_to_abs_date (const int year, const int month, const int day)
 	return ret;
 }
 
-
 static int heb_compute_date(const long abs_date, hc_date *target)
 {
     target->calendar_type = HEBREW;
@@ -282,6 +281,25 @@ int hc_compute_molad_rosh_hashana(const int year, const hc_calendar_type cal_typ
 {
 	return hc_compute_molad(year, 1, cal_type, date, time);
 }
+
+int hc_compute_keviut(const int year, int *rosh_hashana_dow, int *pesach_begin_dow, int *ck, int *leap)
+{
+	long rosh, pesach;
+	if (year < 1)
+		return -1;
+	rosh = rosh_hashana_abs_date(year);
+	if (rosh_hashana_dow != NULL)
+		*rosh_hashana_dow = (rosh + 1) % 7;
+	pesach = heb_to_abs_date(year, 1, 15);
+	if (pesach_begin_dow != NULL)
+		*pesach_begin_dow = (pesach + 1) % 7;
+	if (ck != NULL)
+		*ck = hc_get_heb_year_type(year);
+	if (leap != NULL)
+		*leap = heb_is_leap_year(year);
+	return 0;
+}
+
 
 /* set handles */
 static hc_cal_impl hc_heb_impl_s =

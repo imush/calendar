@@ -66,6 +66,17 @@ hc_day_of_week hc_get_day_of_week(hc_date *date);
 int hc_get_month_length(int year, int month,hc_calendar_type calendarType);
 
 /**
+ * Compute year "kevius" and put the result into 3 integers:
+ * @param year Hebrew year
+ * @param rosh_hashana_dow Day of week for Eosh Hashana (1 Tishrei)
+ * @param pesach_dow Day of week for Pesach (0 = saturday)
+ * @param ck returns 0, 1, 2 (SHORT, REGULAR, FULL) for number of days in
+ * excess of 58 in Chesh=van and Kislev combined.
+ * @param if not null, it will return 1 for leap years and 0 otherwise
+ */
+int hc_compute_keviut(const int year, int *rosh_hashana_dow, int *pesach_dow, int *ck, int *leap);
+
+/**
  * This type is specific to Hebrew calendar. Time is measured in
  * hours and chalokim or "parts", which are 1/1080 of an hour.
  */

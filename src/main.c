@@ -34,7 +34,31 @@ static hc_calendar_type parse_cal_type(char *str) {
 	return NONE;
 }
 
-int run_cmd(char** cmd_tokenized)
+static char* dow_string(const int dow)
+{
+	switch(dow) {
+	case SATURDAY: return "SATURDAY";
+	case SUNDAY: return "SUNDAY";
+	case MONDAY: return "MONDAY";
+	case TUESDAY: return "TUESDAY";
+	case WEDNESDAY: return "WEDNESDAY";
+	case THURSDAY: return "THURSDAY";
+	case FRIDAY: return "FRIDAY";
+	default: return "NULL";
+	}
+}
+
+static char* heb_type_string(const int t)
+{
+	switch(t) {
+	case SHORT_HEB_YEAR: return "SHORT";
+	case FULL_HEB_YEAR: return "FULL";
+	case NORMAL_HEB_YEAR: return "REGULAR";
+	default: return "NULL";
+	}
+}
+
+static int run_cmd(char** cmd_tokenized)
 {
 	hc_calendar_type convert_from, convert_to;
 	char *cmd = cmd_tokenized[0];
@@ -66,6 +90,18 @@ int run_cmd(char** cmd_tokenized)
 			return -1;
 		year = strtol(cmd_tokenized[1], NULL, 0);
 		printf("%d", hc_get_heb_year_type(year));
+		return 0;
+	}
+
+	if (strcmp(cmd, "keviut") == 0 || strcmp(cmd, "k") == 0 ||
+			strcmp(cmd, "kevius") == 0) {
+		int leap, rh, pesach, ck;
+		if (cmd_tokenized[1] == NULL)
+			return -1;
+		year = strtol(cmd_tokenized[1], NULL, 0);
+		hc_compute_keviut(year, &rh, &pesach, &ck, &leap);
+		printf("Rosh Hashana %s, Pesach %s, Cheshvan/Kislev %s, leap %s",
+			dow_string(rh), dow_string(pesach), heb_type_string(ck), leap ? "YES" : "NO");
 		return 0;
 	}
 
@@ -106,6 +142,10 @@ int run_cmd(char** cmd_tokenized)
 		d.day = day;
 		d.year = year;
 		d.month = month;
+		if (!hc_check(&d)) {
+			printf("Invalid date");
+			return -1;
+		}
 		hc_convert(&d, convert_to);
 		printf("%4d-%02d-%02d", d.year, d.month, d.day);
 		return 0;
