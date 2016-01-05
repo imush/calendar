@@ -5,7 +5,7 @@
 #include "hconverter.h"
 #include "hc_internal.h"
 
-char **cmd_tokenize(char *cmd)
+static char **cmd_tokenize(char *cmd)
 {
 	char** ret = (char **)malloc(7 * sizeof(char));
 	int j;
