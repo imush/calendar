@@ -71,6 +71,7 @@ static int jul_compute_date(const long abs_date, hc_date *target)
     target->year = yr;
     target->month = mh;
     target->day = dy - dcount;
+    target->calendar_type = JULIAN;
 	return 0;
 }
 

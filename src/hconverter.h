@@ -16,7 +16,7 @@ typedef enum hc_day_of_week {SUNDAY, MONDAY, TUESDAY, WEDNESDAY,
 /**
  *  Supported types of calendar.
  */
-typedef enum hc_calendar_type { GREGORIAN, JULIAN, HEBREW } hc_calendar_type;
+typedef enum hc_calendar_type { NONE, GREGORIAN, JULIAN, HEBREW } hc_calendar_type;
 
 /**
  * Structure representing a date

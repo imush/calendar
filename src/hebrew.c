@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
+
 typedef struct abs_heb_time {
     long abs_date;
     int hour;
@@ -23,7 +24,7 @@ int get_parts(hc_heb_time* dt) {return dt->part; }
     Enum of months for easier coding.
     We start here with NONE so that Nisan==1. 
 */
-typedef enum HEB_MONTH {NONE, NISAN, IYAR, SIVAN, TAMUZ, AV, ELUL,
+typedef enum HEB_MONTH {NULL_MONTH, NISAN, IYAR, SIVAN, TAMUZ, AV, ELUL,
     TISHREI, CHESHVAN, KISLEV, TEVETH, SHVAT, ADAR, ADAR_2} heb_month;
 
 
@@ -263,8 +264,11 @@ int hc_compute_molad(const int year, const int month, const hc_calendar_type cal
 {
 	hc_abs_heb_time molad;
 	compute_abs_molad_rosh_hashana(year, &molad);
-	hc_abs_heb_time to_add = mult_parts(29, 12, 793, month-1);
-	add_parts(&molad, &to_add);
+	if (month != 7) {
+		int num_months = heb_is_leap_year(year) ? 13 : 12;
+		hc_abs_heb_time to_add = mult_parts(29, 12, 793, (month-7)%num_months);
+		add_parts(&molad, &to_add);
+	}
 	heb_compute_date(molad.abs_date, date);
 	if (cal_type != HEBREW)
 		hc_convert(date, cal_type);

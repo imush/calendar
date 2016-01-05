@@ -1,98 +1,157 @@
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <ctype.h>
 #include "hconverter.h"
 #include "hc_internal.h"
 
-int main()
+char **cmd_tokenize(char *cmd)
 {
-	int i=100;
-	int yr, mh, dy;
+	char** ret = (char **)malloc(7 * sizeof(char));
+	int j;
 
-	hc_date date;
-	hc_heb_time time;
+	for (char* p = cmd; *p; p++) {
+		*p = tolower(*p);
+		if (*p == '\n')
+			*p = '\0';
+	}
 
-	while (i) {
+	ret[0] = strtok(cmd, " .-");
+	for (j = 1; j < 7; j++) {
+		ret[j] = strtok(NULL, " .-");
+	}
+	return ret;
+}
 
-		printf("\n Enter query type to test one of the following functions, 0 to exit:\n1. gregAbs\n2. hebAbs\n3. gregDate");
-		printf("\n4. hebDate\n5. isGregLeap\n6. isHebLeap\n7. yearType\n8. molad\n9. rosh\n10. multParts\n\n ====> ");
+static hc_calendar_type parse_cal_type(char *str) {
+	if (strcmp(str, "hebrew") == 0 || strcmp(str, "h") == 0)
+		return HEBREW;
+	if (strcmp(str, "gregorian") == 0 || strcmp(str, "g") == 0)
+		return GREGORIAN;
+	if (strcmp(str, "julian") == 0 || strcmp(str, "j") == 0)
+		return JULIAN;
 
-		scanf("%d",&i);
+	return NONE;
+}
 
-		switch(i) {
-		case 1:
-			printf("\n Enter Gregorian year: ");
-			scanf("%d",&yr);
-			printf(" month: ");
-			scanf("%d",&mh);
-			printf(" day: ");
-			scanf("%d",&dy);
+int run_cmd(char** cmd_tokenized)
+{
+	hc_calendar_type convert_from, convert_to;
+	char *cmd = cmd_tokenized[0];
+	int year, month, day;
+	hc_date d;
+	hc_heb_time t;
 
-			printf("%s", "\n\n Absolute date ");
-			printf("%lu", greg_impl->abs_date(yr, mh, dy));
-			printf("%s","\n");
-			break;
-		case 2:
-			printf("\n Enter Hebrew year: ");
-			scanf("%d",&yr);
-			printf(" month: ");
-			scanf("%d",&mh);
-			printf(" day: ");
-			scanf("%d",&dy);
 
-			printf("%s", "\n\n Absolute date ");
-			printf("%lu", heb_impl->abs_date(yr,mh,dy));
-			printf("%s","\n");
-			break;
-		case 3:
-			printf("\nEnter absolute day: ");
-			scanf("%d",&dy);
-			greg_impl->compute_date(dy, &date);
+	if (strcmp(cmd, "quit") == 0 || strcmp(cmd, "exit") == 0 || strcmp(cmd, "q") == 0)
+		exit(0);
 
-			printf("%s%d%s%d%s%d%s", "Gregorian date (YMD): ", date.year,"-",date.month,"-",date.day,"\n");
-			break;
-		case 4:
-			printf("\nEnter absolute day: ");
-			scanf("%d",&dy);
-			heb_impl->compute_date(dy, &date);
-			printf("%s%d%s%d%s%d%s","Hebrew date (YMD): ", date.year, "-", date.month,"-", date.day,"\n");
-			break;
-		case 5:
-			printf("\n Enter Gregorian year: ");
-			scanf("%d",&yr);
-			printf("%s%d%s","is_leap value ", greg_impl->is_leap_year(yr),"\n");
-			break;
-		case 6:
-			printf("\n Enter Hebrew year: ");
-			scanf("%d",&yr);
-			printf("%s%d%s","isHebLeap value ", heb_impl->is_leap_year(yr),"\n");
-			break;
-		case 7:
-			printf("\n Enter Hebrew year: ");
-			scanf("%d",&yr);
-			printf("%s%d%s","yearType value ", hc_get_heb_year_type(yr),"\n");
-			break;
-		case 8:
-			printf("\n Enter Hebrew year: ");
-			scanf("%d",&yr);
-			hc_compute_molad_rosh_hashana(yr, GREGORIAN, &date, &time);
-			printf("%s%d%s%d%s%d%s%d%s%d%s","Molad value: day ", date.year,
-					"-", date.month,
-					"-", date.day,
-					" hour ", time.hour,
-					" part ", time.part,
-					"\n");
-			break;
-		case 9:
-			printf("\n Enter Hebrew year: ");
-			scanf("%d", &yr);
-			set_hc_date(&date, yr, 7, 1, HEBREW);
-			long absd = heb_impl->abs_date(yr, 7, 1);
-			hc_convert(&date, GREGORIAN);
-			printf("%s%ld%s","abs day ", absd,"\n");
-			printf("%s%d%s%d%s%d%s","Greg day ", date.year,
-					"-", date.month,
-					"-", date.day,
-					"\n");
-			break;
+	if (strcmp(cmd, "isleap") == 0 || strcmp(cmd, "is_leap") == 0) {
+		if (cmd_tokenized[1] == NULL)
+			convert_to = HEBREW;
+		else
+			convert_to = parse_cal_type(cmd_tokenized[1]);
+		if (convert_to == NONE)
+			return -1;
+
+		if (cmd_tokenized[2] == NULL)
+			return -1;
+		year = strtol(cmd_tokenized[2], NULL, 0);
+		printf("%d", get_calendar(convert_to)->is_leap_year(year));
+		return 0;
+	}
+
+	if (strcmp(cmd, "type") == 0 || strcmp(cmd, "t") == 0) {
+		if (cmd_tokenized[1] == NULL)
+			return -1;
+		year = strtol(cmd_tokenized[1], NULL, 0);
+		printf("%d", hc_get_heb_year_type(year));
+		return 0;
+	}
+
+	if (strcmp(cmd, "molad") == 0 || strcmp(cmd, "m") == 0) {
+		if (cmd_tokenized[1] == NULL)
+			convert_to = GREGORIAN;
+		else
+			convert_to = parse_cal_type(cmd_tokenized[1]);
+		if (convert_to == NONE)
+			return -1;
+
+		if (cmd_tokenized[2] == NULL)
+			return -1;
+		year = strtol(cmd_tokenized[2], NULL, 0);
+		if (cmd_tokenized[3] == NULL)
+			month = 7;
+		else
+			month = strtol(cmd_tokenized[3], NULL, 0);
+		hc_compute_molad(year, month, convert_to, &d, &t);
+		printf("%4d-%02d-%02d %02d:%04d", d.year, d.month, d.day, t.hour, t.part);
+		return 0;
+	}
+
+	if (strcmp(cmd, "convert") == 0 || strcmp(cmd, "c") == 0) {
+		if (cmd_tokenized[1] == NULL || (convert_from = parse_cal_type(cmd_tokenized[1])) == NONE)
+			return -1;
+
+		if (cmd_tokenized[2] == NULL || (convert_to = parse_cal_type(cmd_tokenized[2])) == NONE)
+			return -1;
+
+		if (cmd_tokenized[3] == NULL || (year = strtol(cmd_tokenized[3], NULL, 0)) < 1)
+		 	return -1;
+		if (cmd_tokenized[4] == NULL || (month = strtol(cmd_tokenized[4], NULL, 0)) < 1)
+		 	return -1;
+		if (cmd_tokenized[5] == NULL || (day = strtol(cmd_tokenized[5], NULL, 0)) < 1)
+		 	return -1;
+		d.calendar_type = convert_from;
+		d.day = day;
+		d.year = year;
+		d.month = month;
+		hc_convert(&d, convert_to);
+		printf("%4d-%02d-%02d", d.year, d.month, d.day);
+		return 0;
+	}
+
+	if (strcmp(cmd, "absolute") == 0 || strcmp(cmd, "a") == 0 || strcmp(cmd, "abs") == 0) {
+		hc_cal_impl* cal;
+		long a;
+		if (cmd_tokenized[1] == NULL || (convert_from = parse_cal_type(cmd_tokenized[1])) == NONE)
+			return -1;
+
+		if (cmd_tokenized[2] == NULL || (year = strtol(cmd_tokenized[2], NULL, 0)) < 1)
+		 	return -1;
+		if (cmd_tokenized[3] == NULL || (month = strtol(cmd_tokenized[3], NULL, 0)) < 1)
+		 	return -1;
+		if (cmd_tokenized[4] == NULL || (day = strtol(cmd_tokenized[4], NULL, 0)) < 1)
+		 	return -1;
+		cal = get_calendar(convert_from);
+		a = cal->abs_date(year, month, day);
+		printf("Absolute day: %lu", a);
+		return 0;
+	}
+
+	return -1;
+}
+
+int main(int argc, char **argv)
+{
+	char ** cmd_tokenized = argv;
+
+	if (argc < 2 || strcmp(argv[1], "-i") == 0) {
+		char *cmd = malloc(1081*sizeof(char));
+		while(1) {
+			printf("Enter command: ");
+			fgets(cmd, 1080, stdin);
+			cmd_tokenized = cmd_tokenize(cmd);
+			run_cmd(cmd_tokenized);
+			free(cmd_tokenized);
+			printf("\n");
 		}
+		free(cmd);
+	} else {
+		cmd_tokenized = malloc(7*sizeof(char*));
+		memcpy(cmd_tokenized, argv+1, 7 * sizeof(char*));
+		run_cmd(cmd_tokenized);
+		printf("\n");
+		free(cmd_tokenized);
 	}
 }
