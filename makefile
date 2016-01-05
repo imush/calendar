@@ -1,12 +1,12 @@
 
 	
-all:	converter.o converter
+all:	hconverter.o hconverter
 
 clean:
-	rm *.o converter
+	rm *.o hconverter
 
-converter:	converter.o
-	gcc -g -o converter *.o
+hconverter:	hconverter.o
+	gcc -g -o hconverter *.o
 
-converter.o:
+hconverter.o:
 	gcc -c -Wall -g src/*.c 
