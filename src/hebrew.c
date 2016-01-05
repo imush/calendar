@@ -20,9 +20,10 @@ int hc_set_hc_heb_time(heb_time* htime, int hours, int parts)
 int get_hour(heb_time* dt) { return dt->hour; }
 int get_parts(heb_time* dt) {return dt->part; }
 
-/**
-    Enum of months for easier coding.
-    We start here with NONE so that Nisan==1. 
+/*!
+\brief Enum of months for easier coding.
+
+We start here with a dummy NULL_MONTH so that Nisan==1. 
 */
 typedef enum HEB_MONTH {NULL_MONTH, NISAN, IYAR, SIVAN, TAMUZ, AV, ELUL,
     TISHREI, CHESHVAN, KISLEV, TEVETH, SHVAT, ADAR, ADAR_2} heb_month;
@@ -117,7 +118,6 @@ static hc_abs_heb_time mult_parts(const long days, const int hours, const int pa
 
   return ret;
 }
-
 
 static int compute_abs_molad_rosh_hashana(const int year, hc_abs_heb_time *abs_time)
 {
