@@ -140,7 +140,7 @@ typedef struct heb_time_s {
 } heb_time;
 
 /*!
-\brief Convenience method to set ::hc_heb_time struct value.
+\brief Convenience method to set ::heb_time struct value.
 
 \param param[out] time
 \param param[in] hour
@@ -153,11 +153,11 @@ int hc_set_hc_heb_time(heb_time* time, int hour, int part);
 
 This is equivalent to <hc_compute_molad> with month set to 7 (Tishrei).
 
-The output params ::hc_date and ::hc_time objects are passed in to be populated.
+The output params ::hc_date and ::heb_time objects are passed in to be populated.
 \param[in] year
 \param[in] hc_calendar_type GREGORINA, JULIAN or HEBREW
 \param[out] date pointer to ::hc_date struct to store result
-\param[out] time pointer to hc_heb_time to store time result
+\param[out] time pointer to ::heb_time to store time result
 */
 int hc_compute_molad_rosh_hashana(int year, hc_calendar_type cal_type,
 		hc_date *date, heb_time *time);
@@ -166,14 +166,14 @@ int hc_compute_molad_rosh_hashana(int year, hc_calendar_type cal_type,
  \brief Compute the date and time of molad (new moon according to the Hebrew calendar)
  for given year and month.
  
- Output parameters are ::hc_date and ::hc_time objects, passed in to be populated. No
+ Output parameters are ::hc_date and ::heb_time objects, passed in to be populated. No
  New memory is allocated.
  
  \param[in] year
  \param[in] month
  \param[in] hc_calendar_type GREGORIAN, JULIAN or HEBREW
  \param[out] date pointer to ::hc_date struct to store result
- \param[out] time pointer to hc_heb_time to store time result
+ \param[out] time pointer to ::heb_time to store time result
  */
 int hc_compute_molad(const int year, int month, const hc_calendar_type cal_type,
 		hc_date *date, heb_time *time);
