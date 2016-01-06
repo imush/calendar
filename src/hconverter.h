@@ -171,7 +171,7 @@ int hc_compute_molad_rosh_hashana(int year, hc_calendar_type cal_type,
  
  \param[in] year
  \param[in] month
- \param[in] hc_calendar_type GREGORINA, JULIAN or HEBREW
+ \param[in] hc_calendar_type GREGORIAN, JULIAN or HEBREW
  \param[out] date pointer to ::hc_date struct to store result
  \param[out] time pointer to hc_heb_time to store time result
  */
