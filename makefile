@@ -10,3 +10,4 @@ hconverter:	hconverter.o
 
 hconverter.o:
 	gcc -c -Wall -g src/*.c 
+	
