@@ -1,10 +1,13 @@
 /*!
+  \brief Public header file for hconverter library.
+===================================================
+
 
   \file hconverter.h
   \date Dec 29, 1998
   \author Isaac Mushinsky
-  \brief Public header file for hconverter library.
   
+
   Contains all functional offerings of this library: convert dates between
   Hebrew, Gregorian and Julian calendars as well as compute certain specific
   times for the new moon, types of Jewish year.
@@ -15,12 +18,16 @@
 #define SRC_HCONVERTER_H_
 
 /*!
- * Convenience enum for days of week.
+ * Convenience enum for days of week: <i>SUNDAY=0, MONDAY=1, ..., FRIDAY=6</i>
  */
 typedef enum hc_day_of_week {SUNDAY, MONDAY, TUESDAY, WEDNESDAY,
 	THURSDAY, FRIDAY, SATURDAY} hc_day_of_week;
 /*!
-  Supported types of calendar.
+  \brief Supported types of calendar.
+
+  \li GREGORIAN
+  \li JULIAN
+  \li HEBREW
  */
 typedef enum hc_calendar_type { NONE, GREGORIAN, JULIAN, HEBREW } hc_calendar_type;
 
@@ -58,7 +65,7 @@ int set_hc_date(hc_date* , int year, int month, int day, hc_calendar_type);
 int hc_convert(hc_date *date, hc_calendar_type target_calendar);
 
 /*!
-\brief check validity of data in ::hc_date
+\brief Check validity of data in ::hc_date
  
  Returns 1 if the date is valid, 0 if the date is invalid in corresponding calendar.
  The following are invalid: nonpositive Hebrew year, month less than 1 or more than number
@@ -156,7 +163,7 @@ int hc_compute_molad_rosh_hashana(int year, hc_calendar_type cal_type,
 		hc_date *date, heb_time *time);
 
 /*!
- Compute the date and time of molad (new moon according to the Hebrew calendar)
+ \brief Compute the date and time of molad (new moon according to the Hebrew calendar)
  for given year and month.
  
  Output parameters are ::hc_date and ::hc_time objects, passed in to be populated. No
@@ -175,15 +182,16 @@ int hc_compute_molad(const int year, int month, const hc_calendar_type cal_type,
   \brief enum of possible layouts of the variable length Hebrew months Cheshvan and Kislev
   in a given year.
   
-  SHORT means that both Cheshvan and Kislev are 29 days long
-  FULL means that both months are 30 days long
-  NORMAL means 29 days in Cheshvan and 30 days in Kislev
+  \li SHORT_HEB_YEAR means that both Cheshvan and Kislev are 29 days long
+  \li NORMAL_HEB_YEAR means 29 days in Cheshvan and 30 days in Kislev
+  \li FULL_HEB_YEAR means that both months are 30 days long
+
 */
 typedef enum heb_year_type {SHORT_HEB_YEAR, NORMAL_HEB_YEAR, FULL_HEB_YEAR} heb_year_type;
 
 
 /*!
-  \brief Compute number of days in excess of 58 in Cheshvan and Kislev combined
+\brief Compute number of days in excess of 58 in Cheshvan and Kislev combined
   
   \param[in] year Hebrew year >=1
   \return can take 3 values:
@@ -194,8 +202,11 @@ typedef enum heb_year_type {SHORT_HEB_YEAR, NORMAL_HEB_YEAR, FULL_HEB_YEAR} heb_
 heb_year_type hc_get_heb_year_type(int year);
 
 /*!
+\file
+
 \anchor hebmonth
-\brief 1. Note about Hebrew month ordering.
+Note about Hebrew month ordering.
+--------------------------------
 
 Although each Hebrew year starts with the month of Tishrei, Tishrei is not
 the first in the order of months. There are a couple of reasons for this. Nisan
@@ -221,12 +232,10 @@ the Hebrew months here are represented by integers as follows:
   
 so despite a lower month index, Nisan follows \b after Adar. For example, the date 5776-01-01
 follows 5776-13-29 in yyyy-mm-dd notation.
-*/
-
-/*!
 
 \anchor keviut
-\brief 2. Note about keviut
+Note about keviut
+-----------------
 
 Keviut determines layout of the Jewish year, including all holidays and
 readings of the Torah. It is customary to abbreviate it to 4 parameters:

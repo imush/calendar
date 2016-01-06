@@ -1,0 +1,36 @@
+.TH "hc_cal_impl_s" 3 "Tue Jan 5 2016" "hconverter" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+hc_cal_impl_s \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <hc_internal\&.h>\fP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "long(* \fBabs_date\fP )(int year, int month, int day)"
+.br
+.ti -1c
+.RI "int(* \fBcompute_date\fP )(long abs_date, \fBhc_date\fP *target)"
+.br
+.ti -1c
+.RI "int(* \fBcheck_date\fP )(int year, int month, int day)"
+.br
+.ti -1c
+.RI "int(* \fBis_leap_year\fP )(int year)"
+.br
+.ti -1c
+.RI "int(* \fBmonth_length\fP )(int year, int month)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+This struct contains pointers to specific functions in a calendar implementation\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for hconverter from the source code\&.

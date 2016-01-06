@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="d0/d9f/hc__internal_8h">
+    <title>hc_internal.h File Reference</title>
+    <programlisting>#include &quot;hconverter.h&quot;</programlisting>
+        <section>
+            <title> Data Structures </title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="d4/d98/structhc__cal__impl__s">hc_cal_impl_s</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Typedefs</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>typedef struct <link linkend="d4/d98/structhc__cal__impl__s">hc_cal_impl_s</link>  <link linkend="d0/d9f/hc__internal_8h_1a3f5c91d63fa39a7f5daeec07a392f98f">hc_cal_impl</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Variables</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link linkend="d4/d98/structhc__cal__impl__s">hc_cal_impl</link> * <link linkend="d0/d9f/hc__internal_8h_1ad3ad772e375610ea56027f3ba1c55412">greg_impl</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link linkend="d4/d98/structhc__cal__impl__s">hc_cal_impl</link> * <link linkend="d0/d9f/hc__internal_8h_1a09f22b086d00ccdc50537a368249c93d">heb_impl</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link linkend="d4/d98/structhc__cal__impl__s">hc_cal_impl</link> * <link linkend="d0/d9f/hc__internal_8h_1a4d794f36b540a3bcf349b682a22e4d31">jul_impl</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>const long <link linkend="d0/d9f/hc__internal_8h_1aaef6bccde38a5cc2d140b6ca7a2d316c">COMMON_BEGINNING</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>const int <link linkend="d0/d9f/hc__internal_8h_1a5e3c99d2e5a9c5db74fc33f054b2ab33">COMMON_MONTH_LENGTH</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Functions</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link linkend="d4/d98/structhc__cal__impl__s">hc_cal_impl</link> * <link linkend="d0/d9f/hc__internal_8h_1acc7c0d771c4466bedd45d47f356293d7">get_calendar</link> (
+<link linkend="d4/dc7/hconverter_8h_1acd248779dfe6530e8dcdfe11cd2d107f">hc_calendar_type</link> calendar_type)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+        <title>Detailed Description</title>
+    <para>Definition in file hc_internal.h</para>
+    </simplesect>
+</section>

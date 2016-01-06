@@ -1,0 +1,299 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="d4/dc7/hconverter_8h">
+    <title>hconverter.h File Reference</title>
+        <section>
+            <title> Data Structures </title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="d0/d36/structhc__date__s">hc_date_s</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="db/d68/structheb__time__s">heb_time_s</link></para>
+<para><emphasis>Hebrew time: hour and parts.</emphasis></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Enumerations</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="d4/dc7/hconverter_8h_1a83272c3390212c9a1c674b7cf91ad0b2">hc_day_of_week</link> {
+<link linkend="d4/dc7/hconverter_8h_1a83272c3390212c9a1c674b7cf91ad0b2ad86a75e0b97510de54435996ae45b8d2">SUNDAY</link>,
+<link linkend="d4/dc7/hconverter_8h_1a83272c3390212c9a1c674b7cf91ad0b2ac82db3248a96794aaefb922ea5fb293c">MONDAY</link>,
+<link linkend="d4/dc7/hconverter_8h_1a83272c3390212c9a1c674b7cf91ad0b2a347c4455723bb1bc2709647607a2b282">TUESDAY</link>,
+<link linkend="d4/dc7/hconverter_8h_1a83272c3390212c9a1c674b7cf91ad0b2a68288a23958cd9e1705fd81f0ee729c7">WEDNESDAY</link>,
+<link linkend="d4/dc7/hconverter_8h_1a83272c3390212c9a1c674b7cf91ad0b2ab4bfd6f883437c6cf31486dcf03ce0ff">THURSDAY</link>,
+<link linkend="d4/dc7/hconverter_8h_1a83272c3390212c9a1c674b7cf91ad0b2a8f589731fd90a9890c0df9a9c3f96131">FRIDAY</link>,
+<link linkend="d4/dc7/hconverter_8h_1a83272c3390212c9a1c674b7cf91ad0b2a31bbcd6fa6a28095ef8de658126aa5ec">SATURDAY</link>
+}</literallayout>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="d4/dc7/hconverter_8h_1acd248779dfe6530e8dcdfe11cd2d107f">hc_calendar_type</link> {
+<link linkend="d4/dc7/hconverter_8h_1acd248779dfe6530e8dcdfe11cd2d107fac157bdf0b85a40d2619cbc8bc1ae5fe2">NONE</link>,
+<link linkend="d4/dc7/hconverter_8h_1acd248779dfe6530e8dcdfe11cd2d107facf325cc58a32a8798a7db3d0ef847ef7">GREGORIAN</link>,
+<link linkend="d4/dc7/hconverter_8h_1acd248779dfe6530e8dcdfe11cd2d107faf389b985220c7a3d08ac5db2c6e8567f">JULIAN</link>,
+<link linkend="d4/dc7/hconverter_8h_1acd248779dfe6530e8dcdfe11cd2d107fafb655054fefc7260287ecdce929e7fd8">HEBREW</link>
+}</literallayout>
+<para><emphasis>Supported types of calendar.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="d4/dc7/hconverter_8h_1ab54da9adb7839f0f288f19d203a86197">heb_year_type</link> {
+<link linkend="d4/dc7/hconverter_8h_1ab54da9adb7839f0f288f19d203a86197afd66dfcb408d328b3d484352445b60dc">SHORT_HEB_YEAR</link>,
+<link linkend="d4/dc7/hconverter_8h_1ab54da9adb7839f0f288f19d203a86197aede829721a73980eaae7309c06860c95">NORMAL_HEB_YEAR</link>,
+<link linkend="d4/dc7/hconverter_8h_1ab54da9adb7839f0f288f19d203a86197ad0bcd09282867c49509306b9a0011dad">FULL_HEB_YEAR</link>
+}</literallayout>
+<para><emphasis>enum of possible layouts of the variable length Hebrew months Cheshvan and Kislev
+in a given year.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Typedefs</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>typedef enum <link linkend="d4/dc7/hconverter_8h_1a83272c3390212c9a1c674b7cf91ad0b2">hc_day_of_week</link>  <link linkend="d4/dc7/hconverter_8h_1a4723bb08e5e88e62efc5884020d2807c">hc_day_of_week</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>typedef enum <link linkend="d4/dc7/hconverter_8h_1acd248779dfe6530e8dcdfe11cd2d107f">hc_calendar_type</link>  <link linkend="d4/dc7/hconverter_8h_1af4f033a8651a70352d0f5cc1d262cd5d">hc_calendar_type</link><para><emphasis>Supported types of calendar.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>typedef struct <link linkend="d0/d36/structhc__date__s">hc_date_s</link>  <link linkend="d4/dc7/hconverter_8h_1a4ad842853d198774f41738d9230f4d7e">hc_date</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>typedef struct <link linkend="db/d68/structheb__time__s">heb_time_s</link>  <link linkend="d4/dc7/hconverter_8h_1a2859bf0a21688385042655d44ddaf654">heb_time</link><para><emphasis>Hebrew time: hour and parts.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>typedef enum <link linkend="d4/dc7/hconverter_8h_1ab54da9adb7839f0f288f19d203a86197">heb_year_type</link>  <link linkend="d4/dc7/hconverter_8h_1aac4c9d6456cac7e2a1d976968001d3ea">heb_year_type</link><para><emphasis>enum of possible layouts of the variable length Hebrew months Cheshvan and Kislev
+in a given year.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Functions</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="d4/dc7/hconverter_8h_1afa4b54c2a64591d108e91187259561e0">set_hc_date</link> (
+<link linkend="d4/dc7/hconverter_8h_1a4ad842853d198774f41738d9230f4d7e">hc_date</link> * , int year, int month, int day, <link linkend="d4/dc7/hconverter_8h_1acd248779dfe6530e8dcdfe11cd2d107f">hc_calendar_type</link> )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="d4/dc7/hconverter_8h_1aca386d49511c5533eec4148bf7ce17ee">hc_convert</link> (
+<link linkend="d4/dc7/hconverter_8h_1a4ad842853d198774f41738d9230f4d7e">hc_date</link> * date, <link linkend="d4/dc7/hconverter_8h_1acd248779dfe6530e8dcdfe11cd2d107f">hc_calendar_type</link> target_calendar)<para><emphasis>This function converts a date from one calendar to another.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="d4/dc7/hconverter_8h_1abca034b4a5ae59eb219e90af78f5ab92">hc_check</link> (
+<link linkend="d4/dc7/hconverter_8h_1a4ad842853d198774f41738d9230f4d7e">hc_date</link> * date)<para><emphasis>Check validity of data in ::hc_date.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="d4/dc7/hconverter_8h_1a01fc2630641468ce282db9affb1bd04f">hc_is_leap_year</link> (
+int year, <link linkend="d4/dc7/hconverter_8h_1acd248779dfe6530e8dcdfe11cd2d107f">hc_calendar_type</link> calendar_type)<para><emphasis>Check if year is leap in given calendar.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link linkend="d4/dc7/hconverter_8h_1a83272c3390212c9a1c674b7cf91ad0b2">hc_day_of_week</link> <link linkend="d4/dc7/hconverter_8h_1a2c8efb5672b3dee017b86e6b92feef53">hc_get_day_of_week</link> (
+<link linkend="d4/dc7/hconverter_8h_1a4ad842853d198774f41738d9230f4d7e">hc_date</link> * date)<para><emphasis>Function to get day of week out of a ::hc_date.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="d4/dc7/hconverter_8h_1ad75b5811e0f900e019813c9718c293ad">hc_get_month_length</link> (
+int year, int month, <link linkend="d4/dc7/hconverter_8h_1acd248779dfe6530e8dcdfe11cd2d107f">hc_calendar_type</link> calendar_type)<para><emphasis>Function to get the length of a month.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="d4/dc7/hconverter_8h_1a40d07c5ebc506be531dde0dd3af8d5bb">hc_compute_keviut</link> (
+const int year, int * rosh_hashana_dow, int * pesach_dow, int * ck, int * leap)<para><emphasis>Compute year &quot;keviut&quot; and put the result into 4 integers.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="d4/dc7/hconverter_8h_1af7df6df7dc1f894f9b85d2b476c016b3">hc_set_hc_heb_time</link> (
+<link linkend="d4/dc7/hconverter_8h_1a2859bf0a21688385042655d44ddaf654">heb_time</link> * time, int hour, int part)<para><emphasis>Convenience method to set ::hc_heb_time struct value.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="d4/dc7/hconverter_8h_1a035896c667a469ee788f0fa57a4329b2">hc_compute_molad_rosh_hashana</link> (
+int year, <link linkend="d4/dc7/hconverter_8h_1acd248779dfe6530e8dcdfe11cd2d107f">hc_calendar_type</link> cal_type, <link linkend="d4/dc7/hconverter_8h_1a4ad842853d198774f41738d9230f4d7e">hc_date</link> * date, <link linkend="d4/dc7/hconverter_8h_1a2859bf0a21688385042655d44ddaf654">heb_time</link> * time)<para><emphasis>Compute the date time of molad of Rosh Hashana for given year.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="d4/dc7/hconverter_8h_1a2491ba9c9b379e658122add42b96c963">hc_compute_molad</link> (
+const int year, int month, const <link linkend="d4/dc7/hconverter_8h_1acd248779dfe6530e8dcdfe11cd2d107f">hc_calendar_type</link> cal_type, <link linkend="d4/dc7/hconverter_8h_1a4ad842853d198774f41738d9230f4d7e">hc_date</link> * date, <link linkend="d4/dc7/hconverter_8h_1a2859bf0a21688385042655d44ddaf654">heb_time</link> * time)<para><emphasis>Compute the date and time of molad (new moon according to the Hebrew calendar)
+for given year and month.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link linkend="d4/dc7/hconverter_8h_1ab54da9adb7839f0f288f19d203a86197">heb_year_type</link> <link linkend="d4/dc7/hconverter_8h_1a456114fe2c9a00f3a33f7549fe2d190f">hc_get_heb_year_type</link> (
+int year)<para><emphasis>Compute number of days in excess of 58 in Cheshvan and Kislev combined.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+        <title>Detailed Description</title>
+
+<para><formalpara><title>Public header file for hconverter library. </title></formalpara>
+</para>
+
+<para><formalpara><title>Date: </title>
+
+<para>Dec 29, 1998 </para>
+</formalpara>
+<formalpara><title>Author: </title>
+
+<para>Isaac Mushinsky</para>
+</formalpara>
+Contains all functional offerings of this library: convert dates between Hebrew, Gregorian and Julian calendars as well as compute certain specific times for the new moon, types of Jewish year.</para>
+
+<para><anchor id="d4/dc7/hconverter_8h_1hebmonth"/><formalpara><title>Note about Hebrew month ordering. </title></formalpara>
+</para>
+
+<para>Although each Hebrew year starts with the month of Tishrei, Tishrei is not the first in the order of months. There are a couple of reasons for this. Nisan is called the &quot;first month&quot; in the Torah for most purposes. Also, on a Hebrew leap year the 13th month (adar 2) is added before Nisan, not before Tishrei. This makes it more convenient to senumerate months not in chronological order but rather starting from Nisan to the end of year (Elul), and then returning to Tishrei through Adar. Thus the Hebrew months here are represented by integers as follows:</para>
+
+<para><itemizedlist>
+<listitem>
+<para><computeroutput>Tishrei</computeroutput> 7 </para>
+</listitem>
+<listitem>
+<para><computeroutput>Cheshvan</computeroutput> 8 </para>
+</listitem>
+<listitem>
+<para><computeroutput>Kislev</computeroutput> 9 </para>
+</listitem>
+<listitem>
+<para><computeroutput>Teveth</computeroutput> 10 </para>
+</listitem>
+<listitem>
+<para><computeroutput>Shvat</computeroutput> 11 </para>
+</listitem>
+<listitem>
+<para><computeroutput>Adar</computeroutput> 12 (also Adar I on leap years) </para>
+</listitem>
+<listitem>
+<para><computeroutput>Adar</computeroutput> II 13 (only on Hebrew leap years) </para>
+</listitem>
+<listitem>
+<para><computeroutput>Nisan</computeroutput> 1 </para>
+</listitem>
+<listitem>
+<para><computeroutput>Iyar</computeroutput> 2 </para>
+</listitem>
+<listitem>
+<para><computeroutput>Sivan</computeroutput> 3 </para>
+</listitem>
+<listitem>
+<para><computeroutput>Tamuz</computeroutput> 4 </para>
+</listitem>
+<listitem>
+<para><computeroutput>Menachem</computeroutput> Av 5 </para>
+</listitem>
+<listitem>
+<para><computeroutput>Elul</computeroutput> 6</para>
+</listitem>
+</itemizedlist>
+so despite a lower month index, Nisan follows <emphasis role="bold">after</emphasis> Adar. For example, the date 5776-01-01 follows 5776-13-29 in yyyy-mm-dd notation.</para>
+
+<para><anchor id="d4/dc7/hconverter_8h_1keviut"/><formalpara><title>Note about keviut </title></formalpara>
+</para>
+
+<para>Keviut determines layout of the Jewish year, including all holidays and readings of the Torah. It is customary to abbreviate it to 4 parameters:</para>
+
+<para><itemizedlist>
+<listitem>
+<para><emphasis role="bold">1</emphasis> day of week of Rosh Hashana, i.e. the &quot;new year&quot;, Tishrei 1 </para>
+</listitem>
+<listitem>
+<para><emphasis role="bold">2</emphasis> day of week of first day of Pesach, i.e. Nisan 15 </para>
+</listitem>
+<listitem>
+<para><emphasis role="bold">3</emphasis> combined length of Cheshvan and Kislev (see #hc_heb_year_type) </para>
+</listitem>
+<listitem>
+<para><emphasis role="bold">4</emphasis> whether or not the year is leap</para>
+</listitem>
+</itemizedlist>
+Only 14 combinations of these are actually possible. </para>
+    <para>Definition in file hconverter.h</para>
+    </simplesect>
+</section>

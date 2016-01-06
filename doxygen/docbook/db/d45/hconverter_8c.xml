@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="db/d45/hconverter_8c">
+    <title>hconverter.c File Reference</title>
+    <programlisting>#include &quot;hconverter.h&quot;</programlisting>
+    <programlisting>#include &quot;hc_internal.h&quot;</programlisting>
+    <programlisting>#include &lt;math.h&gt;</programlisting>
+    <programlisting>#include &lt;stdio.h&gt;</programlisting>
+        <section>
+            <title>Variables</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link linkend="d4/d98/structhc__cal__impl__s">hc_cal_impl</link> * <link linkend="db/d45/hconverter_8c_1ad3ad772e375610ea56027f3ba1c55412">greg_impl</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link linkend="d4/d98/structhc__cal__impl__s">hc_cal_impl</link> * <link linkend="db/d45/hconverter_8c_1a09f22b086d00ccdc50537a368249c93d">heb_impl</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link linkend="d4/d98/structhc__cal__impl__s">hc_cal_impl</link> * <link linkend="db/d45/hconverter_8c_1a4d794f36b540a3bcf349b682a22e4d31">jul_impl</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Functions</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="db/d45/hconverter_8c_1ac03fd4bcdd78fc3df1e20eba1f536472">set_hc_date</link> (
+<link linkend="d4/dc7/hconverter_8h_1a4ad842853d198774f41738d9230f4d7e">hc_date</link> * , int year, int month, int day, <link linkend="d4/dc7/hconverter_8h_1acd248779dfe6530e8dcdfe11cd2d107f">hc_calendar_type</link> )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="db/d45/hconverter_8c_1a1b937235f406920e7a9d0e6f8ad1baeb">get_year</link> (
+<link linkend="d4/dc7/hconverter_8h_1a4ad842853d198774f41738d9230f4d7e">hc_date</link> * date)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="db/d45/hconverter_8c_1a06d1c651cc45929e09ae846bd0514b15">get_month</link> (
+<link linkend="d4/dc7/hconverter_8h_1a4ad842853d198774f41738d9230f4d7e">hc_date</link> * date)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="db/d45/hconverter_8c_1a0e57926c227281fcd7946613fc5f12f1">get_day</link> (
+<link linkend="d4/dc7/hconverter_8h_1a4ad842853d198774f41738d9230f4d7e">hc_date</link> * date)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link linkend="d4/dc7/hconverter_8h_1acd248779dfe6530e8dcdfe11cd2d107f">hc_calendar_type</link> <link linkend="db/d45/hconverter_8c_1a6a9c6c944a2782d6b464223103da51c9">hc_get_calendar_type</link> (
+<link linkend="d4/dc7/hconverter_8h_1a4ad842853d198774f41738d9230f4d7e">hc_date</link> * date)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link linkend="d4/d98/structhc__cal__impl__s">hc_cal_impl</link> * <link linkend="db/d45/hconverter_8c_1a557a1d18a08ee41e10cd1e53a94fa934">get_calendar</link> (
+<link linkend="d4/dc7/hconverter_8h_1acd248779dfe6530e8dcdfe11cd2d107f">hc_calendar_type</link> type)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="db/d45/hconverter_8c_1aca386d49511c5533eec4148bf7ce17ee">hc_convert</link> (
+<link linkend="d4/dc7/hconverter_8h_1a4ad842853d198774f41738d9230f4d7e">hc_date</link> * date, <link linkend="d4/dc7/hconverter_8h_1acd248779dfe6530e8dcdfe11cd2d107f">hc_calendar_type</link> target_calendar)<para><emphasis>This function converts a date from one calendar to another.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="db/d45/hconverter_8c_1abca034b4a5ae59eb219e90af78f5ab92">hc_check</link> (
+<link linkend="d4/dc7/hconverter_8h_1a4ad842853d198774f41738d9230f4d7e">hc_date</link> * date)<para><emphasis>Check validity of data in ::hc_date.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="db/d45/hconverter_8c_1a30ab794db0044fda7089dde44c36120d">hc_is_leap_year</link> (
+int year, <link linkend="d4/dc7/hconverter_8h_1acd248779dfe6530e8dcdfe11cd2d107f">hc_calendar_type</link> calendar_type)<para><emphasis>Check if year is leap in given calendar.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link linkend="d4/dc7/hconverter_8h_1a83272c3390212c9a1c674b7cf91ad0b2">hc_day_of_week</link> <link linkend="db/d45/hconverter_8c_1a2c8efb5672b3dee017b86e6b92feef53">hc_get_day_of_week</link> (
+<link linkend="d4/dc7/hconverter_8h_1a4ad842853d198774f41738d9230f4d7e">hc_date</link> * date)<para><emphasis>Function to get day of week out of a ::hc_date.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="db/d45/hconverter_8c_1ad75b5811e0f900e019813c9718c293ad">hc_get_month_length</link> (
+int year, int month, <link linkend="d4/dc7/hconverter_8h_1acd248779dfe6530e8dcdfe11cd2d107f">hc_calendar_type</link> calendar_type)<para><emphasis>Function to get the length of a month.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+        <title>Detailed Description</title>
+    <para>Definition in file hconverter.c</para>
+    </simplesect>
+</section>

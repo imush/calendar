@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="d0/d29/main_8c">
+    <title>main.c File Reference</title>
+    <programlisting>#include &lt;stdio.h&gt;</programlisting>
+    <programlisting>#include &lt;string.h&gt;</programlisting>
+    <programlisting>#include &lt;stdlib.h&gt;</programlisting>
+    <programlisting>#include &lt;ctype.h&gt;</programlisting>
+    <programlisting>#include &quot;hconverter.h&quot;</programlisting>
+    <programlisting>#include &quot;hc_internal.h&quot;</programlisting>
+        <section>
+            <title>Functions</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static char ** <link linkend="d0/d29/main_8c_1a939afac154ab4c197a23ab6807d4e8ed">cmd_tokenize</link> (
+char * cmd)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static <link linkend="d4/dc7/hconverter_8h_1acd248779dfe6530e8dcdfe11cd2d107f">hc_calendar_type</link> <link linkend="d0/d29/main_8c_1a2865f71082d43690233a600b532b8575">parse_cal_type</link> (
+char * str)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static char * <link linkend="d0/d29/main_8c_1a60a01d04ae05c7708291c5ab361f652b">dow_string</link> (
+const int dow)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static char * <link linkend="d0/d29/main_8c_1ab99ba4b235bead899fdca751c916e318">heb_type_string</link> (
+const int t)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static int <link linkend="d0/d29/main_8c_1a5be925da4cd3b7b3bc8571299725c1de">run_cmd</link> (
+char ** cmd_tokenized)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="d0/d29/main_8c_1a3c04138a5bfe5d72780bb7e82a18e627">main</link> (
+int argc, char ** argv)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+        <title>Detailed Description</title>
+    <para>Definition in file main.c</para>
+    </simplesect>
+</section>
