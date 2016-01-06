@@ -35,10 +35,14 @@ hc_cal_impl *get_calendar(hc_calendar_type type)
 
 int hc_convert(hc_date *date, hc_calendar_type target_calendar)
 {
-	hc_cal_impl *impl0 = get_calendar(date->calendar_type);
-	long abs_date = impl0->abs_date(date->year, date->month, date->day);
+	hc_cal_impl *impl0, *impl1;
+	long abs_date;
+	impl0 = get_calendar(date->calendar_type);
+	if (!impl0->check_date(date))
+		return -1;
+	abs_date = impl0->abs_date(date->year, date->month, date->day);
 	if (abs_date < 0) return -1;
-	hc_cal_impl *impl1 = get_calendar(target_calendar);
+	impl1 = get_calendar(target_calendar);
 	return impl1->compute_date(abs_date, date);
 }
 
