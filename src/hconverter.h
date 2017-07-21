@@ -212,7 +212,7 @@ Although each Hebrew year starts with the month of Tishrei, Tishrei is not
 the first in the order of months. There are a couple of reasons for this. Nisan
 is called the "first month" in the Torah for most purposes. Also, on a Hebrew
 leap year the 13th month (adar 2) is added before Nisan, not before Tishrei. This makes
-it more convenient to senumerate months not in chronological order but rather starting
+it more convenient to enumerate months not in chronological order but rather starting
 from Nisan to the end of year (Elul), and then returning to Tishrei through Adar. Thus
 the Hebrew months here are represented by integers as follows:
 
