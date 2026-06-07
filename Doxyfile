@@ -1,0 +1,14 @@
+PROJECT_NAME           = "Hebrew Calendar C Library"
+PROJECT_NUMBER         =
+PROJECT_BRIEF          = "Halachic calendar, zmanim, parshiot and Jewish special days"
+OUTPUT_DIRECTORY       = doxygen
+INPUT                  = src
+FILE_PATTERNS          = *.h *.c
+RECURSIVE              = NO
+EXTRACT_ALL            = NO
+GENERATE_HTML          = YES
+HTML_OUTPUT            = html
+GENERATE_LATEX         = NO
+HAVE_DOT               = NO
+QUIET                  = YES
+WARN_IF_UNDOCUMENTED   = NO
