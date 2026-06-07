@@ -137,6 +137,7 @@ hours and chalokim ("parts"), which are 1/1080 of an hour.
 typedef struct heb_time_s {
 	int hour;
 	int part;
+	int rega; /*!< Sub-chelek unit: 76 regaim per chelek. Non-zero only for Rav Ada tekufa. */
 } heb_time;
 
 /*!
@@ -145,8 +146,9 @@ typedef struct heb_time_s {
 \param param[out] time
 \param param[in] hour
 \param param[in] part
+\param param[in] rega (0 for ordinary molad; non-zero for Rav Ada tekufa)
 */
-int hc_set_hc_heb_time(heb_time* time, int hour, int part);
+int hc_set_hc_heb_time(heb_time* time, int hour, int part, int rega);
 
 /*!
 \brief Compute the date time of molad of Rosh Hashana for given year.

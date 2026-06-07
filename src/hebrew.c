@@ -4,17 +4,14 @@
 #include <string.h>
 
 
-typedef struct abs_heb_time {
-    long abs_date;
-    int hour;
-    int part;
-} hc_abs_heb_time;
+/* hc_abs_heb_time defined in hc_internal.h */
 
-int hc_set_hc_heb_time(heb_time* htime, int hours, int parts)
+int hc_set_hc_heb_time(heb_time* htime, int hours, int parts, int regas)
 {
 	htime->hour = hours;
 	htime->part = parts;
-	return hours >= 0 && hours < 24 && parts >= 0 && parts < 1080;
+	htime->rega = regas;
+	return hours >= 0 && hours < 24 && parts >= 0 && parts < 1080 && regas >= 0 && regas < 76;
 }
 
 int get_hour(heb_time* dt) { return dt->hour; }
@@ -56,7 +53,7 @@ static int heb_month_length(const int year, const int month)
             return 29;
 
         case ADAR:
-            return heb_is_leap_year ? 30 : 29;
+            return heb_is_leap_year(year) ? 30 : 29;
         case CHESHVAN:
             return hc_get_heb_year_type(year) == FULL_HEB_YEAR ? 30 : 29;
         case KISLEV:
@@ -72,51 +69,59 @@ static int heb_month_length(const int year, const int month)
 static int heb_check_date(const int year, const int month, const int day)
 {
 	if (year < 1)
-		return 1;
+		return 0;
 	if (month > 13 || (month == 13 && !heb_is_leap_year(year)))
-		return 1;
+		return 0;
 	return day > 0 && day <= heb_month_length(year, month);
 }
 
-/* subroutine to add parts
- * target is the struct to be modified
- * to_add stays constant */
-static void add_parts (hc_abs_heb_time *target, const hc_abs_heb_time *to_add)
+/* internal add/mult exposed via hc_internal.h for tekufot.c */
+void hc_add_heb_time(hc_abs_heb_time *target, const hc_abs_heb_time *to_add);
+hc_abs_heb_time hc_mult_heb_time(long days, int hours, int parts, int regas, long times);
+void hc_get_molad_tohu(hc_abs_heb_time *out);
+
+static void add_parts(hc_abs_heb_time *target, const hc_abs_heb_time *to_add)
 {
     target->abs_date += to_add->abs_date;
-    target->hour += to_add->hour;
-    target->part += to_add->part;
+    target->hour     += to_add->hour;
+    target->part     += to_add->part;
+    target->rega     += to_add->rega;
 
-    if (target->part >= 1080) {
-        target->part -= 1080;
-        target->hour++;
+    if (target->rega >= 76)  { target->part += target->rega / 76; target->rega %= 76; }
+    else if (target->rega < 0) {
+        int b = (-target->rega + 75) / 76; target->part -= b; target->rega += b * 76;
     }
-
-    while (target->hour > 23) {
-        target->hour -= 24;
-        target->abs_date++;
+    if (target->part >= 1080) { target->hour += target->part / 1080; target->part %= 1080; }
+    else if (target->part < 0) {
+        int b = (-target->part + 1079) / 1080; target->hour -= b; target->part += b * 1080;
     }
+    while (target->hour >= 24) { target->hour -= 24; target->abs_date++; }
+    while (target->hour <   0) { target->hour += 24; target->abs_date--; }
 }
 
-/* multiplication of parts here */
-static hc_abs_heb_time mult_parts(const long days, const int hours, const int parts, const long int times)
+/* multiply a duration (days,hours,parts,regas) by times */
+static hc_abs_heb_time mult_parts(const long days, const int hours, const int parts, const int regas, const long times)
 {
-  hc_abs_heb_time ret;
-  long int D = days * times;
-  long int H = hours * times;
-  long int P = parts * times;
+    hc_abs_heb_time ret;
+    long D = days  * times;
+    long H = hours * times;
+    long P = parts * times;
+    long R = regas * times;
 
-  H += P/1080;
-  P = P % 1080;
+    P += R / 76; R = R % 76;
+    if (R < 0) { long b = (-R + 75) / 76; P -= b; R += b * 76; }
 
-  D += H/24;
-  H = H % 24;
+    H += P / 1080; P = P % 1080;
+    if (P < 0) { long b = (-P + 1079) / 1080; H -= b; P += b * 1080; }
 
-  ret.abs_date = D;
-  ret.hour = H;
-  ret.part = P;
+    D += H / 24; H = H % 24;
+    if (H < 0) { D--; H += 24; }
 
-  return ret;
+    ret.abs_date = D;
+    ret.hour     = (int)H;
+    ret.part     = (int)P;
+    ret.rega     = (int)R;
+    return ret;
 }
 
 static int compute_abs_molad_rosh_hashana(const int year, hc_abs_heb_time *abs_time)
@@ -127,6 +132,7 @@ static int compute_abs_molad_rosh_hashana(const int year, hc_abs_heb_time *abs_t
 	abs_time->abs_date = 2;
 	abs_time->hour = 5;
 	abs_time->part = 204;
+	abs_time->rega = 0;
 	long pre_months;
 
     /*
@@ -145,9 +151,7 @@ static int compute_abs_molad_rosh_hashana(const int year, hc_abs_heb_time *abs_t
 		pre_months += 12 + heb_is_leap_year(i+1);
 	}
 
-	/* now call mult_parts  */
-
-	in = mult_parts(29, 12, 793, pre_months);
+	in = mult_parts(29, 12, 793, 0, pre_months);
 	add_parts(abs_time, &in);
 	return 0;
 }
@@ -265,14 +269,14 @@ int hc_compute_molad(const int year, const int month, const hc_calendar_type cal
 	compute_abs_molad_rosh_hashana(year, &molad);
 	if (month != 7) {
 		int num_months = heb_is_leap_year(year) ? 13 : 12;
-		hc_abs_heb_time to_add = mult_parts(29, 12, 793, (month-7)%num_months);
+		hc_abs_heb_time to_add = mult_parts(29, 12, 793, 0, (month-7)%num_months);
 		add_parts(&molad, &to_add);
 	}
 	heb_compute_date(molad.abs_date, date);
 	if (cal_type != HEBREW)
 		hc_convert(date, cal_type);
 
-	hc_set_hc_heb_time(time, molad.hour, molad.part);
+	hc_set_hc_heb_time(time, molad.hour, molad.part, molad.rega);
 	return 0;
 }
 
@@ -289,10 +293,10 @@ int hc_compute_keviut(const int year, int *rosh_hashana_dow, int *pesach_begin_d
 		return -1;
 	rosh = rosh_hashana_abs_date(year);
 	if (rosh_hashana_dow != NULL)
-		*rosh_hashana_dow = (rosh + 1) % 7;
+		*rosh_hashana_dow = (int)(rosh % 7);
 	pesach = heb_to_abs_date(year, 1, 15);
 	if (pesach_begin_dow != NULL)
-		*pesach_begin_dow = (pesach + 1) % 7;
+		*pesach_begin_dow = (int)(pesach % 7);
 	if (ck != NULL)
 		*ck = hc_get_heb_year_type(year);
 	if (leap != NULL)
@@ -300,6 +304,26 @@ int hc_compute_keviut(const int year, int *rosh_hashana_dow, int *pesach_begin_d
 	return 0;
 }
 
+
+/* ── package-internal helpers exposed via hc_internal.h ──────────────────── */
+
+void hc_add_heb_time(hc_abs_heb_time *target, const hc_abs_heb_time *to_add)
+{
+    add_parts(target, to_add);
+}
+
+hc_abs_heb_time hc_mult_heb_time(long days, int hours, int parts, int regas, long times)
+{
+    return mult_parts(days, hours, parts, regas, times);
+}
+
+void hc_get_molad_tohu(hc_abs_heb_time *out)
+{
+    out->abs_date = 2;
+    out->hour     = 5;
+    out->part     = 204;
+    out->rega     = 0;
+}
 
 /* set handles */
 static hc_cal_impl hc_heb_impl_s =

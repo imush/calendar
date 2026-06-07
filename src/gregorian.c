@@ -7,7 +7,7 @@ static int greg_is_leap_year(const int year)
         return 0;
     if (year % 100 != 0)
         return 1;
-    return year % 400;
+    return (year % 400) == 0;
 }
 
 static int greg_month_length(const int year, const int month)

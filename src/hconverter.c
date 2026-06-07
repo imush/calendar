@@ -38,7 +38,7 @@ int hc_convert(hc_date *date, hc_calendar_type target_calendar)
 	hc_cal_impl *impl0, *impl1;
 	long abs_date;
 	impl0 = get_calendar(date->calendar_type);
-	if (!impl0->check_date(date))
+	if (!impl0->check_date(date->year, date->month, date->day))
 		return -1;
 	abs_date = impl0->abs_date(date->year, date->month, date->day);
 	if (abs_date < 0) return -1;
@@ -62,12 +62,11 @@ hc_day_of_week hc_get_day_of_week(hc_date *date)
 {
 	hc_cal_impl *impl = get_calendar(date->calendar_type);
 	long abs_date = impl->abs_date(date->year, date->month, date->day);
-	return (hc_day_of_week)(abs_date+1)%7;
+	return (hc_day_of_week)(abs_date % 7);
 }
 
 int hc_get_month_length(int year, int month, hc_calendar_type calendar_type)
 {
 	hc_cal_impl *impl = get_calendar(calendar_type);
-	long abs_date = impl->month_length(year, month);
-	return (hc_day_of_week)(abs_date+1)%7;
+	return impl->month_length(year, month);
 }

@@ -8,3 +8,7 @@
 /.cproject
 /main.o
 /hconverter
+.idea/
+*.iml
+compile_commands.json
+cmake-build-debug/

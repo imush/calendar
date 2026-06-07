@@ -1,6 +1,20 @@
 #ifndef SRC_HCONVERTER_INTERNAL_H_
 #define SRC_HCONVERTER_INTERNAL_H_
 #include "hconverter.h"
+
+/* Absolute Hebrew moment (days-since-creation + time-of-day) used internally
+   and by tekufot.c. Not part of the public API. */
+typedef struct hc_abs_heb_time_s {
+    long abs_date;
+    int  hour;
+    int  part;
+    int  rega;
+} hc_abs_heb_time;
+
+/* Internal arithmetic on hc_abs_heb_time */
+void hc_add_heb_time(hc_abs_heb_time *target, const hc_abs_heb_time *to_add);
+hc_abs_heb_time hc_mult_heb_time(long days, int hours, int parts, int regas, long times);
+void hc_get_molad_tohu(hc_abs_heb_time *out); /* BaHaRaD: day=2, h=5, p=204, r=0 */
 /**
  * This struct contains pointers to specific functions in a calendar implementation.
  */
