@@ -79,6 +79,7 @@ static const char *SD_NAMES[HC_SD_COUNT] = {
     [HC_SD_SHABBAT_HACHODESH]       = "Shabbat Hachodesh",
     [HC_SD_SHABBAT_HAGADOL]         = "Shabbat Hagadol",
     [HC_SD_SHABBAT_CHAZON]          = "Shabbat Chazon",
+    [HC_SD_SHABBAT_MEVARCHIM]       = "Shabbat Mevarchim",
     [HC_SD_ERUV_TAVSHILIN_I]        = "Eruv Tavshilin",
     [HC_SD_ERUV_TAVSHILIN_C]        = "Eruv Tavshilin",
     [HC_SD_TAL_UMATAR_I]            = "Tal Umatar",
@@ -180,7 +181,8 @@ int hc_sd_is_chabad       (hc_special_day d) { return in_list(d, CHABAD_DAYS); }
 int hc_sd_is_chanukah     (hc_special_day d) { return in_list(d, CHANUKAH_DAYS); }
 int hc_sd_is_arba_parshiyot(hc_special_day d){ return in_list(d, ARBA_PARSHIYOT_DAYS); }
 int hc_sd_is_eruv_tavshilin(hc_special_day d){ return in_list(d, ERUV_TAVSHILIN_DAYS); }
-int hc_sd_is_rosh_chodesh (hc_special_day d) { return in_list(d, ROSH_CHODESH_DAYS); }
+int hc_sd_is_rosh_chodesh     (hc_special_day d) { return in_list(d, ROSH_CHODESH_DAYS); }
+int hc_sd_is_shabbat_mevarchim(hc_special_day d) { return d == HC_SD_SHABBAT_MEVARCHIM; }
 
 int hc_sd_applies(hc_special_day d, int in_israel)
 {
@@ -337,6 +339,23 @@ static int is_shabbat_hachodesh(int year, int month, int day)
     long abs_this  = heb_abs(year, month, day);
     long abs_1nis  = heb_abs(year, 1, 1);
     return abs_1nis - abs_this >= 0 && abs_1nis - abs_this < 7;
+}
+
+/*
+ * Shabbat Mevarchim: Shabbat before Rosh Chodesh of a non-Tishrei month,
+ * i.e. Rosh Chodesh (day 1 of the next month) falls within the next 6 days.
+ * Caller guarantees dow == 7.
+ */
+static int is_shabbat_mevarchim(int year, int month, int day)
+{
+    long abs_this = heb_abs(year, month, day);
+    for (int i = 1; i <= 6; i++) {
+        hc_date next;
+        next.calendar_type = HEBREW;
+        get_calendar(HEBREW)->compute_date(abs_this + i, &next);
+        if (next.day == 1 && next.month != 7) return 1;
+    }
+    return 0;
 }
 
 /*
@@ -579,6 +598,7 @@ int hc_get_special_days(hc_date *date, int in_israel,
         if (is_shabbat_zachor(y, m, d))                push(days, count, HC_SD_SHABBAT_ZACHOR);
         if (is_shabbat_para(y, m, d))                  push(days, count, HC_SD_SHABBAT_PARA);
         if (is_shabbat_hachodesh(y, m, d))             push(days, count, HC_SD_SHABBAT_HACHODESH);
+        if (is_shabbat_mevarchim(y, m, d))             push(days, count, HC_SD_SHABBAT_MEVARCHIM);
     }
 
     /* ── Eruv Tavshilin ────────────────────────────────────────────────── */

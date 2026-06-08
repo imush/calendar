@@ -103,6 +103,7 @@ typedef enum hc_special_day {
     /* Other Shabbatot */
     HC_SD_SHABBAT_HAGADOL,
     HC_SD_SHABBAT_CHAZON,
+    HC_SD_SHABBAT_MEVARCHIM,  /* Shabbat before Rosh Chodesh (not Tishrei) */
 
     /* Eruv Tavshilin */
     HC_SD_ERUV_TAVSHILIN_I,
@@ -142,7 +143,8 @@ int hc_sd_is_chabad       (hc_special_day d);
 int hc_sd_is_chanukah     (hc_special_day d);
 int hc_sd_is_arba_parshiyot(hc_special_day d);
 int hc_sd_is_eruv_tavshilin(hc_special_day d);
-int hc_sd_is_rosh_chodesh (hc_special_day d);
+int hc_sd_is_rosh_chodesh  (hc_special_day d);
+int hc_sd_is_shabbat_mevarchim(hc_special_day d);
 
 /*! Returns 1 if the special day applies in the given location */
 int hc_sd_applies(hc_special_day d, int in_israel);
