@@ -181,6 +181,12 @@ int hc_compute_molad(const int year, int month, const hc_calendar_type cal_type,
 		hc_date *date, heb_time *time);
 
 /*!
+ * \brief Convert a Hebrew absolute day number (days since creation) to a Gregorian date.
+ * Used to map tekufa abs-day results to a calendar date.
+ */
+int hc_abs_day_to_gregorian(long abs_day, hc_date *out);
+
+/*!
   \brief enum of possible layouts of the variable length Hebrew months Cheshvan and Kislev
   in a given year.
   

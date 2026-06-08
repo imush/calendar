@@ -183,6 +183,8 @@ int hc_sd_is_arba_parshiyot(hc_special_day d){ return in_list(d, ARBA_PARSHIYOT_
 int hc_sd_is_eruv_tavshilin(hc_special_day d){ return in_list(d, ERUV_TAVSHILIN_DAYS); }
 int hc_sd_is_rosh_chodesh     (hc_special_day d) { return in_list(d, ROSH_CHODESH_DAYS); }
 int hc_sd_is_shabbat_mevarchim(hc_special_day d) { return d == HC_SD_SHABBAT_MEVARCHIM; }
+int hc_sd_is_tal_umatar       (hc_special_day d) { return d == HC_SD_TAL_UMATAR_I || d == HC_SD_TAL_UMATAR_C; }
+int hc_sd_chanukah_night      (hc_special_day d) { return (d >= HC_SD_CHANUKAH_1 && d <= HC_SD_CHANUKAH_8) ? d - HC_SD_CHANUKAH_1 + 1 : 0; }
 
 int hc_sd_applies(hc_special_day d, int in_israel)
 {

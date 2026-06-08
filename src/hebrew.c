@@ -267,9 +267,11 @@ int hc_compute_molad(const int year, const int month, const hc_calendar_type cal
 {
 	hc_abs_heb_time molad;
 	compute_abs_molad_rosh_hashana(year, &molad);
-	if (month != 7) {
-		int num_months = heb_is_leap_year(year) ? 13 : 12;
-		hc_abs_heb_time to_add = mult_parts(29, 12, 793, 0, (month-7)%num_months);
+	{
+		/* months past Tishrei: Nisan..Elul account for leap year (7 or 6 months before Nisan) */
+		int offset = month > 6 ? month - 7
+		                       : month - 1 + (heb_is_leap_year(year) ? 7 : 6);
+		hc_abs_heb_time to_add = mult_parts(29, 12, 793, 0, offset);
 		add_parts(&molad, &to_add);
 	}
 	heb_compute_date(molad.abs_date, date);
@@ -284,6 +286,12 @@ int hc_compute_molad_rosh_hashana(const int year, const hc_calendar_type cal_typ
 		hc_date *date, heb_time *time)
 {
 	return hc_compute_molad(year, 1, cal_type, date, time);
+}
+
+int hc_abs_day_to_gregorian(long abs_day, hc_date *out)
+{
+	heb_compute_date(abs_day, out);
+	return hc_convert(out, GREGORIAN);
 }
 
 int hc_compute_keviut(const int year, int *rosh_hashana_dow, int *pesach_begin_dow, int *ck, int *leap)
