@@ -31,7 +31,7 @@ static long jul_to_abs_date(const int year, const int month, const int day)
 	int m;
 	int passed_years = year-1;
 
-	ret += 365 * passed_years;
+	ret += 365L * passed_years;
 	ret += passed_years/4; 
 
 	for (m = 1; m < month; m++) {
@@ -45,9 +45,9 @@ static int jul_compute_date(const long abs_date, hc_date *target)
 {
 	const long dy = abs_date - COMMON_BEGINNING;
 	/* compute approximate lower bound for year */
-	int yr = dy/366;
-	int mh, next_eom;
-	long dcount, next_dec31;
+	int yr = (int)(dy/366);
+	int mh;
+	long dcount, next_dec31, next_eom;
 
 	// error - calendar does not exist yet
     if (abs_date <= COMMON_BEGINNING)
@@ -70,7 +70,7 @@ static int jul_compute_date(const long abs_date, hc_date *target)
 
     target->year = yr;
     target->month = mh;
-    target->day = dy - dcount;
+    target->day = (int)(dy - dcount);
     target->calendar_type = JULIAN;
 	return 0;
 }

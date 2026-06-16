@@ -35,7 +35,7 @@ static long greg_to_abs_date(const int year, const int month, const int day)
 	int m;
 	int passed_years = year-1;
 
-	ret += 365 * passed_years;
+	ret += 365L * passed_years;
 	ret += passed_years/4;
 	ret -= passed_years/100;
 	ret += passed_years/400;
@@ -57,7 +57,7 @@ static int greg_compute_date(const long abs_date, hc_date *target)
     if (dy < 1)
         return -1;
 	/* compute approximate lower bound for year */
-	yr = dy/366;
+	yr = (int)(dy/366);
 
 	/* set dcount to 31DEC of yr-1 */
 	dcount = 365 * (yr-1); /* 365 times number of years */
@@ -78,7 +78,7 @@ static int greg_compute_date(const long abs_date, hc_date *target)
 
     target->year = yr;
     target->month = mh;
-    target->day = dy - dcount;
+    target->day = (int)(dy - dcount);
     target->calendar_type = GREGORIAN;
 	return 0;
 }

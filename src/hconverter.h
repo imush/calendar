@@ -44,12 +44,12 @@ typedef struct hc_date_s {
 /*!
  Convenience method to set the entire ::hc_date in one call.
  \param[out] date pointer to ::hc_date structure
- \param[in] year
- \param[in] month
- \param[in] day
- \param[in] calendar_type
+ \param[in] year year
+ \param[in] month month
+ \param[in] day day
+ \param[in] calendar_type see #hc_calendar_type
  */
-int set_hc_date(hc_date* , int year, int month, int day, hc_calendar_type);
+int set_hc_date(hc_date *date, int year, int month, int day, hc_calendar_type calendar_type);
 
 /*!
 \brief This function converts a date from one calendar to another.
@@ -92,7 +92,7 @@ int hc_is_leap_year(int year, hc_calendar_type calendar_type);
 /*!
 \brief Function to get day of week out of a ::hc_date.
 
-\param date
+\param date pointer to ::hc_date
 \return a #hc_day of week: 0 for Saturday, 1 for Sunday, ..., 6 for Friday
 */
 hc_day_of_week hc_get_day_of_week(hc_date *date);
@@ -100,9 +100,8 @@ hc_day_of_week hc_get_day_of_week(hc_date *date);
 /*!
 \brief Function to get the length of a month.
 
-\param[in] year
-\param[in] month. For Hebrew, see (\ref hebmonth "note") about the special
-month order.
+\param[in] year year
+\param[in] month For Hebrew, see (\ref hebmonth "note") about the special month order.
 \param[in] calendar_type see #hc_calendar_type
 \return length of month in days
 */
@@ -123,7 +122,7 @@ they do not need.
 \param[out] pesach_dow Day of week for Pesach (0 = saturday)
 \param[out] ck returns 0, 1, 2 (SHORT, REGULAR, FULL) for number of days in
 excess of 58 in Chesh=van and Kislev combined. (see #hc_heb_year_type)
-\param[out] it will return 1 for leap years and 0 otherwise
+\param[out] leap will return 1 for leap years and 0 otherwise
  */
 int hc_compute_keviut(const int year, int *rosh_hashana_dow, int *pesach_dow, int *ck, int *leap);
 
@@ -143,10 +142,10 @@ typedef struct heb_time_s {
 /*!
 \brief Convenience method to set ::heb_time struct value.
 
-\param param[out] time
-\param param[in] hour
-\param param[in] part
-\param param[in] rega (0 for ordinary molad; non-zero for Rav Ada tekufa)
+\param[out] time pointer to ::heb_time to populate
+\param[in] hour hour
+\param[in] part parts (chalokim)
+\param[in] rega regaim (0 for ordinary molad; non-zero for Rav Ada tekufa)
 */
 int hc_set_hc_heb_time(heb_time* time, int hour, int part, int rega);
 
@@ -156,8 +155,8 @@ int hc_set_hc_heb_time(heb_time* time, int hour, int part, int rega);
 This is equivalent to <hc_compute_molad> with month set to 7 (Tishrei).
 
 The output params ::hc_date and ::heb_time objects are passed in to be populated.
-\param[in] year
-\param[in] hc_calendar_type GREGORINA, JULIAN or HEBREW
+\param[in] year Hebrew year
+\param[in] cal_type GREGORIAN, JULIAN or HEBREW
 \param[out] date pointer to ::hc_date struct to store result
 \param[out] time pointer to ::heb_time to store time result
 */
@@ -171,9 +170,9 @@ int hc_compute_molad_rosh_hashana(int year, hc_calendar_type cal_type,
  Output parameters are ::hc_date and ::heb_time objects, passed in to be populated. No
  New memory is allocated.
  
- \param[in] year
- \param[in] month
- \param[in] hc_calendar_type GREGORIAN, JULIAN or HEBREW
+ \param[in] year Hebrew year
+ \param[in] month Hebrew month
+ \param[in] cal_type GREGORIAN, JULIAN or HEBREW
  \param[out] date pointer to ::hc_date struct to store result
  \param[out] time pointer to ::heb_time to store time result
  */
@@ -185,6 +184,52 @@ int hc_compute_molad(const int year, int month, const hc_calendar_type cal_type,
  * Used to map tekufa abs-day results to a calendar date.
  */
 int hc_abs_day_to_gregorian(long abs_day, hc_date *out);
+
+/*!
+ * \brief Advance a date by a given number of days, modifying it in place.
+ * \param[in,out] date the date to advance; calendar_type must be set
+ * \param[in] days number of days to add (may be negative)
+ * \return 0 on success, -1 if the input date is invalid
+ */
+int hc_date_add_days(hc_date *date, int days);
+
+/*!
+ * \brief Compute the Hebrew anniversary (bar/bat mitzvah, birthday) of an original Hebrew date
+ * in a given target year.
+ *
+ * Adar mapping: if the original date falls in non-leap Adar (month 12) and the target year
+ * is a leap year, the anniversary falls in Adar II (month 13). If the original is in Adar II
+ * and the target is non-leap, it falls in Adar (month 12). If the exact day does not exist in
+ * the target year (e.g. 30 Cheshvan in a short year, or 30 Kislev in a short year), the result
+ * is the 1st of the following month.
+ *
+ * \param[in]  orig_year   Hebrew year of original date
+ * \param[in]  orig_month  Hebrew month of original date
+ * \param[in]  orig_day    Hebrew day of original date
+ * \param[in]  target_year Hebrew year for which the anniversary is computed
+ * \param[out] out         populated with the resulting Hebrew date
+ * \return 0 on success, -1 if the original date is invalid or target_year < 1
+ */
+int hc_anniversary_for(int orig_year, int orig_month, int orig_day,
+                        int target_year, hc_date *out);
+
+/*!
+ * \brief Compute the Hebrew yahrzeit of a death date in a given target year.
+ *
+ * Like hc_anniversary_for but uses yahrzeit Adar policy: if the original date is in
+ * non-leap Adar (month 12) and the target year is a leap year, the yahrzeit falls in
+ * Adar I (month 12), not Adar II. All other rules (day overflow, Adar II → Adar for
+ * non-leap target) are identical.
+ *
+ * \param[in]  death_year   Hebrew year of death
+ * \param[in]  death_month  Hebrew month of death
+ * \param[in]  death_day    Hebrew day of death
+ * \param[in]  target_year  Hebrew year for which the yahrzeit is computed
+ * \param[out] out          populated with the resulting Hebrew date
+ * \return 0 on success, -1 if the death date is invalid or target_year < 1
+ */
+int hc_yahrzeit_for(int death_year, int death_month, int death_day,
+                     int target_year, hc_date *out);
 
 /*!
   \brief enum of possible layouts of the variable length Hebrew months Cheshvan and Kislev

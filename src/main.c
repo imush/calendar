@@ -11,7 +11,7 @@ static char **cmd_tokenize(char *cmd)
 	int j;
 
 	for (char* p = cmd; *p; p++) {
-		*p = tolower(*p);
+		*p = (char)tolower(*p);
 		if (*p == '\n')
 			*p = '\0';
 	}
@@ -80,7 +80,7 @@ static int run_cmd(char** cmd_tokenized)
 
 		if (cmd_tokenized[2] == NULL)
 			return -1;
-		year = strtol(cmd_tokenized[2], NULL, 0);
+		year = (int)strtol(cmd_tokenized[2], NULL, 0);
 		printf("%d", get_calendar(convert_to)->is_leap_year(year));
 		return 0;
 	}
@@ -88,7 +88,7 @@ static int run_cmd(char** cmd_tokenized)
 	if (strcmp(cmd, "type") == 0 || strcmp(cmd, "t") == 0) {
 		if (cmd_tokenized[1] == NULL)
 			return -1;
-		year = strtol(cmd_tokenized[1], NULL, 0);
+		year = (int)strtol(cmd_tokenized[1], NULL, 0);
 		printf("%d", hc_get_heb_year_type(year));
 		return 0;
 	}
@@ -98,7 +98,7 @@ static int run_cmd(char** cmd_tokenized)
 		int leap, rh, pesach, ck;
 		if (cmd_tokenized[1] == NULL)
 			return -1;
-		year = strtol(cmd_tokenized[1], NULL, 0);
+		year = (int)strtol(cmd_tokenized[1], NULL, 0);
 		hc_compute_keviut(year, &rh, &pesach, &ck, &leap);
 		printf("Rosh Hashana %s, Pesach %s, Cheshvan/Kislev %s, leap %s",
 			dow_string(rh), dow_string(pesach), heb_type_string(ck), leap ? "YES" : "NO");
@@ -115,11 +115,11 @@ static int run_cmd(char** cmd_tokenized)
 
 		if (cmd_tokenized[2] == NULL)
 			return -1;
-		year = strtol(cmd_tokenized[2], NULL, 0);
+		year = (int)strtol(cmd_tokenized[2], NULL, 0);
 		if (cmd_tokenized[3] == NULL)
 			month = 7;
 		else
-			month = strtol(cmd_tokenized[3], NULL, 0);
+			month = (int)strtol(cmd_tokenized[3], NULL, 0);
 		hc_compute_molad(year, month, convert_to, &d, &t);
 		printf("%4d-%02d-%02d %02d:%04d", d.year, d.month, d.day, t.hour, t.part);
 		return 0;
@@ -132,11 +132,11 @@ static int run_cmd(char** cmd_tokenized)
 		if (cmd_tokenized[2] == NULL || (convert_to = parse_cal_type(cmd_tokenized[2])) == NONE)
 			return -1;
 
-		if (cmd_tokenized[3] == NULL || (year = strtol(cmd_tokenized[3], NULL, 0)) < 1)
+		if (cmd_tokenized[3] == NULL || (year = (int)strtol(cmd_tokenized[3], NULL, 0)) < 1)
 		 	return -1;
-		if (cmd_tokenized[4] == NULL || (month = strtol(cmd_tokenized[4], NULL, 0)) < 1)
+		if (cmd_tokenized[4] == NULL || (month = (int)strtol(cmd_tokenized[4], NULL, 0)) < 1)
 		 	return -1;
-		if (cmd_tokenized[5] == NULL || (day = strtol(cmd_tokenized[5], NULL, 0)) < 1)
+		if (cmd_tokenized[5] == NULL || (day = (int)strtol(cmd_tokenized[5], NULL, 0)) < 1)
 		 	return -1;
 		d.calendar_type = convert_from;
 		d.day = day;
@@ -157,11 +157,11 @@ static int run_cmd(char** cmd_tokenized)
 		if (cmd_tokenized[1] == NULL || (convert_from = parse_cal_type(cmd_tokenized[1])) == NONE)
 			return -1;
 
-		if (cmd_tokenized[2] == NULL || (year = strtol(cmd_tokenized[2], NULL, 0)) < 1)
+		if (cmd_tokenized[2] == NULL || (year = (int)strtol(cmd_tokenized[2], NULL, 0)) < 1)
 		 	return -1;
-		if (cmd_tokenized[3] == NULL || (month = strtol(cmd_tokenized[3], NULL, 0)) < 1)
+		if (cmd_tokenized[3] == NULL || (month = (int)strtol(cmd_tokenized[3], NULL, 0)) < 1)
 		 	return -1;
-		if (cmd_tokenized[4] == NULL || (day = strtol(cmd_tokenized[4], NULL, 0)) < 1)
+		if (cmd_tokenized[4] == NULL || (day = (int)strtol(cmd_tokenized[4], NULL, 0)) < 1)
 		 	return -1;
 		cal = get_calendar(convert_from);
 		a = cal->abs_date(year, month, day);

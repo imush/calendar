@@ -145,7 +145,7 @@ static int compute_abs_molad_rosh_hashana(const int year, hc_abs_heb_time *abs_t
 
 	/* count number of months since beginning to molad of Rosh Hashana
 	   There are 19*12+7 months per cycle */
-	pre_months = 235 * cycles;
+	pre_months = 235L * cycles;
 	for (i = 0; i < (yr % 19); i++)
 	{
 		pre_months += 12 + heb_is_leap_year(i+1);
@@ -164,7 +164,7 @@ static long rosh_hashana_abs_date(const int year)
 	hc_abs_heb_time molad;
 	compute_abs_molad_rosh_hashana(year, &molad);
 	long int day = molad.abs_date;
-	hc_day_of_week dw = (day-1) % 7;
+	hc_day_of_week dw = (hc_day_of_week)((day-1) % 7);
 
 	/* Now come the 3 dehiyot. These are as follows:
          Molad zoken - R"H postponed 1 day if the molad occurs after 18 hrs in the day (i.e. after noon)
@@ -200,9 +200,9 @@ heb_year_type hc_get_heb_year_type(const int year)
 	long year_length = r1 -r0;
 	heb_year_type t;
 	if (year_length < 360)
-		t = year_length - 353;
+		t = (heb_year_type)(year_length - 353);
 	else
-		t = year_length - 383;
+		t = (heb_year_type)(year_length - 383);
 	return t;
 }
 
@@ -238,8 +238,8 @@ static int heb_compute_date(const long abs_date, hc_date *target)
      get a reasonable lower bound for the year first so we won't
      have to count through thousands of years...
      Yes, this is not most efficient, I'll make a better approximation later. */
-	premon = absday/29.7 - 1;
-	yr = (premon/235)*19;
+	premon = (long)(absday/29.7 - 1);
+	yr = (int)((premon/235)*19);
 
     /** molad is faster to compute until we get to the last year */
     while (rosh_hashana_abs_date(yr+1) <= abs_date)
@@ -247,7 +247,7 @@ static int heb_compute_date(const long abs_date, hc_date *target)
 
 	/* Ok, seems we got the right year now */
 	target->year = yr;
-	dy = abs_date - rosh_hashana_abs_date(yr) + 1;
+	dy = (int)(abs_date - rosh_hashana_abs_date(yr) + 1);
 
 	/* count as we go through the year; start with Tishrei and save rewinding the cycle */
 	while ((ml = heb_month_length(yr, mh)) < dy) {
@@ -306,7 +306,7 @@ int hc_compute_keviut(const int year, int *rosh_hashana_dow, int *pesach_begin_d
 	if (pesach_begin_dow != NULL)
 		*pesach_begin_dow = (int)(pesach % 7);
 	if (ck != NULL)
-		*ck = hc_get_heb_year_type(year);
+		*ck = (int)hc_get_heb_year_type(year);
 	if (leap != NULL)
 		*leap = heb_is_leap_year(year);
 	return 0;
@@ -331,6 +331,63 @@ void hc_get_molad_tohu(hc_abs_heb_time *out)
     out->hour     = 5;
     out->part     = 204;
     out->rega     = 0;
+}
+
+/* next Hebrew month within target_year (used for fallback to Rosh Chodesh) */
+static int heb_next_month(const int target_year, const int month)
+{
+    const int months_in_year = 12 + heb_is_leap_year(target_year);
+    if (month == months_in_year) return 1;   /* last month (Adar/Adar II) → Nisan */
+    if (month == 6)              return 7;   /* Elul → Tishrei (unreachable: Elul always 29 days) */
+    return month + 1;
+}
+
+static int anniversary_impl(const int orig_year, const int orig_month, const int orig_day,
+                             const int target_year, const int adar_policy_forward, hc_date *out)
+{
+    int month = orig_month;
+
+    if (!heb_check_date(orig_year, orig_month, orig_day) || target_year < 1)
+        return -1;
+
+    /* Adar mapping */
+    if (adar_policy_forward) {
+        /* anniversary: non-leap Adar → Adar II in leap target year */
+        if (month == ADAR && !heb_is_leap_year(orig_year) && heb_is_leap_year(target_year))
+            month = ADAR_2;
+        else if (month == ADAR_2 && !heb_is_leap_year(target_year))
+            month = ADAR;
+    } else {
+        /* yahrzeit: non-leap Adar stays Adar I in a leap target year */
+        if (month == ADAR_2 && !heb_is_leap_year(target_year))
+            month = ADAR;
+    }
+
+    /* if the exact day doesn't exist in target year, fall to 1st of next month */
+    if (orig_day > heb_month_length(target_year, month)) {
+        out->calendar_type = HEBREW;
+        out->year  = target_year;
+        out->month = heb_next_month(target_year, month);
+        out->day   = 1;
+    } else {
+        out->calendar_type = HEBREW;
+        out->year  = target_year;
+        out->month = month;
+        out->day   = orig_day;
+    }
+    return 0;
+}
+
+int hc_anniversary_for(const int orig_year, const int orig_month, const int orig_day,
+                        const int target_year, hc_date *out)
+{
+    return anniversary_impl(orig_year, orig_month, orig_day, target_year, 1, out);
+}
+
+int hc_yahrzeit_for(const int death_year, const int death_month, const int death_day,
+                     const int target_year, hc_date *out)
+{
+    return anniversary_impl(death_year, death_month, death_day, target_year, 0, out);
 }
 
 /* set handles */

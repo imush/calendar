@@ -70,3 +70,13 @@ int hc_get_month_length(int year, int month, hc_calendar_type calendar_type)
 	hc_cal_impl *impl = get_calendar(calendar_type);
 	return impl->month_length(year, month);
 }
+
+int hc_date_add_days(hc_date *date, int days)
+{
+	hc_cal_impl *impl = get_calendar(date->calendar_type);
+	if (!impl->check_date(date->year, date->month, date->day))
+		return -1;
+	long abs = impl->abs_date(date->year, date->month, date->day) + days;
+	if (abs < 0) return -1;
+	return impl->compute_date(abs, date);
+}

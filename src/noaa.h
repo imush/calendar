@@ -20,7 +20,9 @@ double noaa_julian_day(int year, int month, int day);
 /*!
  * \brief Compute solar noon and fill declination / equation-of-time.
  *
- * \param[in]  year, month, day  Gregorian date
+ * \param[in]  year       Gregorian year
+ * \param[in]  month      Gregorian month
+ * \param[in]  day        Gregorian day
  * \param[in]  lon               longitude (degrees, east positive)
  * \param[in]  tz_offset_h       UTC offset in hours
  * \param[out] decl_rad          solar declination (radians)
@@ -49,7 +51,9 @@ double noaa_hour_angle_for_elevation(double lat_rad, double decl_rad, double ele
  * so that all event times are shifted accordingly (sunrise earlier, sunset later).
  * Pass \p observer_elev_m = 0 to disable the correction.
  *
- * \param year, month, day  Gregorian date
+ * \param year              Gregorian year
+ * \param month             Gregorian month
+ * \param day               Gregorian day
  * \param lat               latitude (degrees, north positive)
  * \param lon               longitude (degrees, east positive)
  * \param tz_offset_h       UTC offset in hours
