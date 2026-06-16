@@ -139,8 +139,8 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:afa4b54c2a64591d108e91187259561e0" id="r_afa4b54c2a64591d108e91187259561e0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hconverter_8h.html#afa4b54c2a64591d108e91187259561e0">set_hc_date</a> (<a class="el" href="hconverter_8h.html#ad05914392daaa102a0ef2fbf6346164d">hc_date</a> *, int year, int month, int day, <a class="el" href="hconverter_8h.html#acd248779dfe6530e8dcdfe11cd2d107f">hc_calendar_type</a>)</td></tr>
-<tr class="separator:afa4b54c2a64591d108e91187259561e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2cde7e727e8879e162edb1de5bb4262" id="r_ab2cde7e727e8879e162edb1de5bb4262"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hconverter_8h.html#ab2cde7e727e8879e162edb1de5bb4262">set_hc_date</a> (<a class="el" href="hconverter_8h.html#ad05914392daaa102a0ef2fbf6346164d">hc_date</a> *date, int year, int month, int day, <a class="el" href="hconverter_8h.html#acd248779dfe6530e8dcdfe11cd2d107f">hc_calendar_type</a> calendar_type)</td></tr>
+<tr class="separator:ab2cde7e727e8879e162edb1de5bb4262"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca386d49511c5533eec4148bf7ce17ee" id="r_aca386d49511c5533eec4148bf7ce17ee"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hconverter_8h.html#aca386d49511c5533eec4148bf7ce17ee">hc_convert</a> (<a class="el" href="hconverter_8h.html#ad05914392daaa102a0ef2fbf6346164d">hc_date</a> *date, <a class="el" href="hconverter_8h.html#acd248779dfe6530e8dcdfe11cd2d107f">hc_calendar_type</a> target_calendar)</td></tr>
 <tr class="memdesc:aca386d49511c5533eec4148bf7ce17ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function converts a date from one calendar to another.  <br /></td></tr>
 <tr class="separator:aca386d49511c5533eec4148bf7ce17ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -172,6 +172,15 @@ Functions</h2></td></tr>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>hc_abs_day_to_gregorian</b> (long abs_day, <a class="el" href="hconverter_8h.html#ad05914392daaa102a0ef2fbf6346164d">hc_date</a> *out)</td></tr>
 <tr class="memdesc:ae6e7e7f046278bd4922e48aee5c148ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a Hebrew absolute day number (days since creation) to a Gregorian date. Used to map tekufa abs-day results to a calendar date. <br /></td></tr>
 <tr class="separator:ae6e7e7f046278bd4922e48aee5c148ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a093aada0d4ee64fefcbbf7ce0acdbf0c" id="r_a093aada0d4ee64fefcbbf7ce0acdbf0c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hconverter_8h.html#a093aada0d4ee64fefcbbf7ce0acdbf0c">hc_date_add_days</a> (<a class="el" href="hconverter_8h.html#ad05914392daaa102a0ef2fbf6346164d">hc_date</a> *date, int days)</td></tr>
+<tr class="memdesc:a093aada0d4ee64fefcbbf7ce0acdbf0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Advance a date by a given number of days, modifying it in place.  <br /></td></tr>
+<tr class="separator:a093aada0d4ee64fefcbbf7ce0acdbf0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f11428cec962fb1a7ce41d3b0f06c53" id="r_a1f11428cec962fb1a7ce41d3b0f06c53"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hconverter_8h.html#a1f11428cec962fb1a7ce41d3b0f06c53">hc_anniversary_for</a> (int orig_year, int orig_month, int orig_day, int target_year, <a class="el" href="hconverter_8h.html#ad05914392daaa102a0ef2fbf6346164d">hc_date</a> *out)</td></tr>
+<tr class="memdesc:a1f11428cec962fb1a7ce41d3b0f06c53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the Hebrew anniversary (bar/bat mitzvah, birthday) of an original Hebrew date in a given target year.  <br /></td></tr>
+<tr class="separator:a1f11428cec962fb1a7ce41d3b0f06c53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac506fe5834f5bae7f317480256672bc7" id="r_ac506fe5834f5bae7f317480256672bc7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hconverter_8h.html#ac506fe5834f5bae7f317480256672bc7">hc_yahrzeit_for</a> (int death_year, int death_month, int death_day, int target_year, <a class="el" href="hconverter_8h.html#ad05914392daaa102a0ef2fbf6346164d">hc_date</a> *out)</td></tr>
+<tr class="memdesc:ac506fe5834f5bae7f317480256672bc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the Hebrew yahrzeit of a death date in a given target year.  <br /></td></tr>
+<tr class="separator:ac506fe5834f5bae7f317480256672bc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a456114fe2c9a00f3a33f7549fe2d190f" id="r_a456114fe2c9a00f3a33f7549fe2d190f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="hconverter_8h.html#ab54da9adb7839f0f288f19d203a86197">heb_year_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hconverter_8h.html#a456114fe2c9a00f3a33f7549fe2d190f">hc_get_heb_year_type</a> (int year)</td></tr>
 <tr class="memdesc:a456114fe2c9a00f3a33f7549fe2d190f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute number of days in excess of 58 in Cheshvan and Kislev combined.  <br /></td></tr>
 <tr class="separator:a456114fe2c9a00f3a33f7549fe2d190f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -362,6 +371,66 @@ Note about keviut</h2>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a1f11428cec962fb1a7ce41d3b0f06c53" name="a1f11428cec962fb1a7ce41d3b0f06c53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f11428cec962fb1a7ce41d3b0f06c53">&#9670;&#160;</a></span>hc_anniversary_for()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hc_anniversary_for </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>orig_year</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>orig_month</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>orig_day</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>target_year</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="hconverter_8h.html#ad05914392daaa102a0ef2fbf6346164d">hc_date</a> *&#160;</td>
+          <td class="paramname"><em>out</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compute the Hebrew anniversary (bar/bat mitzvah, birthday) of an original Hebrew date in a given target year. </p>
+<p>Adar mapping: if the original date falls in non-leap Adar (month 12) and the target year is a leap year, the anniversary falls in Adar II (month 13). If the original is in Adar II and the target is non-leap, it falls in Adar (month 12). If the exact day does not exist in the target year (e.g. 30 Cheshvan in a short year, or 30 Kislev in a short year), the result is the 1st of the following month.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">orig_year</td><td>Hebrew year of original date </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">orig_month</td><td>Hebrew month of original date </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">orig_day</td><td>Hebrew day of original date </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">target_year</td><td>Hebrew year for which the anniversary is computed </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">out</td><td>populated with the resulting Hebrew date </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 if the original date is invalid or target_year &lt; 1 </dd></dl>
+
+</div>
+</div>
 <a id="abca034b4a5ae59eb219e90af78f5ab92" name="abca034b4a5ae59eb219e90af78f5ab92"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abca034b4a5ae59eb219e90af78f5ab92">&#9670;&#160;</a></span>hc_check()</h2>
 
@@ -442,7 +511,7 @@ Note about keviut</h2>
     <tr><td class="paramdir">[out]</td><td class="paramname">rosh_hashana_dow</td><td>Day of week for Eosh Hashana (1 Tishrei) </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">pesach_dow</td><td>Day of week for Pesach (0 = saturday) </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">ck</td><td>returns 0, 1, 2 (SHORT, REGULAR, FULL) for number of days in excess of 58 in Chesh=van and Kislev combined. (see #hc_heb_year_type) </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">it</td><td>will return 1 for leap years and 0 otherwise </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">leap</td><td>will return 1 for leap years and 0 otherwise </td></tr>
   </table>
   </dd>
 </dl>
@@ -497,9 +566,9 @@ Note about keviut</h2>
 <p>Output parameters are <a class="el" href="hconverter_8h.html#ad05914392daaa102a0ef2fbf6346164d">hc_date</a> and <a class="el" href="hconverter_8h.html#ac7a4cd5d0d3b38beae2c34b7ce198938" title="Hebrew time: hour and parts.">heb_time</a> objects, passed in to be populated. No New memory is allocated.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">year</td><td></td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">month</td><td></td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">hc_calendar_type</td><td>GREGORIAN, JULIAN or HEBREW </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">year</td><td>Hebrew year </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">month</td><td>Hebrew month </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cal_type</td><td>GREGORIAN, JULIAN or HEBREW </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">date</td><td>pointer to <a class="el" href="hconverter_8h.html#ad05914392daaa102a0ef2fbf6346164d">hc_date</a> struct to store result </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">time</td><td>pointer to <a class="el" href="hconverter_8h.html#ac7a4cd5d0d3b38beae2c34b7ce198938" title="Hebrew time: hour and parts.">heb_time</a> to store time result </td></tr>
   </table>
@@ -550,8 +619,8 @@ Note about keviut</h2>
 <p>This is equivalent to &lt;hc_compute_molad&gt; with month set to 7 (Tishrei).</p>
 <p>The output params <a class="el" href="hconverter_8h.html#ad05914392daaa102a0ef2fbf6346164d">hc_date</a> and <a class="el" href="hconverter_8h.html#ac7a4cd5d0d3b38beae2c34b7ce198938" title="Hebrew time: hour and parts.">heb_time</a> objects are passed in to be populated. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">year</td><td></td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">hc_calendar_type</td><td>GREGORINA, JULIAN or HEBREW </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">year</td><td>Hebrew year </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cal_type</td><td>GREGORIAN, JULIAN or HEBREW </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">date</td><td>pointer to <a class="el" href="hconverter_8h.html#ad05914392daaa102a0ef2fbf6346164d">hc_date</a> struct to store result </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">time</td><td>pointer to <a class="el" href="hconverter_8h.html#ac7a4cd5d0d3b38beae2c34b7ce198938" title="Hebrew time: hour and parts.">heb_time</a> to store time result </td></tr>
   </table>
@@ -599,6 +668,44 @@ Note about keviut</h2>
 
 </div>
 </div>
+<a id="a093aada0d4ee64fefcbbf7ce0acdbf0c" name="a093aada0d4ee64fefcbbf7ce0acdbf0c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a093aada0d4ee64fefcbbf7ce0acdbf0c">&#9670;&#160;</a></span>hc_date_add_days()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hc_date_add_days </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="hconverter_8h.html#ad05914392daaa102a0ef2fbf6346164d">hc_date</a> *&#160;</td>
+          <td class="paramname"><em>date</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>days</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Advance a date by a given number of days, modifying it in place. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">date</td><td>the date to advance; calendar_type must be set </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">days</td><td>number of days to add (may be negative) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 if the input date is invalid </dd></dl>
+
+</div>
+</div>
 <a id="a2c8efb5672b3dee017b86e6b92feef53" name="a2c8efb5672b3dee017b86e6b92feef53"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2c8efb5672b3dee017b86e6b92feef53">&#9670;&#160;</a></span>hc_get_day_of_week()</h2>
 
@@ -618,7 +725,7 @@ Note about keviut</h2>
 <p>Function to get day of week out of a <a class="el" href="hconverter_8h.html#ad05914392daaa102a0ef2fbf6346164d">hc_date</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">date</td><td></td></tr>
+    <tr><td class="paramname">date</td><td>pointer to <a class="el" href="hconverter_8h.html#ad05914392daaa102a0ef2fbf6346164d">hc_date</a> </td></tr>
   </table>
   </dd>
 </dl>
@@ -693,8 +800,8 @@ Note about keviut</h2>
 <p>Function to get the length of a month. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">year</td><td></td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">month.</td><td>For Hebrew, see (<a class="el" href="hconverter_8h.html#hebmonth">note</a>) about the special month order. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">year</td><td>year </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">month</td><td>For Hebrew, see (<a class="el" href="hconverter_8h.html#hebmonth">note</a>) about the special month order. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">calendar_type</td><td>see <a class="el" href="hconverter_8h.html#acd248779dfe6530e8dcdfe11cd2d107f" title="Supported types of calendar.">hc_calendar_type</a> </td></tr>
   </table>
   </dd>
@@ -783,18 +890,78 @@ Note about keviut</h2>
 <p>Convenience method to set <a class="el" href="hconverter_8h.html#ac7a4cd5d0d3b38beae2c34b7ce198938" title="Hebrew time: hour and parts.">heb_time</a> struct value. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">param[out]</td><td>time </td></tr>
-    <tr><td class="paramname">param[in]</td><td>hour </td></tr>
-    <tr><td class="paramname">param[in]</td><td>part </td></tr>
-    <tr><td class="paramname">param[in]</td><td>rega (0 for ordinary molad; non-zero for Rav Ada tekufa) </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">time</td><td>pointer to <a class="el" href="hconverter_8h.html#ac7a4cd5d0d3b38beae2c34b7ce198938" title="Hebrew time: hour and parts.">heb_time</a> to populate </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">hour</td><td>hour </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">part</td><td>parts (chalokim) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">rega</td><td>regaim (0 for ordinary molad; non-zero for Rav Ada tekufa) </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="afa4b54c2a64591d108e91187259561e0" name="afa4b54c2a64591d108e91187259561e0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afa4b54c2a64591d108e91187259561e0">&#9670;&#160;</a></span>set_hc_date()</h2>
+<a id="ac506fe5834f5bae7f317480256672bc7" name="ac506fe5834f5bae7f317480256672bc7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac506fe5834f5bae7f317480256672bc7">&#9670;&#160;</a></span>hc_yahrzeit_for()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hc_yahrzeit_for </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>death_year</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>death_month</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>death_day</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>target_year</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="hconverter_8h.html#ad05914392daaa102a0ef2fbf6346164d">hc_date</a> *&#160;</td>
+          <td class="paramname"><em>out</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compute the Hebrew yahrzeit of a death date in a given target year. </p>
+<p>Like hc_anniversary_for but uses yahrzeit Adar policy: if the original date is in non-leap Adar (month 12) and the target year is a leap year, the yahrzeit falls in Adar I (month 12), not Adar II. All other rules (day overflow, Adar II → Adar for non-leap target) are identical.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">death_year</td><td>Hebrew year of death </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">death_month</td><td>Hebrew month of death </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">death_day</td><td>Hebrew day of death </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">target_year</td><td>Hebrew year for which the yahrzeit is computed </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">out</td><td>populated with the resulting Hebrew date </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 if the death date is invalid or target_year &lt; 1 </dd></dl>
+
+</div>
+</div>
+<a id="ab2cde7e727e8879e162edb1de5bb4262" name="ab2cde7e727e8879e162edb1de5bb4262"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2cde7e727e8879e162edb1de5bb4262">&#9670;&#160;</a></span>set_hc_date()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -827,7 +994,7 @@ Note about keviut</h2>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="hconverter_8h.html#acd248779dfe6530e8dcdfe11cd2d107f">hc_calendar_type</a>&#160;</td>
-          <td class="paramname"><em>type</em>&#160;</td>
+          <td class="paramname"><em>calendar_type</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -839,10 +1006,10 @@ Note about keviut</h2>
 <p>Convenience method to set the entire <a class="el" href="hconverter_8h.html#ad05914392daaa102a0ef2fbf6346164d">hc_date</a> in one call. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[out]</td><td class="paramname">date</td><td>pointer to <a class="el" href="hconverter_8h.html#ad05914392daaa102a0ef2fbf6346164d">hc_date</a> structure </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">year</td><td></td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">month</td><td></td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">day</td><td></td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">calendar_type</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">year</td><td>year </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">month</td><td>month </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">day</td><td>day </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">calendar_type</td><td>see <a class="el" href="hconverter_8h.html#acd248779dfe6530e8dcdfe11cd2d107f" title="Supported types of calendar.">hc_calendar_type</a> </td></tr>
   </table>
   </dd>
 </dl>

@@ -210,7 +210,9 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>noaa_julian_day</b>
 <p>Compute solar noon and fill declination / equation-of-time. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">year,month,day</td><td>Gregorian date </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">year</td><td>Gregorian year </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">month</td><td>Gregorian month </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">day</td><td>Gregorian day </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">lon</td><td>longitude (degrees, east positive) </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">tz_offset_h</td><td>UTC offset in hours </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">decl_rad</td><td>solar declination (radians) </td></tr>
@@ -294,7 +296,9 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>noaa_julian_day</b>
 <p>An observer above sea level sees a depressed horizon; the depression <picture><source srcset="form_0_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$\delta = \sqrt{2h/R_\oplus}$" src="form_0.png"/></picture> (radians) is subtracted from <code>elev_deg</code> so that all event times are shifted accordingly (sunrise earlier, sunset later). Pass <code>observer_elev_m</code> = 0 to disable the correction.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">year,month,day</td><td>Gregorian date </td></tr>
+    <tr><td class="paramname">year</td><td>Gregorian year </td></tr>
+    <tr><td class="paramname">month</td><td>Gregorian month </td></tr>
+    <tr><td class="paramname">day</td><td>Gregorian day </td></tr>
     <tr><td class="paramname">lat</td><td>latitude (degrees, north positive) </td></tr>
     <tr><td class="paramname">lon</td><td>longitude (degrees, east positive) </td></tr>
     <tr><td class="paramname">tz_offset_h</td><td>UTC offset in hours </td></tr>
