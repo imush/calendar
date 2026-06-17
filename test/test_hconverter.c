@@ -137,4 +137,67 @@ void test_hconverter(void)
         hc_date bad;   set_hc_date(&bad,   5777, 13, 1, HEBREW); /* no Adar II */
         HC_ASSERT_FALSE(hc_check(&bad));
     }
+
+    /* hc_yahrzeit_for: 30 Cheshvan / 30 Kislev fixed-date rule
+     * 5779=FULL, 5780=FULL, 5781=SHORT (verified above via hc_get_heb_year_type) */
+
+    /* Died 30 Cheshvan 5779 — first year 5780 is FULL → always 1 Kislev */
+    {
+        hc_date out;
+        /* FULL target year: old code returned 30 Cheshvan; new rule requires 1 Kislev */
+        HC_ASSERT_EQ_INT(0, hc_yahrzeit_for(5779, 8, 30, 5780, &out));
+        HC_ASSERT_EQ_INT(9,    out.month); /* Kislev */
+        HC_ASSERT_EQ_INT(1,    out.day);
+        HC_ASSERT_EQ_INT(5780, out.year);
+        /* SHORT target year: also 1 Kislev */
+        HC_ASSERT_EQ_INT(0, hc_yahrzeit_for(5779, 8, 30, 5781, &out));
+        HC_ASSERT_EQ_INT(9,    out.month);
+        HC_ASSERT_EQ_INT(1,    out.day);
+        HC_ASSERT_EQ_INT(5781, out.year);
+    }
+
+    /* Died 30 Cheshvan 5780 — first year 5781 is SHORT → always 29 Cheshvan */
+    {
+        hc_date out;
+        /* SHORT target year: old code returned 1 Kislev; new rule requires 29 Cheshvan */
+        HC_ASSERT_EQ_INT(0, hc_yahrzeit_for(5780, 8, 30, 5781, &out));
+        HC_ASSERT_EQ_INT(8,    out.month); /* Cheshvan */
+        HC_ASSERT_EQ_INT(29,   out.day);
+        HC_ASSERT_EQ_INT(5781, out.year);
+        /* FULL target year: old code returned 30 Cheshvan; new rule requires 29 Cheshvan */
+        HC_ASSERT_EQ_INT(0, hc_yahrzeit_for(5780, 8, 30, 5779, &out));
+        HC_ASSERT_EQ_INT(8,    out.month);
+        HC_ASSERT_EQ_INT(29,   out.day);
+        HC_ASSERT_EQ_INT(5779, out.year);
+    }
+
+    /* Died 30 Kislev 5779 — first year 5780 is FULL → always 1 Tevet */
+    {
+        hc_date out;
+        /* FULL target year: old code returned 30 Kislev; new rule requires 1 Tevet */
+        HC_ASSERT_EQ_INT(0, hc_yahrzeit_for(5779, 9, 30, 5780, &out));
+        HC_ASSERT_EQ_INT(10,   out.month); /* Tevet */
+        HC_ASSERT_EQ_INT(1,    out.day);
+        HC_ASSERT_EQ_INT(5780, out.year);
+        /* SHORT target year: also 1 Tevet */
+        HC_ASSERT_EQ_INT(0, hc_yahrzeit_for(5779, 9, 30, 5781, &out));
+        HC_ASSERT_EQ_INT(10,   out.month);
+        HC_ASSERT_EQ_INT(1,    out.day);
+        HC_ASSERT_EQ_INT(5781, out.year);
+    }
+
+    /* Died 30 Kislev 5780 — first year 5781 is SHORT → always 29 Kislev */
+    {
+        hc_date out;
+        /* SHORT target year: old code returned 1 Tevet; new rule requires 29 Kislev */
+        HC_ASSERT_EQ_INT(0, hc_yahrzeit_for(5780, 9, 30, 5781, &out));
+        HC_ASSERT_EQ_INT(9,    out.month); /* Kislev */
+        HC_ASSERT_EQ_INT(29,   out.day);
+        HC_ASSERT_EQ_INT(5781, out.year);
+        /* FULL target year: old code returned 30 Kislev; new rule requires 29 Kislev */
+        HC_ASSERT_EQ_INT(0, hc_yahrzeit_for(5780, 9, 30, 5779, &out));
+        HC_ASSERT_EQ_INT(9,    out.month);
+        HC_ASSERT_EQ_INT(29,   out.day);
+        HC_ASSERT_EQ_INT(5779, out.year);
+    }
 }
