@@ -945,7 +945,12 @@ Note about keviut</h2>
 </div><div class="memdoc">
 
 <p>Compute the Hebrew yahrzeit of a death date in a given target year. </p>
-<p>Like hc_anniversary_for but uses yahrzeit Adar policy: if the original date is in non-leap Adar (month 12) and the target year is a leap year, the yahrzeit falls in Adar I (month 12), not Adar II. All other rules (day overflow, Adar II → Adar for non-leap target) are identical.</p>
+<p>Adar policy: if the original date is in Adar II (month 13) and the target year is non-leap, the yahrzeit falls in Adar (month 12). If the original is in non-leap Adar (month 12) and the target year is a leap year, the yahrzeit stays in Adar I (month 12), not Adar II — this differs from hc_anniversary_for, which would move it to Adar II.</p>
+<p>30 Cheshvan / 30 Kislev special rule: the observed yahrzeit is fixed for all future years based solely on whether that day existed in death_year+1 (the first yahrzeit year), regardless of whether it exists in the target year:</p><ul>
+<li>If heb_month_length(death_year+1, death_month) == 30: yahrzeit is always the 1st of the following month (1 Kislev for 30 Cheshvan; 1 Tevet for 30 Kislev).</li>
+<li>Otherwise: yahrzeit is the last day of that month in the target year — 30 if the month is full in that year, 29 if not (e.g. 30 Cheshvan in a full target year, 29 Cheshvan in a short/normal target year). This differs from hc_anniversary_for, which simply overflows to the 1st of the following month whenever the day is absent in the specific target year.</li>
+</ul>
+<p>All other dates that do not exist in the target year fall to the 1st of the following month.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">death_year</td><td>Hebrew year of death </td></tr>
