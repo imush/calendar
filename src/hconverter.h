@@ -216,10 +216,21 @@ int hc_anniversary_for(int orig_year, int orig_month, int orig_day,
 /*!
  * \brief Compute the Hebrew yahrzeit of a death date in a given target year.
  *
- * Like hc_anniversary_for but uses yahrzeit Adar policy: if the original date is in
- * non-leap Adar (month 12) and the target year is a leap year, the yahrzeit falls in
- * Adar I (month 12), not Adar II. All other rules (day overflow, Adar II → Adar for
- * non-leap target) are identical.
+ * Adar policy: if the original date is in Adar II (month 13) and the target year is
+ * non-leap, the yahrzeit falls in Adar (month 12). If the original is in non-leap Adar
+ * (month 12) and the target year is a leap year, the yahrzeit stays in Adar I (month 12),
+ * not Adar II — this differs from hc_anniversary_for, which would move it to Adar II.
+ *
+ * 30 Cheshvan / 30 Kislev special rule: behaviour depends on whether that day existed
+ * in death_year+1 (the first yahrzeit year):
+ *   - If heb_month_length(death_year+1, death_month) == 30: observe on the 30th when the
+ *     target year has it; otherwise 1st of the following month (1 Kislev / 1 Tevet).
+ *     Identical to the standard overflow used by hc_anniversary_for.
+ *   - Otherwise: always the last day of that month in the target year — 30 if the month
+ *     is full in that year, 29 if not. Unlike hc_anniversary_for, this never overflows
+ *     to the 1st of the following month.
+ *
+ * All other dates that do not exist in the target year fall to the 1st of the following month.
  *
  * \param[in]  death_year   Hebrew year of death
  * \param[in]  death_month  Hebrew month of death

@@ -387,23 +387,22 @@ int hc_anniversary_for(const int orig_year, const int orig_month, const int orig
 int hc_yahrzeit_for(const int death_year, const int death_month, const int death_day,
                      const int target_year, hc_date *out)
 {
-    /* Special rule for 30 Cheshvan or 30 Kislev: the observed yahrzeit is fixed
-     * for all years by whether the date existed in the year immediately following death.
-     * If it existed in death_year+1: always Rosh Chodesh of the next month.
-     * If it did not:                 always the 29th of that month. */
+    /* Special rule for 30 Cheshvan or 30 Kislev, based on whether that day existed
+     * in the year immediately following death (first yahrzeit year):
+     * - It existed: observe on the 30th when target has it; else 1st of next month.
+     *   Falls through to anniversary_impl which handles this identically.
+     * - It did not: always the last day of that month in the target year (29 or 30). */
     if (death_day == 30 && (death_month == CHESHVAN || death_month == KISLEV)) {
         if (!heb_check_date(death_year, death_month, death_day) || target_year < 1)
             return -1;
-        out->calendar_type = HEBREW;
-        out->year  = target_year;
-        if (heb_month_length(death_year + 1, death_month) == 30) {
-            out->month = heb_next_month(target_year, death_month);
-            out->day   = 1;
-        } else {
+        if (heb_month_length(death_year + 1, death_month) != 30) {
+            out->calendar_type = HEBREW;
+            out->year  = target_year;
             out->month = death_month;
-            out->day   = 29;
+            out->day   = heb_month_length(target_year, death_month);
+            return 0;
         }
-        return 0;
+        /* first year had the 30th: fall through to anniversary_impl */
     }
     return anniversary_impl(death_year, death_month, death_day, target_year, 0, out);
 }
