@@ -11,6 +11,7 @@ void test_hconverter(void);
 void test_parshiot(void);
 void test_tekufot(void);
 void test_jewish_dates(void);
+void test_year_scan(void);
 void test_zmanim(void);
 
 int main(void)
@@ -20,6 +21,7 @@ int main(void)
     HC_RUN_SUITE(test_tekufot);
     HC_RUN_SUITE(test_parshiot);
     HC_RUN_SUITE(test_jewish_dates);
+    HC_RUN_SUITE(test_year_scan);
     HC_RUN_SUITE(test_zmanim);
 
     hc_test_summary();

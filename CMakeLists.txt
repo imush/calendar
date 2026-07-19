@@ -32,6 +32,7 @@ add_executable(hconverter_tests
     test/test_parshiot.c
     test/test_tekufot.c
     test/test_jewish_dates.c
+    test/test_year_scan.c
     test/test_zmanim.c
 )
 target_link_libraries(hconverter_tests hconverter)

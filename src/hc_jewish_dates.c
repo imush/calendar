@@ -1,6 +1,7 @@
 #include "hc_jewish_dates.h"
 #include "hc_internal.h"
 #include "tekufot.h"
+#include "parshiot.h"
 #include <string.h>
 
 /* from hconverter.c / hebrew.c */
@@ -79,6 +80,9 @@ static const char *SD_NAMES[HC_SD_COUNT] = {
     [HC_SD_SHABBAT_HACHODESH]       = "Shabbat Hachodesh",
     [HC_SD_SHABBAT_HAGADOL]         = "Shabbat Hagadol",
     [HC_SD_SHABBAT_CHAZON]          = "Shabbat Chazon",
+    [HC_SD_SHABBAT_NACHAMU]         = "Shabbat Nachamu",
+    [HC_SD_SHABBAT_SHUVAH]          = "Shabbat Shuvah",
+    [HC_SD_SHABBAT_SHIRAH]          = "Shabbat Shirah",
     [HC_SD_SHABBAT_MEVARCHIM]       = "Shabbat Mevarchim",
     [HC_SD_ERUV_TAVSHILIN_I]        = "Eruv Tavshilin",
     [HC_SD_ERUV_TAVSHILIN_C]        = "Eruv Tavshilin",
@@ -183,6 +187,14 @@ int hc_sd_is_arba_parshiyot(hc_special_day d){ return in_list(d, ARBA_PARSHIYOT_
 int hc_sd_is_eruv_tavshilin(hc_special_day d){ return in_list(d, ERUV_TAVSHILIN_DAYS); }
 int hc_sd_is_rosh_chodesh     (hc_special_day d) { return in_list(d, ROSH_CHODESH_DAYS); }
 int hc_sd_is_shabbat_mevarchim(hc_special_day d) { return d == HC_SD_SHABBAT_MEVARCHIM; }
+int hc_sd_is_named_shabbat(hc_special_day d)
+{
+    return d == HC_SD_SHABBAT_SHEKALIM  || d == HC_SD_SHABBAT_ZACHOR
+        || d == HC_SD_SHABBAT_PARA      || d == HC_SD_SHABBAT_HACHODESH
+        || d == HC_SD_SHABBAT_HAGADOL   || d == HC_SD_SHABBAT_CHAZON
+        || d == HC_SD_SHABBAT_NACHAMU   || d == HC_SD_SHABBAT_SHUVAH
+        || d == HC_SD_SHABBAT_SHIRAH;
+}
 int hc_sd_is_tal_umatar       (hc_special_day d) { return d == HC_SD_TAL_UMATAR_I || d == HC_SD_TAL_UMATAR_C; }
 int hc_sd_chanukah_night      (hc_special_day d) { return (d >= HC_SD_CHANUKAH_1 && d <= HC_SD_CHANUKAH_8) ? (int)(d - HC_SD_CHANUKAH_1 + 1) : 0; }
 
@@ -297,6 +309,48 @@ static int is_shabbat_chazon(int year, int month, int day)
 }
 
 /*
+ * Shabbat Nachamu: first Shabbat after 9 Av (1 to 7 days after).
+ */
+static int is_shabbat_nachamu(int year, int month, int day)
+{
+    if (heb_dow(year, month, day) != 7) return 0;
+    long abs_this = heb_abs(year, month, day);
+    long abs_9av  = heb_abs(year, 5, 9);
+    long diff     = abs_this - abs_9av;
+    return diff >= 1 && diff <= 7;
+}
+
+/*
+ * Shabbat Shuvah: first Shabbat after 1 Tishrei (Rosh Hashana), i.e.,
+ * the Shabbat during the Ten Days of Repentance.
+ */
+static int is_shabbat_shuvah(int year, int month, int day)
+{
+    if (heb_dow(year, month, day) != 7) return 0;
+    long abs_this  = heb_abs(year, month, day);
+    long abs_rh    = heb_abs(year, 7, 1);
+    long diff      = abs_this - abs_rh;
+    return diff >= 1 && diff <= 7;
+}
+
+/*
+ * Shabbat Shirah: Shabbat on which Parashat Beshalach is read.
+ * Beshalach falls in Shvat (month 11) in the Diaspora and Israel schedules.
+ * We narrow the check to Shvat to avoid the parsha lookup on every Shabbat.
+ */
+static int is_shabbat_shirah(int year, int month, int day, int in_israel)
+{
+    if (heb_dow(year, month, day) != 7) return 0;
+    if (month != 11) return 0;
+    hc_date d;
+    d.calendar_type    = HEBREW;
+    d.year = year; d.month = month; d.day = day;
+    hc_reading r;
+    if (hc_get_parsha(&d, in_israel, &r) != 0) return 0;
+    return r.p1 == HC_BESHALACH || r.p2 == HC_BESHALACH;
+}
+
+/*
  * Shabbat Shekalim: Shabbat on or before 1 Adar (last Adar in leap year).
  */
 static int is_shabbat_shekalim(int year, int month, int day)
@@ -344,18 +398,25 @@ static int is_shabbat_hachodesh(int year, int month, int day)
 }
 
 /*
- * Shabbat Mevarchim: Shabbat before Rosh Chodesh of a non-Tishrei month,
- * i.e. Rosh Chodesh (day 1 of the next month) falls within the next 6 days.
- * Caller guarantees dow == 7.
+ * Shabbat Mevarchim: Shabbat before Rosh Chodesh of a non-Tishrei month.
+ * Rosh Chodesh falls in the next 1..7 days on day 1 of the next month, or
+ * on day 30 of the current month when the current month has 30 days
+ * (a two-day RC observance).  Today itself is skipped when it is RC, so a
+ * Shabbat that is day 1 or day 30 is not itself Shabbat Mevarchim.  RC
+ * Tishrei (Rosh Hashana) is excluded.
  */
 static int is_shabbat_mevarchim(int year, int month, int day)
 {
+    if (heb_dow(year, month, day) != 7) return 0;
+    if (day == 1 || day == 30)          return 0;
     long abs_this = heb_abs(year, month, day);
-    for (int i = 1; i <= 6; i++) {
+    for (int i = 1; i <= 7; i++) {
         hc_date next;
         next.calendar_type = HEBREW;
         get_calendar(HEBREW)->compute_date(abs_this + i, &next);
-        if (next.day == 1 && next.month != 7) return 1;
+        int is_rc = (next.day == 1 || next.day == 30);
+        int is_rosh_hashana = (next.day == 1 && next.month == 7);
+        if (is_rc && !is_rosh_hashana) return 1;
     }
     return 0;
 }
@@ -596,6 +657,9 @@ int hc_get_special_days(hc_date *date, int in_israel,
     if (dow == 7) {
         if (is_shabbat_hagadol(y, m, d))               push(days, count, HC_SD_SHABBAT_HAGADOL);
         if (is_shabbat_chazon(y, m, d))                push(days, count, HC_SD_SHABBAT_CHAZON);
+        if (is_shabbat_nachamu(y, m, d))               push(days, count, HC_SD_SHABBAT_NACHAMU);
+        if (is_shabbat_shuvah(y, m, d))                push(days, count, HC_SD_SHABBAT_SHUVAH);
+        if (is_shabbat_shirah(y, m, d, in_israel))     push(days, count, HC_SD_SHABBAT_SHIRAH);
         if (is_shabbat_shekalim(y, m, d))              push(days, count, HC_SD_SHABBAT_SHEKALIM);
         if (is_shabbat_zachor(y, m, d))                push(days, count, HC_SD_SHABBAT_ZACHOR);
         if (is_shabbat_para(y, m, d))                  push(days, count, HC_SD_SHABBAT_PARA);

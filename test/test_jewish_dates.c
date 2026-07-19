@@ -140,4 +140,56 @@ void test_jewish_dates(void)
 
     /* 19 Kislev name */
     HC_ASSERT_TRUE(strcmp(hc_sd_name(HC_SD_NINETEENTH_KISLEV), "19 Kislev") == 0);
+
+    /* ── Named Shabbatot ─────────────────────────────────────────────────── */
+
+    /* Year 5777 (Sep 2016 – Sep 2017) — non-leap; Rosh Hashana on Monday,
+       9 Av on Tuesday, Beshalach falls on 15 Shvat. */
+
+    /* Shabbat Shuvah: 6 Tishrei 5777 (Sat Oct 8, 2016) */
+    get_days(5777, 7, 6, 0, days, &count);
+    HC_ASSERT_TRUE(has_day(days, count, HC_SD_SHABBAT_SHUVAH));
+    HC_ASSERT_TRUE(hc_sd_is_named_shabbat(HC_SD_SHABBAT_SHUVAH));
+    /* Not Shuvah the Shabbat before Rosh Hashana */
+    get_days(5776, 6, 24, 0, days, &count);
+    HC_ASSERT_FALSE(has_day(days, count, HC_SD_SHABBAT_SHUVAH));
+
+    /* Shabbat Chazon: 6 Av 5777 (Sat Jul 29, 2017) */
+    get_days(5777, 5, 6, 0, days, &count);
+    HC_ASSERT_TRUE(has_day(days, count, HC_SD_SHABBAT_CHAZON));
+    HC_ASSERT_FALSE(has_day(days, count, HC_SD_SHABBAT_NACHAMU));
+    /* Shabbat Nachamu: 13 Av 5777 (Sat Aug 5, 2017) */
+    get_days(5777, 5, 13, 0, days, &count);
+    HC_ASSERT_TRUE(has_day(days, count, HC_SD_SHABBAT_NACHAMU));
+    HC_ASSERT_FALSE(has_day(days, count, HC_SD_SHABBAT_CHAZON));
+    HC_ASSERT_TRUE(hc_sd_is_named_shabbat(HC_SD_SHABBAT_NACHAMU));
+    /* 7 days past 9 Av is the boundary; 20 Av is not Nachamu */
+    get_days(5777, 5, 20, 0, days, &count);
+    HC_ASSERT_FALSE(has_day(days, count, HC_SD_SHABBAT_NACHAMU));
+
+    /* Shabbat Shirah: 15 Shvat 5777 (Sat Feb 11, 2017) — Beshalach */
+    get_days(5777, 11, 15, 0, days, &count);
+    HC_ASSERT_TRUE(has_day(days, count, HC_SD_SHABBAT_SHIRAH));
+    HC_ASSERT_TRUE(hc_sd_is_named_shabbat(HC_SD_SHABBAT_SHIRAH));
+    /* The previous Shabbat (8 Shvat = Bo) is not Shirah */
+    get_days(5777, 11, 8, 0, days, &count);
+    HC_ASSERT_FALSE(has_day(days, count, HC_SD_SHABBAT_SHIRAH));
+
+    /* Shabbat Hagadol: 12 Nisan 5777 (Sat Apr 8, 2017) */
+    get_days(5777, 1, 12, 0, days, &count);
+    HC_ASSERT_TRUE(has_day(days, count, HC_SD_SHABBAT_HAGADOL));
+    HC_ASSERT_TRUE(hc_sd_is_named_shabbat(HC_SD_SHABBAT_HAGADOL));
+
+    /* Arba Parshiyot classified as named Shabbatot */
+    HC_ASSERT_TRUE(hc_sd_is_named_shabbat(HC_SD_SHABBAT_SHEKALIM));
+    HC_ASSERT_TRUE(hc_sd_is_named_shabbat(HC_SD_SHABBAT_ZACHOR));
+    HC_ASSERT_TRUE(hc_sd_is_named_shabbat(HC_SD_SHABBAT_PARA));
+    HC_ASSERT_TRUE(hc_sd_is_named_shabbat(HC_SD_SHABBAT_HACHODESH));
+    /* Shabbat Mevarchim is NOT a named Shabbat (rendered separately) */
+    HC_ASSERT_FALSE(hc_sd_is_named_shabbat(HC_SD_SHABBAT_MEVARCHIM));
+
+    /* Names */
+    HC_ASSERT_TRUE(strcmp(hc_sd_name(HC_SD_SHABBAT_NACHAMU), "Shabbat Nachamu") == 0);
+    HC_ASSERT_TRUE(strcmp(hc_sd_name(HC_SD_SHABBAT_SHUVAH),  "Shabbat Shuvah")  == 0);
+    HC_ASSERT_TRUE(strcmp(hc_sd_name(HC_SD_SHABBAT_SHIRAH),  "Shabbat Shirah")  == 0);
 }

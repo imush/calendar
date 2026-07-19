@@ -103,6 +103,9 @@ typedef enum hc_special_day {
     /* Other Shabbatot */
     HC_SD_SHABBAT_HAGADOL,
     HC_SD_SHABBAT_CHAZON,
+    HC_SD_SHABBAT_NACHAMU,   /* First Shabbat after 9 Av */
+    HC_SD_SHABBAT_SHUVAH,    /* Shabbat between Rosh Hashana and Yom Kippur */
+    HC_SD_SHABBAT_SHIRAH,    /* Shabbat when Parashat Beshalach is read */
     HC_SD_SHABBAT_MEVARCHIM,  /* Shabbat before Rosh Chodesh (not Tishrei) */
 
     /* Eruv Tavshilin */
@@ -145,6 +148,7 @@ int hc_sd_is_arba_parshiyot(hc_special_day d);
 int hc_sd_is_eruv_tavshilin(hc_special_day d);
 int hc_sd_is_rosh_chodesh  (hc_special_day d);
 int hc_sd_is_shabbat_mevarchim(hc_special_day d);
+int hc_sd_is_named_shabbat    (hc_special_day d);
 int hc_sd_is_tal_umatar       (hc_special_day d);
 /*! Returns 1–8 if d is a Chanukah day (= candles to light that night), 0 otherwise. */
 int hc_sd_chanukah_night      (hc_special_day d);
