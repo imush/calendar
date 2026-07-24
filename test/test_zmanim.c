@@ -72,4 +72,59 @@ void test_zmanim(void)
 
     /* sha'ah zmanit: roughly 3600 sec in a mid-latitude spring day */
     HC_ASSERT_TRUE(z.sha_ah_zmanit_sec > 3200 && z.sha_ah_zmanit_sec < 4500);
+
+    /* ── Additional alot / misheyakir / tzet opinions available in NY ── */
+    HC_ASSERT_TRUE(AVAIL(z.alot_rav_naeh));
+    HC_ASSERT_TRUE(AVAIL(z.alot_sbh));
+    HC_ASSERT_TRUE(AVAIL(z.alot_gra));
+    HC_ASSERT_TRUE(AVAIL(z.misheyakir_sbh));
+    HC_ASSERT_TRUE(AVAIL(z.misheyakir_nivsheret));
+    HC_ASSERT_TRUE(AVAIL(z.tzait_melamed));
+
+    /* Ordering — larger depression angle → earlier morning, later evening */
+    HC_ASSERT_TRUE(z.alot_rav_naeh          < z.alot_sbh);
+    HC_ASSERT_TRUE(z.alot_sbh               < z.alot_hashachar);
+    HC_ASSERT_TRUE(z.alot_hashachar         < z.alot_gra);
+    HC_ASSERT_TRUE(z.alot_gra               < z.misheyakir_nivsheret);
+    HC_ASSERT_TRUE(z.misheyakir_nivsheret   < z.misheyakir_sbh);
+    HC_ASSERT_TRUE(z.misheyakir_sbh         < z.misheyakir);
+    HC_ASSERT_TRUE(z.tzait_3_stars          < z.tzait_melamed);
+    HC_ASSERT_TRUE(z.tzait_melamed          < z.tzait_alter_rebbe);
+
+    /* ── GR"A and MA portion-of-day zmanim ─────────────────────────────── */
+    HC_ASSERT_TRUE(AVAIL(z.sof_shma_gra));
+    HC_ASSERT_TRUE(AVAIL(z.sof_shma_ma));
+    HC_ASSERT_EQ_INT(0, z.ma_polar_fallback);
+
+    /* MA starts earliest (Alot anchor), Chabad and GRA close */
+    HC_ASSERT_TRUE(z.sof_shma_ma            < z.sof_shma);
+    HC_ASSERT_TRUE(z.sof_shma_ma            < z.sof_shma_gra);
+    /* Each method: shema < shacharis < mincha gedola < ketana < plag */
+    HC_ASSERT_TRUE(z.sof_shma_gra           < z.sof_tfila_gra);
+    HC_ASSERT_TRUE(z.sof_tfila_gra          < z.mincha_gedola_gra);
+    HC_ASSERT_TRUE(z.mincha_gedola_gra      < z.mincha_ketana_gra);
+    HC_ASSERT_TRUE(z.mincha_ketana_gra      < z.plag_hamincha_gra);
+    HC_ASSERT_TRUE(z.sof_shma_ma            < z.sof_tfila_ma);
+    HC_ASSERT_TRUE(z.plag_hamincha_ma       > z.plag_hamincha_gra);
+
+    /* sha'ah lengths differ predictably: MA (longer day) > Chabad > GRA (slightly) */
+    HC_ASSERT_TRUE(z.sha_ah_zmanit_sec_ma   > z.sha_ah_zmanit_sec);
+    HC_ASSERT_TRUE(z.sha_ah_zmanit_sec_gra  > 3200 && z.sha_ah_zmanit_sec_gra < 4500);
+
+    /* ── Polar Magen Avraham fallback (Reykjavik summer solstice) ────── */
+    hc_zmanim zp;
+    hc_date rk_date;
+    rk_date.calendar_type = GREGORIAN;
+    rk_date.year = 2026; rk_date.month = 6; rk_date.day = 21;
+    hc_compute_zmanim(&rk_date, 64.1466, -21.9426, 0.0, 0, 0, &zp);
+    /* Alot GRA (−16.1°) unreachable near solstice at 64°N */
+    HC_ASSERT_EQ_INT(1, zp.ma_polar_fallback);
+    HC_ASSERT_TRUE(zp.alot_gra == HC_ZMAN_UNAVAILABLE);
+    /* sha'ah = 2h exact = 7200s */
+    HC_ASSERT_TRUE(fabs(zp.sha_ah_zmanit_sec_ma - 7200.0) < 1.0);
+    /* All MA portion-of-day zmanim available via the fallback */
+    HC_ASSERT_TRUE(AVAIL(zp.sof_shma_ma));
+    HC_ASSERT_TRUE(AVAIL(zp.plag_hamincha_ma));
+    HC_ASSERT_TRUE(zp.sof_shma_ma           < zp.sof_tfila_ma);
+    HC_ASSERT_TRUE(zp.mincha_gedola_ma      < zp.mincha_ketana_ma);
 }
