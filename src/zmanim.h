@@ -59,29 +59,29 @@ typedef struct hc_zmanim_s {
     double alot_sbh;              /*!< Alot per Sefer Bein Hashmashot: −19.8° */
     double alot_gra;              /*!< Alot per GR"A: −16.1° (also anchors MA sha'ah) */
     double misheyakir_sbh;        /*!< Misheyakir per Sefer Bein Hashmashot: −11.5° */
-    double misheyakir_nivsheret;  /*!< Misheyakir per Nivsheret: −11.8° */
+    double misheyakir_nivreshet;  /*!< Misheyakir per Nivreshet: −11.8° */
 
     /* Additional Tzeit opinions */
     double tzait_melamed;         /*!< Tzeit per Melamed Lehoil: −7.083° */
 
     /* GR"A portion-of-day zmanim (visible sunrise → visible sunset) */
-    double sha_ah_zmanit_sec_gra;
-    double sof_shma_gra;
-    double sof_tfila_gra;
-    double sof_biur_chometz_gra;
-    double mincha_gedola_gra;
-    double mincha_ketana_gra;
-    double plag_hamincha_gra;
+    double sha_ah_zmanit_sec_gra;  /*!< Length of one sha'ah zmanit in seconds (GR"A) */
+    double sof_shma_gra;           /*!< Latest Shma: hanetz + 3 sha'ot (GR"A) */
+    double sof_tfila_gra;          /*!< Latest Shacharit: + 4 sha'ot (GR"A) */
+    double sof_biur_chometz_gra;   /*!< Burning chometz: + 5 sha'ot (GR"A) */
+    double mincha_gedola_gra;      /*!< + 6.5 sha'ot (GR"A) */
+    double mincha_ketana_gra;      /*!< + 9.5 sha'ot (GR"A) */
+    double plag_hamincha_gra;      /*!< + 10.75 sha'ot (GR"A) */
 
     /* Magen Avraham portion-of-day zmanim (Alot −16.1° → Tzeit −16.1°) */
-    double sha_ah_zmanit_sec_ma;
-    double sof_shma_ma;
-    double sof_tfila_ma;
-    double sof_biur_chometz_ma;
-    double mincha_gedola_ma;
-    double mincha_ketana_ma;
-    double plag_hamincha_ma;
-    int    ma_polar_fallback;     /*!< 1 if MA falls back to Chatzot-HaLailah 2h sha'ah (Alot −16.1° unreachable) */
+    double sha_ah_zmanit_sec_ma;   /*!< Length of one sha'ah zmanit in seconds (Magen Avraham) */
+    double sof_shma_ma;            /*!< Latest Shma: alot_gra + 3 sha'ot (Magen Avraham) */
+    double sof_tfila_ma;           /*!< Latest Shacharit: + 4 sha'ot (Magen Avraham) */
+    double sof_biur_chometz_ma;    /*!< Burning chometz: + 5 sha'ot (Magen Avraham) */
+    double mincha_gedola_ma;       /*!< + 6.5 sha'ot (Magen Avraham) */
+    double mincha_ketana_ma;       /*!< + 9.5 sha'ot (Magen Avraham) */
+    double plag_hamincha_ma;       /*!< + 10.75 sha'ot (Magen Avraham) */
+    int    ma_polar_fallback;      /*!< 1 if MA falls back to Chatzot-HaLailah 2h sha'ah (Alot −16.1° unreachable) */
 } hc_zmanim;
 
 /*!

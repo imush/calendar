@@ -13,7 +13,7 @@ hc_cal_impl *get_calendar(hc_calendar_type t);
 #define TRUE_HORIZON_ANGLE          (-1.583)
 #define MISHEYAKIR_ANGLE            (-10.2)
 #define MISHEYAKIR_SBH_ANGLE        (-11.5)   /* Sefer Bein Hashmashot */
-#define MISHEYAKIR_NIVSHERET_ANGLE  (-11.8)   /* Nivsheret */
+#define MISHEYAKIR_NIVRESHET_ANGLE  (-11.8)   /* Nivreshet */
 #define DAWN_ANGLE                  (-16.9)   /* Chabad Default */
 #define DAWN_GRA_ANGLE              (-16.1)   /* GR"A; also MA sha'ah anchor */
 #define DAWN_SBH_ANGLE              (-19.8)   /* Sefer Bein Hashmashot */
@@ -79,7 +79,7 @@ int hc_compute_zmanim(hc_date *date, double lat, double lon,
     double tzet_gra     = noaa_sun_event(yr,mo,dy, lat,lon,tz_offset_h, DAWN_GRA_ANGLE,     0, 0.0);
     double misheyakir   = noaa_sun_event(yr,mo,dy, lat,lon,tz_offset_h, MISHEYAKIR_ANGLE,   1, 0.0);
     double mish_sbh     = noaa_sun_event(yr,mo,dy, lat,lon,tz_offset_h, MISHEYAKIR_SBH_ANGLE, 1, 0.0);
-    double mish_nvs     = noaa_sun_event(yr,mo,dy, lat,lon,tz_offset_h, MISHEYAKIR_NIVSHERET_ANGLE, 1, 0.0);
+    double mish_nvs     = noaa_sun_event(yr,mo,dy, lat,lon,tz_offset_h, MISHEYAKIR_NIVRESHET_ANGLE, 1, 0.0);
     double tzait_3      = noaa_sun_event(yr,mo,dy, lat,lon,tz_offset_h, NIGHTFALL_ANGLE,    0, 0.0);
     double tzait_ml     = noaa_sun_event(yr,mo,dy, lat,lon,tz_offset_h, NIGHTFALL_MELAMED_ANGLE, 0, 0.0);
     double tzait_ar     = noaa_sun_event(yr,mo,dy, lat,lon,tz_offset_h, HAVDALAH_ANGLE,     0, 0.0);
@@ -95,7 +95,7 @@ int hc_compute_zmanim(hc_date *date, double lat, double lon,
     out->alot_gra              = alot_gra;
     out->misheyakir            = misheyakir;
     out->misheyakir_sbh        = mish_sbh;
-    out->misheyakir_nivsheret  = mish_nvs;
+    out->misheyakir_nivreshet  = mish_nvs;
     out->hanetz                = hanetz;
     out->hanetz_amiti          = hanetz_amiti;
     out->shkiah_amitis         = shkiah_amiti;

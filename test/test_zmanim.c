@@ -78,15 +78,15 @@ void test_zmanim(void)
     HC_ASSERT_TRUE(AVAIL(z.alot_sbh));
     HC_ASSERT_TRUE(AVAIL(z.alot_gra));
     HC_ASSERT_TRUE(AVAIL(z.misheyakir_sbh));
-    HC_ASSERT_TRUE(AVAIL(z.misheyakir_nivsheret));
+    HC_ASSERT_TRUE(AVAIL(z.misheyakir_nivreshet));
     HC_ASSERT_TRUE(AVAIL(z.tzait_melamed));
 
     /* Ordering — larger depression angle → earlier morning, later evening */
     HC_ASSERT_TRUE(z.alot_rav_naeh          < z.alot_sbh);
     HC_ASSERT_TRUE(z.alot_sbh               < z.alot_hashachar);
     HC_ASSERT_TRUE(z.alot_hashachar         < z.alot_gra);
-    HC_ASSERT_TRUE(z.alot_gra               < z.misheyakir_nivsheret);
-    HC_ASSERT_TRUE(z.misheyakir_nivsheret   < z.misheyakir_sbh);
+    HC_ASSERT_TRUE(z.alot_gra               < z.misheyakir_nivreshet);
+    HC_ASSERT_TRUE(z.misheyakir_nivreshet   < z.misheyakir_sbh);
     HC_ASSERT_TRUE(z.misheyakir_sbh         < z.misheyakir);
     HC_ASSERT_TRUE(z.tzait_3_stars          < z.tzait_melamed);
     HC_ASSERT_TRUE(z.tzait_melamed          < z.tzait_alter_rebbe);
