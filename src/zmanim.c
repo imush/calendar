@@ -193,8 +193,10 @@ int hc_compute_zmanim(hc_date *date, double lat, double lon,
         int tomorrow_is_shabbat = (dow_today == 6); /* today=Fri(6) → tomorrow=Sat */
 
         if (today_is_rest && !tomorrow_is_shabbat) {
-            /* Candles after nightfall (from existing flame into Yom Tov) */
-            out->candle_lighting = (tzait_3 != HC_ZMAN_UNAVAILABLE) ? tzait_3 : halachic_midnight;
+            /* Candles after nightfall (from existing flame into Yom Tov) —
+               Alter Rebbe / Igrot Moshe tzait (−8.5°, three small stars),
+               matches End of Shabbat / YT. Was tzait_3 (−6°) before. */
+            out->candle_lighting = (tzait_ar != HC_ZMAN_UNAVAILABLE) ? tzait_ar : halachic_midnight;
         } else {
             int cl_min = is_jerusalem ? 40 : 18;
             if (shkiah != HC_ZMAN_UNAVAILABLE)
