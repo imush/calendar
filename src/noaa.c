@@ -13,13 +13,11 @@ double noaa_julian_day(int year, int month, int day)
     return (int)(365.25 * (year + 4716)) + (int)(30.6001 * (month + 1)) + day + B - 1524.5;
 }
 
-double noaa_solar_noon_and_decl(int year, int month, int day,
-                                double lon, double tz_offset_h,
-                                double *decl_rad, double *eqt_min)
+/* Internal helper: solar-noon-in-minutes given JC (Julian Century since J2000.0)
+ * evaluated at the instant we want the sun's position for. */
+static double noaa_solar_noon_from_jc(double JC, double lon, double tz_offset_h,
+                                      double *decl_rad, double *eqt_min)
 {
-    double JD = noaa_julian_day(year, month, day);
-    double JC = (JD - 2451545.0) / 36525.0;
-
     double L0 = fmod(280.46646 + JC * (36000.76983 + JC * 0.0003032), 360.0);
     double M  = 357.52911 + JC * (35999.05029 - 0.0001537 * JC);
     double Mrad = M * DEG2RAD;
@@ -48,6 +46,19 @@ double noaa_solar_noon_and_decl(int year, int month, int day,
     return 720.0 - 4.0 * lon - eqt + tz_offset_h * 60.0;
 }
 
+double noaa_solar_noon_and_decl(int year, int month, int day,
+                                double lon, double tz_offset_h,
+                                double *decl_rad, double *eqt_min)
+{
+    double JD = noaa_julian_day(year, month, day);
+    /* First pass at local noon UT, then refine at the computed noon UT. */
+    double JC = (JD - 2451545.0) / 36525.0 + 0.5 / 36525.0;
+    double noon = noaa_solar_noon_from_jc(JC, lon, tz_offset_h, decl_rad, eqt_min);
+    double noon_ut_frac = (noon - tz_offset_h * 60.0) / 1440.0;
+    JC = (JD - 2451545.0 + noon_ut_frac) / 36525.0;
+    return noaa_solar_noon_from_jc(JC, lon, tz_offset_h, decl_rad, eqt_min);
+}
+
 double noaa_hour_angle_for_elevation(double lat_rad, double decl_rad, double elev_deg)
 {
     double elev_rad = elev_deg * DEG2RAD;
@@ -67,9 +78,23 @@ double noaa_sun_event(int year, int month, int day,
         double dip = RAD2DEG * sqrt(2.0 * observer_elev_m / 6371000.0);
         effective_elev -= dip;
     }
+    double JD = noaa_julian_day(year, month, day);
+    double lat_rad = lat * DEG2RAD;
     double decl, eqt;
-    double noon = noaa_solar_noon_and_decl(year, month, day, lon, tz_offset_h, &decl, &eqt);
-    double ha = noaa_hour_angle_for_elevation(lat * DEG2RAD, decl, effective_elev);
+
+    /* First pass: JC at local noon UT. */
+    double JC = (JD - 2451545.0) / 36525.0 + 0.5 / 36525.0;
+    double noon = noaa_solar_noon_from_jc(JC, lon, tz_offset_h, &decl, &eqt);
+    double ha = noaa_hour_angle_for_elevation(lat_rad, decl, effective_elev);
+    if (ha == HC_ZMAN_UNAVAILABLE) return HC_ZMAN_UNAVAILABLE;
+    double minutes = is_rise ? noon - ha * 4.0 : noon + ha * 4.0;
+
+    /* Second pass: JC at the approximate event UT — reduces the residual
+     * from ~1 min (declination + eqt drift across the day) to under 5 s. */
+    double event_ut_frac = (minutes - tz_offset_h * 60.0) / 1440.0;
+    JC = (JD - 2451545.0 + event_ut_frac) / 36525.0;
+    noon = noaa_solar_noon_from_jc(JC, lon, tz_offset_h, &decl, &eqt);
+    ha = noaa_hour_angle_for_elevation(lat_rad, decl, effective_elev);
     if (ha == HC_ZMAN_UNAVAILABLE) return HC_ZMAN_UNAVAILABLE;
     return is_rise ? noon - ha * 4.0 : noon + ha * 4.0;
 }
