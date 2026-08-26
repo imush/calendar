@@ -1,0 +1,3 @@
+[submodule "hebrewcalendar-data"]
+	path = hebrewcalendar-data
+	url = git@github.com:imush/hebrewcalendar-data.git
