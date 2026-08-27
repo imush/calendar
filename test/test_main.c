@@ -9,6 +9,7 @@ int hc_tests_failed = 0;
 void test_jewish_time(void);
 void test_hconverter(void);
 void test_parshiot(void);
+void test_haftarah(void);
 void test_tekufot(void);
 void test_jewish_dates(void);
 void test_year_scan(void);
@@ -20,6 +21,7 @@ int main(void)
     HC_RUN_SUITE(test_hconverter);
     HC_RUN_SUITE(test_tekufot);
     HC_RUN_SUITE(test_parshiot);
+    HC_RUN_SUITE(test_haftarah);
     HC_RUN_SUITE(test_jewish_dates);
     HC_RUN_SUITE(test_year_scan);
     HC_RUN_SUITE(test_zmanim);

@@ -23,9 +23,11 @@ add_library(hconverter STATIC
     src/tekufot.c
     src/parshiot.c
     src/hc_jewish_dates.c
+    src/hc_haftarah.c
     src/noaa.c
     src/zmanim.c
     ${HC_DATA_DIR}/parshiot_data.c
+    ${HC_DATA_DIR}/haftarot_data.c
 )
 target_include_directories(hconverter PUBLIC src ${HC_DATA_DIR})
 target_link_libraries(hconverter m)
@@ -41,6 +43,7 @@ add_executable(hconverter_tests
     test/test_jewish_time.c
     test/test_hconverter.c
     test/test_parshiot.c
+    test/test_haftarah.c
     test/test_tekufot.c
     test/test_jewish_dates.c
     test/test_year_scan.c
