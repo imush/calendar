@@ -246,12 +246,21 @@ static void test_festivals_and_fasts(void)
     expect_day(2026, 10, 3, HC_CUSTOM_ASHKENAZ, 0,
                HC_HAFT_OCC_SHMINI_ATZERET, HC_BOOK_I_KINGS, 8, 54, 8, 66);
 
-    /* Tzom Gedalia: Morocco/Fes read Hosea+Joel instead of the default. */
+    /* Tzom Gedalia mincha. opentorah hangs its exception on Morocco, so Fes
+     * inherits it; hebrewcalendar-data narrows it to Marrakesh, which is
+     * the custom that actually keeps Hosea + Joel. Morocco and Fes read the
+     * same default as Ashkenaz. */
     expect_day(2026, 9, 14, HC_CUSTOM_ASHKENAZ, 0,
                HC_HAFT_OCC_FAST_AFTERNOON, HC_BOOK_ISAIAH, 55, 6, 56, 8);
     expect_day(2026, 9, 14, HC_CUSTOM_MOROCCO, 0,
+               HC_HAFT_OCC_FAST_AFTERNOON, HC_BOOK_ISAIAH, 55, 6, 56, 8);
+    expect_day(2026, 9, 14, HC_CUSTOM_FES, 0,
+               HC_HAFT_OCC_FAST_AFTERNOON, HC_BOOK_ISAIAH, 55, 6, 56, 8);
+    expect_day(2026, 9, 14, HC_CUSTOM_MARRAKESH, 0,
                HC_HAFT_OCC_FAST_AFTERNOON, HC_BOOK_HOSEA, 14, 2, 14, 10);
-    /* ...but on 17 Tammuz Morocco is back on the default. */
+    /* ...and on any other fast Marrakesh is back on the default. */
+    expect_day(2026, 7, 2, HC_CUSTOM_MARRAKESH, 0,
+               HC_HAFT_OCC_FAST_AFTERNOON, HC_BOOK_ISAIAH, 55, 6, 56, 8);
     expect_day(2026, 7, 2, HC_CUSTOM_MOROCCO, 0,
                HC_HAFT_OCC_FAST_AFTERNOON, HC_BOOK_ISAIAH, 55, 6, 56, 8);
 

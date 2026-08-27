@@ -166,9 +166,11 @@ static int is_simchat_torah(hc_special_day d)
 }
 
 /*
- * Fast-day afternoon haftarah. Tzom Gedalia overrides the default for a
- * couple of customs (opentorah: FastOfGedalia.afternoonHaftarahExceptions),
- * so try the exception table first.
+ * Fast-day afternoon haftarah. opentorah allows a fast to override the
+ * default for particular customs (FastOfGedalia.afternoonHaftarahExceptions),
+ * so the exception table is consulted first. No fast currently carries one —
+ * hebrewcalendar-data drops opentorah's Tzom Gedalia / Morocco entry, which
+ * is incorrect — but the lookup stays so a future exception just works.
  */
 static int fast_afternoon(hc_custom custom, int is_gedalia,
                           hc_haftarah_occasion occ, hc_haftarah_result *out)
