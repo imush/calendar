@@ -15,11 +15,14 @@ var searchData=
   ['hc_5fget_5fparsha_12',['hc_get_parsha',['../parshiot_8h.html#a19fe45045883b03039d12b1ed6c63a0d',1,'parshiot.c']]],
   ['hc_5fget_5fspecial_5fdays_13',['hc_get_special_days',['../hc__jewish__dates_8h.html#abe2a0816086bb32aea3e01179c963324',1,'hc_jewish_dates.c']]],
   ['hc_5fget_5ftekufa_14',['hc_get_tekufa',['../tekufot_8h.html#ae488dc3053e6e2a83a7f7661b9e2781a',1,'tekufot.c']]],
-  ['hc_5fis_5fleap_5fyear_15',['hc_is_leap_year',['../hconverter_8h.html#a01fc2630641468ce282db9affb1bd04f',1,'hconverter.c']]],
-  ['hc_5fparsha_5fname_16',['hc_parsha_name',['../parshiot_8h.html#a79f7e537fbfdb8484347e775ca2a3231',1,'parshiot.c']]],
-  ['hc_5fsd_5fapplies_17',['hc_sd_applies',['../hc__jewish__dates_8h.html#a0aa871104daa3a18761a2960a15f7daf',1,'hc_jewish_dates.c']]],
-  ['hc_5fsd_5fchanukah_5fnight_18',['hc_sd_chanukah_night',['../hc__jewish__dates_8h.html#a5aed18a55887942e8b0fe4aefc265f4c',1,'hc_jewish_dates.c']]],
-  ['hc_5fsd_5fname_19',['hc_sd_name',['../hc__jewish__dates_8h.html#afcd6afeb82b63e20b94c090d702c6a1c',1,'hc_jewish_dates.c']]],
-  ['hc_5fset_5fhc_5fheb_5ftime_20',['hc_set_hc_heb_time',['../hconverter_8h.html#ad87d645cb135065c039def1e2fc0621d',1,'hebrew.c']]],
-  ['hc_5fyahrzeit_5ffor_21',['hc_yahrzeit_for',['../hconverter_8h.html#ac506fe5834f5bae7f317480256672bc7',1,'hebrew.c']]]
+  ['hc_5fhaftarah_5ffor_5fdate_15',['hc_haftarah_for_date',['../hc__haftarah_8h.html#ad9603bc0928b7afa8aa9f93cc6730101',1,'hc_haftarah.c']]],
+  ['hc_5fhaftarah_5ffor_5fday_16',['hc_haftarah_for_day',['../hc__haftarah_8h.html#a7c94ae9439ac733239256b616efc2abf',1,'hc_haftarah.c']]],
+  ['hc_5fhaftarah_5foccasion_5fname_17',['hc_haftarah_occasion_name',['../hc__haftarah_8h.html#ada39f0c63cf37beb6b6b41ef9936e9e6',1,'hc_haftarah.c']]],
+  ['hc_5fis_5fleap_5fyear_18',['hc_is_leap_year',['../hconverter_8h.html#a01fc2630641468ce282db9affb1bd04f',1,'hconverter.c']]],
+  ['hc_5fparsha_5fname_19',['hc_parsha_name',['../parshiot_8h.html#a79f7e537fbfdb8484347e775ca2a3231',1,'parshiot.c']]],
+  ['hc_5fsd_5fapplies_20',['hc_sd_applies',['../hc__jewish__dates_8h.html#a0aa871104daa3a18761a2960a15f7daf',1,'hc_jewish_dates.c']]],
+  ['hc_5fsd_5fchanukah_5fnight_21',['hc_sd_chanukah_night',['../hc__jewish__dates_8h.html#a5aed18a55887942e8b0fe4aefc265f4c',1,'hc_jewish_dates.c']]],
+  ['hc_5fsd_5fname_22',['hc_sd_name',['../hc__jewish__dates_8h.html#afcd6afeb82b63e20b94c090d702c6a1c',1,'hc_jewish_dates.c']]],
+  ['hc_5fset_5fhc_5fheb_5ftime_23',['hc_set_hc_heb_time',['../hconverter_8h.html#ad87d645cb135065c039def1e2fc0621d',1,'hebrew.c']]],
+  ['hc_5fyahrzeit_5ffor_24',['hc_yahrzeit_for',['../hconverter_8h.html#ac506fe5834f5bae7f317480256672bc7',1,'hebrew.c']]]
 ];
