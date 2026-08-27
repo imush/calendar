@@ -12,3 +12,8 @@
 *.iml
 compile_commands.json
 cmake-build-debug/
+# Additional build artifacts (cmake generates these under _build/ and build/)
+_build/
+build/
+*.o
+*.dSYM/
