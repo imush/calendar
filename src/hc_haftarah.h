@@ -20,8 +20,13 @@
 #include "hconverter.h"
 #include "haftarot_data.h"
 
-/*! Longest multi-part haftarah in the data set (Rosh Chodesh Chabad = 3). */
-#define HC_MAX_HAFTARAH_REFS    6
+/*!
+ * Longest reading in the data set. The worst case is a special Shabbat
+ * that is also Rosh Chodesh *and* Erev Rosh Chodesh (e.g. Shabbat
+ * Shekalim on 30 Shevat) for Chabad: 1 base ref + 3 Rosh Chodesh
+ * addition refs + 2 Machar Chodesh addition refs = 6.
+ */
+#define HC_MAX_HAFTARAH_REFS    8
 
 /*! Most readings a single day can carry (Yom Kippur / Tisha B'Av = 2). */
 #define HC_MAX_HAFTARAH_RESULTS 3

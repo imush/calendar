@@ -99,11 +99,89 @@ static void test_rosh_chodesh(void)
     expect_day(2026, 5, 16, HC_CUSTOM_ASHKENAZ, 0,
                HC_HAFT_OCC_MACHAR_CHODESH, HC_BOOK_I_SAMUEL, 20, 18, 20, 42);
 
-    /* Rosh Chodesh in Nisan / Av / Tishrei never surfaces — the day's own
-     * reading wins. 1 Nisan 5782 (2022-04-02) is a Shabbat, and Parshat
-     * Hachodesh takes it rather than the Rosh Chodesh haftarah. */
+    /* 1 Nisan is always Parshat Hachodesh when it falls on Shabbat, and a
+     * special Shabbat blocks the Rosh Chodesh replace. 5782: 2022-04-02. */
     expect_day(2022, 4, 2, HC_CUSTOM_ASHKENAZ, 0,
                HC_HAFT_OCC_PARSHAT_HACHODESH, HC_BOOK_EZEKIEL, 45, 16, 46, 18);
+}
+
+/* ── Rosh Chodesh / Machar Chodesh replace-vs-add ────────────────────────── */
+
+/* Compare a whole reading against an expected "Book c:v-c:v;..." rendering. */
+static void expect_refs(int y, int m, int d, hc_custom custom, int in_israel,
+                        const char *expected)
+{
+    hc_date dt = greg(y, m, d);
+    hc_haftarah_result r;
+    char buf[512];
+    int n = 0;
+    HC_ASSERT_EQ_INT(0, hc_haftarah_for_date(&dt, custom, in_israel, &r));
+    buf[0] = '\0';
+    for (int i = 0; i < r.refs_count; i++)
+        n += snprintf(buf + n, sizeof(buf) - (size_t)n, "%s %d:%d-%d:%d;",
+                      hc_tanach_book_name(r.refs[i].book),
+                      r.refs[i].from_ch, r.refs[i].from_v,
+                      r.refs[i].to_ch,   r.refs[i].to_v);
+    hc_tests_run++;
+    if (strcmp(buf, expected) == 0) {
+        hc_tests_passed++;
+    } else {
+        hc_tests_failed++;
+        fprintf(stderr, "FAIL [%s:%d] %04d-%02d-%02d custom=%d\n  expected %s\n  got      %s\n",
+                __FILE__, __LINE__, y, m, d, (int)custom, expected, buf);
+    }
+}
+
+static void test_rosh_chodesh_corrections(void)
+{
+    /*
+     * Shabbat Rosh Chodesh Elul 5775 (2015-08-15, parshat Re'eh). The
+     * Shiva d'Nechemta hold their ground for everyone except Chabad,
+     * who read the Rosh Chodesh haftarah. Both then pick up the Machar
+     * Chodesh addition, because 1 Elul falls the next day.
+     */
+    expect_refs(2015, 8, 15, HC_CUSTOM_ASHKENAZ, 0, "Isaiah 54:11-55:5;");
+    expect_refs(2015, 8, 15, HC_CUSTOM_CHABAD,   0,
+                "Isaiah 66:1-66:24;Isaiah 66:23-66:23;"
+                "I Samuel 20:18-20:18;I Samuel 20:42-20:42;");
+    /* Fes never replaces for Machar Chodesh — it only ever appends. */
+    expect_refs(2015, 8, 15, HC_CUSTOM_FES, 0,
+                "Isaiah 54:11-55:5;I Samuel 20:18-20:18;I Samuel 20:42-20:42;");
+
+    /*
+     * A special Shabbat blocks the replace, so Chabad appends the Rosh
+     * Chodesh verses to the special-parsha haftarah instead. 2015-03-21
+     * is Parshat Hachodesh falling on 1 Nisan.
+     */
+    expect_refs(2015, 3, 21, HC_CUSTOM_ASHKENAZ, 0, "Ezekiel 45:16-46:18;");
+    expect_refs(2015, 3, 21, HC_CUSTOM_CHABAD,   0,
+                "Ezekiel 45:18-46:15;Isaiah 66:1-66:1;"
+                "Isaiah 66:23-66:24;Isaiah 66:23-66:23;");
+
+    /*
+     * Worst case for HC_MAX_HAFTARAH_REFS: 30 Kislev 5776 (2015-12-12) is
+     * Shabbat Chanukah, Rosh Chodesh Teves and Erev Rosh Chodesh at once.
+     * Chanukah owns the reading; Teves blocks the Rosh Chodesh replace and
+     * being Rosh Chodesh blocks the Machar Chodesh one, so Chabad appends
+     * both additions — 6 refs.
+     */
+    expect_refs(2015, 12, 12, HC_CUSTOM_CHABAD, 0,
+                "Zechariah 2:14-4:7;"
+                "Isaiah 66:1-66:1;Isaiah 66:23-66:24;Isaiah 66:23-66:23;"
+                "I Samuel 20:18-20:18;I Samuel 20:42-20:42;");
+    expect_refs(2015, 12, 12, HC_CUSTOM_ASHKENAZ, 0, "Zechariah 2:14-4:7;");
+
+    /* Machar Chodesh Elul is likewise suppressed (2021-08-07 = 29 Av). */
+    expect_refs(2021, 8, 7, HC_CUSTOM_ASHKENAZ, 0, "Isaiah 54:11-55:5;");
+    expect_refs(2021, 8, 7, HC_CUSTOM_CHABAD,   0,
+                "Isaiah 54:11-55:5;I Samuel 20:18-20:18;I Samuel 20:42-20:42;");
+
+    /* Rosh Chodesh Tishrei is Rosh Hashana — never mentioned, no addition. */
+    hc_date rh = greg(2026, 9, 12);            /* 1 Tishrei 5787, a Shabbat */
+    hc_haftarah_result r;
+    HC_ASSERT_EQ_INT(0, hc_haftarah_for_date(&rh, HC_CUSTOM_CHABAD, 0, &r));
+    HC_ASSERT_EQ_INT((int)HC_HAFT_OCC_ROSH_HASHANA, (int)r.occasion);
+    HC_ASSERT_EQ_INT(1, r.refs_count);
 }
 
 /* ── Chanukah ────────────────────────────────────────────────────────────── */
@@ -254,6 +332,7 @@ void test_haftarah(void)
     test_weekly();
     test_special_shabbatot();
     test_rosh_chodesh();
+    test_rosh_chodesh_corrections();
     test_chanukah();
     test_festivals_and_fasts();
     test_every_shabbat_resolves();

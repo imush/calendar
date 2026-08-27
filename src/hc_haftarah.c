@@ -79,6 +79,26 @@ static int weekly(hc_parsha p, hc_custom custom, hc_haftarah_result *out)
     return fill(&HC_HAFTAROT_WEEKLY[p][custom], HC_HAFT_OCC_WEEKLY, out);
 }
 
+/*
+ * Append an "addition" entry onto an already-resolved reading, leaving
+ * the occasion alone — the extra verses don't change what the reading is.
+ * Most customs have no addition defined, in which case this is a no-op.
+ */
+static int append(const char *key, hc_custom custom, hc_haftarah_result *out)
+{
+    const hc_special_haftarah *e = hc_special_haftarah_lookup(key);
+    if (!e) return 0;
+    const hc_haftarah_spans *s = &e->customs[custom];
+    if (!s->refs || s->refs_count <= 0) return 0;
+
+    int room = HC_MAX_HAFTARAH_REFS - out->refs_count;
+    int n = s->refs_count < room ? s->refs_count : room;
+    if (n <= 0) return 0;
+    memcpy(out->refs + out->refs_count, s->refs, (size_t)n * sizeof(hc_haftarah_ref));
+    out->refs_count += n;
+    return 1;
+}
+
 /* ── date helpers ────────────────────────────────────────────────────────── */
 
 /* hc_get_day_of_week: 0 = Saturday, 1 = Sunday, ... 6 = Friday. */
@@ -97,15 +117,11 @@ static int rosh_chodesh_month(const hc_date *heb)
     return -1;
 }
 
-/*
- * Months whose Rosh Chodesh haftarah never surfaces: Nisan (Hachodesh /
- * Pesach take precedence), Av (the Three Weeks / Chazon cycle owns it)
- * and Tishrei (Rosh Hashana).
- */
-static int skipped_rosh_chodesh_month(int m)
-{
-    return m == 1 || m == 5 || m == 7;
-}
+/* Hebrew month numbers used by the Rosh Chodesh rules. */
+#define HEB_AV       5
+#define HEB_ELUL     6
+#define HEB_TISHREI  7
+#define HEB_TEVES   10
 
 static int is_chol_hamoed_pesach(hc_special_day d)
 {
@@ -214,63 +230,103 @@ int hc_haftarah_for_date(hc_date *date, hc_custom custom, int in_israel,
         }
     }
 
-    /* ── Yom Tov ─────────────────────────────────────────────────────── */
+    /*
+     * opentorah's SpecialShabbos: the four parshiyot plus Shabbos
+     * Hagadol. Note this is a property of the *day*, not of which branch
+     * below fires — Chabad keeps the weekly haftarah on Shabbos Hagadol
+     * but the day is still a special Shabbat for the Rosh Chodesh rules.
+     */
+    int is_special_shabbos = shekalim || zachor || parah || hachodesh || hagadol;
+
+    /* ── Base reading ────────────────────────────────────────────────── */
+    int have = 0;
+
     if (simchat_torah && weekly(HC_VEZOT_HABRACHA, custom, out)) {
         out->occasion = HC_HAFT_OCC_SIMCHAT_TORAH;
-        return 0;
+        have = 1;
     }
-    if (festival != HC_SD_NONE) {
+    if (!have && festival != HC_SD_NONE) {
         hc_haftarah_occasion occ;
         const char *key = festival_key(festival, &occ);
-        if (key && special(key, custom, occ, out)) return 0;
+        if (key) have = special(key, custom, occ, out);
     }
-    if (chm_pesach &&
-        special("PesachIntermediate_SHABBAT", custom,
-                HC_HAFT_OCC_CHOL_HAMOED_PESACH, out)) return 0;
-    if (chm_sukkot &&
-        special("SuccosIntermediate_SHABBAT", custom,
-                HC_HAFT_OCC_CHOL_HAMOED_SUKKOT, out)) return 0;
+    if (!have && chm_pesach)
+        have = special("PesachIntermediate_SHABBAT", custom,
+                       HC_HAFT_OCC_CHOL_HAMOED_PESACH, out);
+    if (!have && chm_sukkot)
+        have = special("SuccosIntermediate_SHABBAT", custom,
+                       HC_HAFT_OCC_CHOL_HAMOED_SUKKOT, out);
 
-    /* ── Arba Parshiyot ──────────────────────────────────────────────── */
-    if (shekalim  && special("ParshasShekalim_MAIN",  custom, HC_HAFT_OCC_PARSHAT_SHEKALIM,  out)) return 0;
-    if (zachor    && special("ParshasZachor_MAIN",    custom, HC_HAFT_OCC_PARSHAT_ZACHOR,    out)) return 0;
-    if (parah     && special("ParshasParah_MAIN",     custom, HC_HAFT_OCC_PARSHAT_PARAH,     out)) return 0;
-    if (hachodesh && special("ParshasHachodesh_MAIN", custom, HC_HAFT_OCC_PARSHAT_HACHODESH, out)) return 0;
+    /* Arba Parshiyot */
+    if (!have && shekalim)  have = special("ParshasShekalim_MAIN",  custom, HC_HAFT_OCC_PARSHAT_SHEKALIM,  out);
+    if (!have && zachor)    have = special("ParshasZachor_MAIN",    custom, HC_HAFT_OCC_PARSHAT_ZACHOR,    out);
+    if (!have && parah)     have = special("ParshasParah_MAIN",     custom, HC_HAFT_OCC_PARSHAT_PARAH,     out);
+    if (!have && hachodesh) have = special("ParshasHachodesh_MAIN", custom, HC_HAFT_OCC_PARSHAT_HACHODESH, out);
 
-    /* ── Shabbat Hagadol — Chabad keeps the weekly haftarah unless the
-     *    day is also Erev Pesach. ─────────────────────────────────────── */
-    if (hagadol && (custom != HC_CUSTOM_CHABAD || erev_pesach) &&
-        special("ShabbosHagodol_MAIN", custom, HC_HAFT_OCC_SHABBAT_HAGADOL, out))
-        return 0;
+    /* Shabbat Hagadol — Chabad keeps the weekly haftarah unless the day
+     * is also Erev Pesach. */
+    if (!have && hagadol && (custom != HC_CUSTOM_CHABAD || erev_pesach))
+        have = special("ShabbosHagodol_MAIN", custom, HC_HAFT_OCC_SHABBAT_HAGADOL, out);
 
-    /* ── Chanukah. opentorah splits on the day number, not the parsha:
-     *    `if dayNumber < 8 then shabbos1Haftarah else shabbos2Haftarah`.
-     *    Night 8 is only ever a Shabbat when 25 Kislev was itself a
-     *    Shabbat — i.e. exactly the years with two Chanukah Shabbatot. ── */
-    if (chanukah_night > 0) {
+    /* Chanukah. opentorah splits on the day number, not the parsha:
+     * `if dayNumber < 8 then shabbos1Haftarah else shabbos2Haftarah`.
+     * Night 8 is only ever a Shabbat when 25 Kislev was itself a
+     * Shabbat — i.e. exactly the years with two Chanukah Shabbatot. */
+    if (!have && chanukah_night > 0) {
         int second = (chanukah_night == 8);
-        const char *key = second ? "Chanukah_SHABBAT_2" : "Chanukah_SHABBAT_1";
-        hc_haftarah_occasion occ = second ? HC_HAFT_OCC_CHANUKAH_SHABBAT_2
-                                          : HC_HAFT_OCC_CHANUKAH_SHABBAT_1;
-        if (special(key, custom, occ, out)) return 0;
+        have = special(second ? "Chanukah_SHABBAT_2" : "Chanukah_SHABBAT_1", custom,
+                       second ? HC_HAFT_OCC_CHANUKAH_SHABBAT_2
+                              : HC_HAFT_OCC_CHANUKAH_SHABBAT_1, out);
     }
 
-    /* ── Rosh Chodesh / Machar Chodesh ───────────────────────────────── */
+    /* Weekly parsha; a combined week follows the second parsha. */
+    if (!have) {
+        hc_reading reading = { HC_PARSHA_NONE, HC_PARSHA_NONE };
+        hc_get_parsha(&shabbat, in_israel, &reading);
+        hc_parsha target = (reading.p2 != HC_PARSHA_NONE) ? reading.p2 : reading.p1;
+        have = weekly(target, custom, out);
+    }
+    if (!have) return -1;
+
+    /*
+     * ── Rosh Chodesh / Machar Chodesh corrections ────────────────────
+     *
+     * These are post-corrections applied to whatever was resolved above,
+     * mirroring opentorah's RoshChodesh.correct / ErevRoshChodesh.correct.
+     * Each is a replace-or-add decision: when the Rosh Chodesh haftarah
+     * is allowed to displace the base reading it replaces it outright;
+     * when it isn't, Chabad (and Fes, for Machar Chodesh) still append a
+     * few verses of it to whatever is being read instead.
+     */
     int rc = rosh_chodesh_month(&shabbat);
-    if (rc > 0 && !skipped_rosh_chodesh_month(rc) &&
-        special("RoshChodesh_SHABBAT", custom, HC_HAFT_OCC_ROSH_CHODESH, out))
-        return 0;
-
     int mc = rosh_chodesh_month(&next);
-    if (mc > 0 && !skipped_rosh_chodesh_month(mc) &&
-        special("ErevRoshChodesh_SHABBAT", custom, HC_HAFT_OCC_MACHAR_CHODESH, out))
-        return 0;
 
-    /* ── Weekly parsha; a combined week follows the second parsha. ────── */
-    hc_reading reading = { HC_PARSHA_NONE, HC_PARSHA_NONE };
-    hc_get_parsha(&shabbat, in_israel, &reading);
-    hc_parsha target = (reading.p2 != HC_PARSHA_NONE) ? reading.p2 : reading.p1;
-    return weekly(target, custom, out) ? 0 : -1;
+    /* Rosh Chodesh Tishrei is Rosh Hashana — never mentioned as Rosh Chodesh. */
+    if (rc > 0 && rc != HEB_TISHREI) {
+        /* Teves is always Chanukah and Av is always the Three Weeks, so in
+         * both the day's own haftarah outranks Rosh Chodesh. */
+        int allow_replace = !is_special_shabbos && rc != HEB_TEVES && rc != HEB_AV;
+        /* In Elul the Shiva d'Nechemta hold their ground — except for
+         * Chabad, who read the Rosh Chodesh haftarah. */
+        if (allow_replace && (rc != HEB_ELUL || custom == HC_CUSTOM_CHABAD))
+            special("RoshChodesh_SHABBAT", custom, HC_HAFT_OCC_ROSH_CHODESH, out);
+        else
+            append("RoshChodesh_SHABBAT_ADDITION", custom, out);
+    }
+
+    if (mc > 0 && mc != HEB_TISHREI) {
+        /* A Shabbat that is itself Rosh Chodesh reads the Rosh Chodesh
+         * haftarah, not Machar Chodesh. */
+        int allow_replace = !is_special_shabbos && rc <= 0 &&
+                            mc != HEB_TEVES && mc != HEB_AV && mc != HEB_ELUL;
+        /* Fes never replaces — it always takes the addition instead. */
+        if (allow_replace && custom != HC_CUSTOM_FES)
+            special("ErevRoshChodesh_SHABBAT", custom, HC_HAFT_OCC_MACHAR_CHODESH, out);
+        else
+            append("ErevRoshChodesh_SHABBAT_ADDITION", custom, out);
+    }
+
+    return 0;
 }
 
 /* ── hc_haftarah_for_day ─────────────────────────────────────────────────── */
