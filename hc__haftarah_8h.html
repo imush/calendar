@@ -98,7 +98,7 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a22a456ebad5904f425b5e2cbf0c50fe6" id="r_a22a456ebad5904f425b5e2cbf0c50fe6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hc__haftarah_8h.html#a22a456ebad5904f425b5e2cbf0c50fe6">HC_MAX_HAFTARAH_REFS</a>&#160;&#160;&#160;6</td></tr>
+<tr class="memitem:a22a456ebad5904f425b5e2cbf0c50fe6" id="r_a22a456ebad5904f425b5e2cbf0c50fe6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hc__haftarah_8h.html#a22a456ebad5904f425b5e2cbf0c50fe6">HC_MAX_HAFTARAH_REFS</a>&#160;&#160;&#160;8</td></tr>
 <tr class="separator:a22a456ebad5904f425b5e2cbf0c50fe6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a925b93fc268f4f34e987f165e0ed55a9" id="r_a925b93fc268f4f34e987f165e0ed55a9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hc__haftarah_8h.html#a925b93fc268f4f34e987f165e0ed55a9">HC_MAX_HAFTARAH_RESULTS</a>&#160;&#160;&#160;3</td></tr>
 <tr class="separator:a925b93fc268f4f34e987f165e0ed55a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -183,11 +183,11 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>hc_haftarah_offsetof_r
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define HC_MAX_HAFTARAH_REFS&#160;&#160;&#160;6</td>
+          <td class="memname">#define HC_MAX_HAFTARAH_REFS&#160;&#160;&#160;8</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Longest multi-part haftarah in the data set (Rosh Chodesh Chabad = 3). </p>
+<p>Longest reading in the data set. The worst case is a special Shabbat that is also Rosh Chodesh <em>and</em> Erev Rosh Chodesh (e.g. Shabbat Shekalim on 30 Shevat) for Chabad: 1 base ref + 3 Rosh Chodesh addition refs + 2 Machar Chodesh addition refs = 6. </p>
 
 </div>
 </div>
