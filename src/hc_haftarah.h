@@ -60,6 +60,10 @@ typedef enum hc_haftarah_occasion {
     HC_HAFT_OCC_TISHA_BAV,
     HC_HAFT_OCC_TISHA_BAV_AFTERNOON,
     HC_HAFT_OCC_FAST_AFTERNOON,
+    /* Appended rather than slotted in beside the other Shabbatot: the
+     * numeric values cross the FFI to Dart and Java. */
+    HC_HAFT_OCC_SHABBAT_SHUVAH,
+    HC_HAFT_OCC_SHABBAT_BEFORE_ROSH_HASHANA,
     HC_HAFT_OCC_COUNT
 } hc_haftarah_occasion;
 

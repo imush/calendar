@@ -336,6 +336,86 @@ static void test_every_shabbat_resolves(void)
 
 /* ── suite entry point ───────────────────────────────────────────────────── */
 
+/* ── Shabbat Shuvah and the Shabbat before Rosh Hashanah ─────────────────── */
+
+/*
+ * upstream keeps the Shabbat Shuvah haftarah in Vayeilech's weekly slot. That
+ * lands correctly only in the years when Vayeilech falls on Shabbat Shuvah; in
+ * the others Vayeilech is folded into Nitzavim-Vayeilech and read a week
+ * BEFORE Rosh Hashanah. Both weeks are resolved explicitly, so pin down both
+ * shapes of year.
+ */
+static void test_shabbat_shuvah(void)
+{
+    /* ── A "Vayeilech year": Vayeilech itself falls on Shabbat Shuvah ── */
+
+    /* 27 Elul 5785 — Nitzavim alone, the Shabbat before Rosh Hashanah.
+       Isaiah 61:10-63:9 is the seventh haftarah of consolation. */
+    expect_day(2025, 9, 20, HC_CUSTOM_ASHKENAZ, 0,
+               HC_HAFT_OCC_SHABBAT_BEFORE_ROSH_HASHANA,
+               HC_BOOK_ISAIAH, 61, 10, 63, 9);
+
+    /* 5 Tishrei 5786 — Shabbat Shuvah, reading Vayeilech. */
+    expect_day(2025, 9, 27, HC_CUSTOM_ASHKENAZ, 0,
+               HC_HAFT_OCC_SHABBAT_SHUVAH, HC_BOOK_HOSEA, 14, 2, 14, 10);
+
+    /* 12 Tishrei 5786 — Haazinu, now AFTER Yom Kippur, keeps its own
+       haftarah (the song of David). This is the only week it belongs to. */
+    expect_day(2025, 10, 4, HC_CUSTOM_ASHKENAZ, 0,
+               HC_HAFT_OCC_WEEKLY, HC_BOOK_II_SAMUEL, 22, 1, 22, 51);
+
+    /* ── A "Haazinu year": the pair is combined and Haazinu falls on
+          Shabbat Shuvah. This is the case upstream gets wrong. ── */
+
+    /* 23 Elul 5786 — Nitzavim-Vayeilech combined, before Rosh Hashanah.
+       The combined-week rule would take Vayeilech's (= Shabbat Shuvah's)
+       haftarah; it must take Nitzavim's instead. */
+    expect_day(2026, 9, 5, HC_CUSTOM_ASHKENAZ, 0,
+               HC_HAFT_OCC_SHABBAT_BEFORE_ROSH_HASHANA,
+               HC_BOOK_ISAIAH, 61, 10, 63, 9);
+
+    /* 8 Tishrei 5787 — Shabbat Shuvah, reading Haazinu. Without the
+       occasion this fell through to II Samuel 22. */
+    expect_day(2026, 9, 19, HC_CUSTOM_ASHKENAZ, 0,
+               HC_HAFT_OCC_SHABBAT_SHUVAH, HC_BOOK_HOSEA, 14, 2, 14, 10);
+
+    /* Both weeks hold across the custom tree, not just Ashkenaz. */
+    const hc_custom customs[] = { HC_CUSTOM_CHABAD, HC_CUSTOM_SEFARD,
+                                  HC_CUSTOM_TEIMAN, HC_CUSTOM_ITALKI };
+    for (unsigned i = 0; i < sizeof customs / sizeof customs[0]; i++) {
+        hc_date before = greg(2026, 9, 5), shuvah = greg(2026, 9, 19);
+        hc_haftarah_result r;
+        HC_ASSERT_EQ_INT(0, hc_haftarah_for_date(&before, customs[i], 0, &r));
+        HC_ASSERT_EQ_INT((int)HC_HAFT_OCC_SHABBAT_BEFORE_ROSH_HASHANA, (int)r.occasion);
+        HC_ASSERT_EQ_INT(0, hc_haftarah_for_date(&shuvah, customs[i], 0, &r));
+        HC_ASSERT_EQ_INT((int)HC_HAFT_OCC_SHABBAT_SHUVAH, (int)r.occasion);
+    }
+
+    /*
+     * Over 40 years: every year has exactly one Shabbat Shuvah and exactly
+     * one Shabbat before Rosh Hashanah, and Nitzavim's haftarah is never
+     * skipped — the failure that motivated this.
+     */
+    for (int y = 5786; y < 5826; y++) {
+        int shuvah = 0, before = 0;
+        hc_date d; set_hc_date(&d, y - 1, 6, 1, HEBREW);   /* 1 Elul */
+        for (int w = 0; w < 12; w++) {
+            hc_date c = d;
+            if (hc_get_day_of_week(&c) != 0) { hc_date_add_days(&d, 1); w--; continue; }
+            hc_date h = c; hc_convert(&h, HEBREW);
+            if (h.year > y || (h.year == y && h.month == 7 && h.day > 12)) break;
+            hc_haftarah_result r;
+            if (hc_haftarah_for_date(&c, HC_CUSTOM_ASHKENAZ, 0, &r) == 0) {
+                if (r.occasion == HC_HAFT_OCC_SHABBAT_SHUVAH) shuvah++;
+                if (r.occasion == HC_HAFT_OCC_SHABBAT_BEFORE_ROSH_HASHANA) before++;
+            }
+            hc_date_add_days(&d, 7);
+        }
+        HC_ASSERT_EQ_INT(1, shuvah);
+        HC_ASSERT_EQ_INT(1, before);
+    }
+}
+
 void test_haftarah(void)
 {
     test_weekly();
@@ -345,4 +425,5 @@ void test_haftarah(void)
     test_chanukah();
     test_festivals_and_fasts();
     test_every_shabbat_resolves();
+    test_shabbat_shuvah();
 }

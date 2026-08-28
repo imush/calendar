@@ -206,7 +206,7 @@ int hc_haftarah_for_date(hc_date *date, hc_custom custom, int in_israel,
     int chanukah_night = 0;
     int shekalim = 0, zachor = 0, parah = 0, hachodesh = 0;
     int hagadol = 0, erev_pesach = 0, chm_pesach = 0, chm_sukkot = 0;
-    int simchat_torah = 0;
+    int simchat_torah = 0, shabbat_shuvah = 0;
     hc_special_day festival = HC_SD_NONE;
 
     for (int i = 0; i < n; i++) {
@@ -217,6 +217,7 @@ int hc_haftarah_for_date(hc_date *date, hc_custom custom, int in_israel,
             case HC_SD_SHABBAT_PARA:      parah       = 1; break;
             case HC_SD_SHABBAT_HACHODESH: hachodesh   = 1; break;
             case HC_SD_SHABBAT_HAGADOL:   hagadol     = 1; break;
+            case HC_SD_SHABBAT_SHUVAH:    shabbat_shuvah = 1; break;
             case HC_SD_EREV_PESACH:       erev_pesach = 1; break;
             default:
                 if (is_simchat_torah(d))         simchat_torah = 1;
@@ -281,10 +282,38 @@ int hc_haftarah_for_date(hc_date *date, hc_custom custom, int in_israel,
                               : HC_HAFT_OCC_CHANUKAH_SHABBAT_1, out);
     }
 
+    /*
+     * ── Shabbat Shuvah and the Shabbat before Rosh Hashanah ──────────
+     *
+     * upstream stores the Shabbat Shuvah haftarah in Vayeilech's weekly
+     * slot, with only an XML comment to say so. That identification holds
+     * only when Vayeilech falls on Shabbat Shuvah. In the other ~60% of
+     * years Vayeilech is folded into Nitzavim-Vayeilech and read *before*
+     * Rosh Hashanah, so the reading lands a week early and Shabbat Shuvah
+     * falls through to Haazinu's own haftarah — which belongs to it only
+     * when it falls after Yom Kippur.
+     *
+     * Both weeks are named explicitly here. The readings are unchanged;
+     * only which Shabbat they attach to.
+     */
+    hc_reading reading = { HC_PARSHA_NONE, HC_PARSHA_NONE };
+    hc_get_parsha(&shabbat, in_israel, &reading);
+
+    if (!have && shabbat_shuvah && weekly(HC_VAYEILECH, custom, out)) {
+        out->occasion = HC_HAFT_OCC_SHABBAT_SHUVAH;
+        have = 1;
+    }
+    /* Nitzavim is always the Shabbat before Rosh Hashanah, alone or paired
+     * with Vayeilech. The combined-week rule below would take Vayeilech's
+     * (i.e. Shabbat Shuvah's) haftarah, so name this week explicitly. */
+    if (!have && (reading.p1 == HC_NITZAVIM || reading.p2 == HC_NITZAVIM) &&
+        weekly(HC_NITZAVIM, custom, out)) {
+        out->occasion = HC_HAFT_OCC_SHABBAT_BEFORE_ROSH_HASHANA;
+        have = 1;
+    }
+
     /* Weekly parsha; a combined week follows the second parsha. */
     if (!have) {
-        hc_reading reading = { HC_PARSHA_NONE, HC_PARSHA_NONE };
-        hc_get_parsha(&shabbat, in_israel, &reading);
         hc_parsha target = (reading.p2 != HC_PARSHA_NONE) ? reading.p2 : reading.p1;
         have = weekly(target, custom, out);
     }
@@ -356,7 +385,7 @@ int hc_haftarah_for_day(hc_date *date, hc_custom custom, int in_israel,
     if (hc_get_special_days(&d, in_israel, days, &n) != 0) return -1;
 
     int yom_kippur = 0, tisha_bav = 0, gedalia = 0, other_fast = 0;
-    int simchat_torah = 0;
+    int simchat_torah = 0, shabbat_shuvah = 0;
     hc_special_day festival = HC_SD_NONE;
 
     for (int i = 0; i < n; i++) {
