@@ -164,7 +164,9 @@ static long rosh_hashana_abs_date(const int year)
 	hc_abs_heb_time molad;
 	compute_abs_molad_rosh_hashana(year, &molad);
 	long int day = molad.abs_date;
-	hc_day_of_week dw = (hc_day_of_week)((day-1) % 7);
+	/* abs_date % 7 is Saturday-based, as hc_day_of_week is. This used to
+	 * subtract one and count from Sunday, which is why the enum used to. */
+	hc_day_of_week dw = (hc_day_of_week)(day % 7);
 
 	/* Now come the 3 dehiyot. These are as follows:
          Molad zoken - R"H postponed 1 day if the molad occurs after 18 hrs in the day (i.e. after noon)

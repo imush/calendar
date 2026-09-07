@@ -30,7 +30,7 @@ static int is_rest_day(int year, int month, int day, int in_israel)
     gd.calendar_type = GREGORIAN;
     gd.year = year; gd.month = month; gd.day = day;
     /* Check Shabbat */
-    int dow = (int)(hc_get_day_of_week(&gd)); /* 0=Sat,1=Sun..6=Fri */
+    int dow = (int)(hc_get_day_of_week(&gd));
     if (dow == 0) return 1; /* Saturday */
     /* Check Yom Tov */
     hc_date hd = gd;
@@ -188,7 +188,6 @@ int hc_compute_zmanim(hc_date *date, double lat, double lon,
     next_day(&tom_yr, &tom_mo, &tom_dy);
     if (is_rest_day(tom_yr, tom_mo, tom_dy, in_israel)) {
         int today_is_rest = is_rest_day(yr, mo, dy, in_israel);
-        /* hc_get_day_of_week returns 0=Sat,1=Sun..6=Fri */
         int dow_today = (int)hc_get_day_of_week(date);
         int tomorrow_is_shabbat = (dow_today == 6); /* today=Fri(6) → tomorrow=Sat */
 

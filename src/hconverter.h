@@ -18,10 +18,12 @@
 #define SRC_HCONVERTER_H_
 
 /*!
- * Convenience enum for days of week: <i>SUNDAY=0, MONDAY=1, ..., FRIDAY=6</i>
+ * Days of the week as this library counts them: <i>SATURDAY=0, SUNDAY=1,
+ * ..., FRIDAY=6</i> -- the value hc_get_day_of_week returns, which is
+ * abs_date % 7. Shabbat is 0 because the absolute-date epoch falls on one.
  */
-typedef enum hc_day_of_week {SUNDAY, MONDAY, TUESDAY, WEDNESDAY,
-	THURSDAY, FRIDAY, SATURDAY} hc_day_of_week;
+typedef enum hc_day_of_week {SATURDAY, SUNDAY, MONDAY, TUESDAY,
+	WEDNESDAY, THURSDAY, FRIDAY} hc_day_of_week;
 /*!
   \brief Supported types of calendar.
 

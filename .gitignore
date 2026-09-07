@@ -17,3 +17,5 @@ _build/
 build/
 *.o
 *.dSYM/
+/run_tests
+/build/

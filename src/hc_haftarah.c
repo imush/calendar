@@ -101,8 +101,7 @@ static int append(const char *key, hc_custom custom, hc_haftarah_result *out)
 
 /* ── date helpers ────────────────────────────────────────────────────────── */
 
-/* hc_get_day_of_week: 0 = Saturday, 1 = Sunday, ... 6 = Friday. */
-static int is_shabbat(hc_date *d) { return hc_get_day_of_week(d) == 0; }
+static int is_shabbat(hc_date *d) { return hc_get_day_of_week(d) == SATURDAY; }
 
 /*
  * Month whose Rosh Chodesh falls on this Hebrew date, or -1.
@@ -193,7 +192,7 @@ int hc_haftarah_for_date(hc_date *date, hc_custom custom, int in_israel,
     hc_date shabbat = *date;
     if (shabbat.calendar_type != HEBREW && hc_convert(&shabbat, HEBREW) != 0)
         return -1;
-    int dow = (int)hc_get_day_of_week(&shabbat); /* 0 = Sat */
+    int dow = (int)hc_get_day_of_week(&shabbat);
     if (dow != 0 && hc_date_add_days(&shabbat, 7 - dow) != 0) return -1;
 
     hc_date next = shabbat;

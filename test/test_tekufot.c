@@ -25,7 +25,7 @@ void test_tekufot(void)
         HC_ASSERT_EQ_INT(8,    d.day);
 
         /* Must be Wednesday (day_of_week of April 8, 2009):
-           hc_get_day_of_week returns 0=Sun..6=Sat. April 8, 2009 = Wednesday (4). */
+           hc_get_day_of_week returns SATURDAY=0..FRIDAY=6. April 8, 2009 = Wednesday (4). */
         hc_date greg; set_hc_date(&greg, 2009, 4, 8, GREGORIAN);
         HC_ASSERT_EQ_INT(4, (int)hc_get_day_of_week(&greg)); /* Wednesday */
     }
