@@ -24,10 +24,12 @@ add_library(hconverter STATIC
     src/parshiot.c
     src/hc_jewish_dates.c
     src/hc_haftarah.c
+    src/hc_torah_reading.c
     src/noaa.c
     src/zmanim.c
     ${HC_DATA_DIR}/parshiot_data.c
     ${HC_DATA_DIR}/haftarot_data.c
+    ${HC_DATA_DIR}/torah_data.c
 )
 target_include_directories(hconverter PUBLIC src ${HC_DATA_DIR})
 target_link_libraries(hconverter m)
@@ -42,14 +44,20 @@ add_executable(hconverter_tests
     test/test_main.c
     test/test_jewish_time.c
     test/test_hconverter.c
+    test/test_calendar_sweep.c
     test/test_parshiot.c
     test/test_haftarah.c
+    test/test_torah_reading.c
     test/test_tekufot.c
     test/test_jewish_dates.c
     test/test_year_scan.c
     test/test_zmanim.c
 )
 target_link_libraries(hconverter_tests hconverter)
+# The readings oracle: opentorah's own answers, shared with the Java library
+# through the data submodule rather than copied per consumer.
+target_compile_definitions(hconverter_tests PRIVATE
+    HC_READINGS_ORACLE="${CMAKE_CURRENT_SOURCE_DIR}/hebrewcalendar-data/oracle/opentorah-readings.tsv")
 
 enable_testing()
 add_test(NAME all_tests COMMAND hconverter_tests)

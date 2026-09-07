@@ -54,11 +54,11 @@ static void test_weekly(void)
     expect_day(2025, 10, 18, HC_CUSTOM_TEIMAN, 0,
                HC_HAFT_OCC_WEEKLY, HC_BOOK_ISAIAH, 42, 1, 42, 16);
 
-    /* Shmini 5786: II Samuel 6:1-7:17. */
+    /* Shmini 5786: Samuel II 6:1-7:17. */
     expect_day(2026, 4, 11, HC_CUSTOM_ASHKENAZ, 0,
                HC_HAFT_OCC_WEEKLY, HC_BOOK_II_SAMUEL, 6, 1, 7, 17);
 
-    /* Haazinu 5786: II Samuel 22 (the Shirah). */
+    /* Haazinu 5786: Samuel II 22 (the Shirah). */
     expect_day(2025, 10, 4, HC_CUSTOM_ASHKENAZ, 0,
                HC_HAFT_OCC_WEEKLY, HC_BOOK_II_SAMUEL, 22, 1, 22, 51);
 }
@@ -143,10 +143,10 @@ static void test_rosh_chodesh_corrections(void)
     expect_refs(2015, 8, 15, HC_CUSTOM_ASHKENAZ, 0, "Isaiah 54:11-55:5;");
     expect_refs(2015, 8, 15, HC_CUSTOM_CHABAD,   0,
                 "Isaiah 66:1-66:24;Isaiah 66:23-66:23;"
-                "I Samuel 20:18-20:18;I Samuel 20:42-20:42;");
+                "Samuel I 20:18-20:18;Samuel I 20:42-20:42;");
     /* Fes never replaces for Machar Chodesh — it only ever appends. */
     expect_refs(2015, 8, 15, HC_CUSTOM_FES, 0,
-                "Isaiah 54:11-55:5;I Samuel 20:18-20:18;I Samuel 20:42-20:42;");
+                "Isaiah 54:11-55:5;Samuel I 20:18-20:18;Samuel I 20:42-20:42;");
 
     /*
      * A special Shabbat blocks the replace, so Chabad appends the Rosh
@@ -168,13 +168,13 @@ static void test_rosh_chodesh_corrections(void)
     expect_refs(2015, 12, 12, HC_CUSTOM_CHABAD, 0,
                 "Zechariah 2:14-4:7;"
                 "Isaiah 66:1-66:1;Isaiah 66:23-66:24;Isaiah 66:23-66:23;"
-                "I Samuel 20:18-20:18;I Samuel 20:42-20:42;");
+                "Samuel I 20:18-20:18;Samuel I 20:42-20:42;");
     expect_refs(2015, 12, 12, HC_CUSTOM_ASHKENAZ, 0, "Zechariah 2:14-4:7;");
 
     /* Machar Chodesh Elul is likewise suppressed (2021-08-07 = 29 Av). */
     expect_refs(2021, 8, 7, HC_CUSTOM_ASHKENAZ, 0, "Isaiah 54:11-55:5;");
     expect_refs(2021, 8, 7, HC_CUSTOM_CHABAD,   0,
-                "Isaiah 54:11-55:5;I Samuel 20:18-20:18;I Samuel 20:42-20:42;");
+                "Isaiah 54:11-55:5;Samuel I 20:18-20:18;Samuel I 20:42-20:42;");
 
     /* Rosh Chodesh Tishrei is Rosh Hashana — never mentioned, no addition. */
     hc_date rh = greg(2026, 9, 12);            /* 1 Tishrei 5787, a Shabbat */
@@ -196,7 +196,7 @@ static void test_chanukah(void)
      * opentorah splits on the Chanukah day number, not the parsha:
      * `if dayNumber < 8 then shabbos1Haftarah else shabbos2Haftarah`.
      * Two Chanukah Shabbatot occur exactly when 25 Kislev is itself a
-     * Shabbat; the eighth day is then also a Shabbat and reads I Kings 7.
+     * Shabbat; the eighth day is then also a Shabbat and reads Kings I 7.
      * Scan a century for such years and check both Shabbatot.
      */
     int two_shabbat_years = 0;
@@ -258,11 +258,13 @@ static void test_festivals_and_fasts(void)
                HC_HAFT_OCC_FAST_AFTERNOON, HC_BOOK_ISAIAH, 55, 6, 56, 8);
     expect_day(2026, 9, 14, HC_CUSTOM_MARRAKESH, 0,
                HC_HAFT_OCC_FAST_AFTERNOON, HC_BOOK_HOSEA, 14, 2, 14, 10);
-    /* ...and on any other fast Marrakesh is back on the default. */
+    /* On the other fasts Marrakesh reads Shuva as well -- R. Asulin, reporting
+     * R. Meir Asulin and R. D. Tzabach, has Marrakesh and Bogmaz on Shuva on
+     * the Fast of Gedalia and on Shuva with the Micah ending on the rest --
+     * while Morocco at large reads no haftarah at mincha at all. */
     expect_day(2026, 7, 2, HC_CUSTOM_MARRAKESH, 0,
-               HC_HAFT_OCC_FAST_AFTERNOON, HC_BOOK_ISAIAH, 55, 6, 56, 8);
-    expect_day(2026, 7, 2, HC_CUSTOM_MOROCCO, 0,
-               HC_HAFT_OCC_FAST_AFTERNOON, HC_BOOK_ISAIAH, 55, 6, 56, 8);
+               HC_HAFT_OCC_FAST_AFTERNOON, HC_BOOK_HOSEA, 14, 2, 14, 10);
+    HC_ASSERT_EQ_INT(0, day_count(2026, 7, 2, HC_CUSTOM_MOROCCO, 0));
 
     /* opentorah leaves the fast-day haftarah undefined for Sefard and
      * Teiman — those customs read no haftarah at mincha. */
@@ -375,7 +377,7 @@ static void test_shabbat_shuvah(void)
                HC_BOOK_ISAIAH, 61, 10, 63, 9);
 
     /* 8 Tishrei 5787 — Shabbat Shuvah, reading Haazinu. Without the
-       occasion this fell through to II Samuel 22. */
+       occasion this fell through to Samuel II 22. */
     expect_day(2026, 9, 19, HC_CUSTOM_ASHKENAZ, 0,
                HC_HAFT_OCC_SHABBAT_SHUVAH, HC_BOOK_HOSEA, 14, 2, 14, 10);
 
