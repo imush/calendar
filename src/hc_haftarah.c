@@ -384,7 +384,7 @@ int hc_haftarah_for_day(hc_date *date, hc_custom custom, int in_israel,
     if (hc_get_special_days(&d, in_israel, days, &n) != 0) return -1;
 
     int yom_kippur = 0, tisha_bav = 0, gedalia = 0, other_fast = 0;
-    int simchat_torah = 0, shabbat_shuvah = 0;
+    int simchat_torah = 0;
     hc_special_day festival = HC_SD_NONE;
 
     for (int i = 0; i < n; i++) {
