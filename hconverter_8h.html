@@ -112,14 +112,14 @@ Typedefs</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:a83272c3390212c9a1c674b7cf91ad0b2" id="r_a83272c3390212c9a1c674b7cf91ad0b2"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hconverter_8h.html#a83272c3390212c9a1c674b7cf91ad0b2">hc_day_of_week</a> { <br />
-&#160;&#160;<b>SUNDAY</b>
+&#160;&#160;<b>SATURDAY</b>
+, <b>SUNDAY</b>
 , <b>MONDAY</b>
 , <b>TUESDAY</b>
-, <b>WEDNESDAY</b>
 , <br />
-&#160;&#160;<b>THURSDAY</b>
+&#160;&#160;<b>WEDNESDAY</b>
+, <b>THURSDAY</b>
 , <b>FRIDAY</b>
-, <b>SATURDAY</b>
 <br />
  }</td></tr>
 <tr class="separator:a83272c3390212c9a1c674b7cf91ad0b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -270,7 +270,7 @@ Note about keviut</h2>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Convenience enum for days of week: <em>SUNDAY=0, MONDAY=1, ..., FRIDAY=6</em> </p>
+<p>Days of the week as this library counts them: <em>SATURDAY=0, SUNDAY=1, ..., FRIDAY=6</em> &ndash; the value hc_get_day_of_week returns, which is abs_date % 7. Shabbat is 0 because the absolute-date epoch falls on one. </p>
 
 </div>
 </div>
@@ -345,7 +345,7 @@ Note about keviut</h2>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Convenience enum for days of week: <em>SUNDAY=0, MONDAY=1, ..., FRIDAY=6</em> </p>
+<p>Days of the week as this library counts them: <em>SATURDAY=0, SUNDAY=1, ..., FRIDAY=6</em> &ndash; the value hc_get_day_of_week returns, which is abs_date % 7. Shabbat is 0 because the absolute-date epoch falls on one. </p>
 
 </div>
 </div>

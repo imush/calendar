@@ -24,5 +24,8 @@ var searchData=
   ['hc_5fsd_5fchanukah_5fnight_21',['hc_sd_chanukah_night',['../hc__jewish__dates_8h.html#a5aed18a55887942e8b0fe4aefc265f4c',1,'hc_jewish_dates.c']]],
   ['hc_5fsd_5fname_22',['hc_sd_name',['../hc__jewish__dates_8h.html#afcd6afeb82b63e20b94c090d702c6a1c',1,'hc_jewish_dates.c']]],
   ['hc_5fset_5fhc_5fheb_5ftime_23',['hc_set_hc_heb_time',['../hconverter_8h.html#ad87d645cb135065c039def1e2fc0621d',1,'hebrew.c']]],
-  ['hc_5fyahrzeit_5ffor_24',['hc_yahrzeit_for',['../hconverter_8h.html#ac506fe5834f5bae7f317480256672bc7',1,'hebrew.c']]]
+  ['hc_5ftorah_5freading_5ffor_5fdate_24',['hc_torah_reading_for_date',['../hc__torah__reading_8h.html#ac0a6da4147ba998d2dd397f07c23753f',1,'hc_torah_reading.c']]],
+  ['hc_5ftorah_5freading_5ffor_5fday_25',['hc_torah_reading_for_day',['../hc__torah__reading_8h.html#ad7012ea63ab5c8bdeda3ff03e92f6a24',1,'hc_torah_reading.c']]],
+  ['hc_5ftorah_5freading_5fsefarim_26',['hc_torah_reading_sefarim',['../hc__torah__reading_8h.html#acb0150f092d19f5bd36e5d799c1f6387',1,'hc_torah_reading.c']]],
+  ['hc_5fyahrzeit_5ffor_27',['hc_yahrzeit_for',['../hconverter_8h.html#ac506fe5834f5bae7f317480256672bc7',1,'hebrew.c']]]
 ];

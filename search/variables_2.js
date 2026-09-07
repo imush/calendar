@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['hanetz_0',['hanetz',['../structhc__zmanim__s.html#a86cb489396e5b0ae3ea91273aa5367d4',1,'hc_zmanim_s']]],
-  ['hanetz_5famiti_1',['hanetz_amiti',['../structhc__zmanim__s.html#a1171822104781fae646189bd2cf3c4d5',1,'hc_zmanim_s']]]
+  ['division_0',['division',['../structhc__torah__reading.html#a15a2fdbde66208e5133d2f88354a8b6f',1,'hc_torah_reading']]]
 ];

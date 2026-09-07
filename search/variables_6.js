@@ -1,17 +1,7 @@
 var searchData=
 [
-  ['sha_5fah_5fzmanit_5fsec_0',['sha_ah_zmanit_sec',['../structhc__zmanim__s.html#aebb3707b78b72189fc135bb8d9128e9f',1,'hc_zmanim_s']]],
-  ['sha_5fah_5fzmanit_5fsec_5fgra_1',['sha_ah_zmanit_sec_gra',['../structhc__zmanim__s.html#a2e2442c8afb9999d87a0ea0a363265f6',1,'hc_zmanim_s']]],
-  ['sha_5fah_5fzmanit_5fsec_5fma_2',['sha_ah_zmanit_sec_ma',['../structhc__zmanim__s.html#a35c16ce3b1e082f33d075fc94589e986',1,'hc_zmanim_s']]],
-  ['shkiah_3',['shkiah',['../structhc__zmanim__s.html#ae72448e776cc4f25bedb62b525e4c6b5',1,'hc_zmanim_s']]],
-  ['shkiah_5famitis_4',['shkiah_amitis',['../structhc__zmanim__s.html#a1fa6ae4cb080fd0c56d0ca56199bed07',1,'hc_zmanim_s']]],
-  ['sof_5fbiur_5fchometz_5',['sof_biur_chometz',['../structhc__zmanim__s.html#a20626b39b830a1f0e561c5fe2812535d',1,'hc_zmanim_s']]],
-  ['sof_5fbiur_5fchometz_5fgra_6',['sof_biur_chometz_gra',['../structhc__zmanim__s.html#aad77dd04a71574c026704fd881d54930',1,'hc_zmanim_s']]],
-  ['sof_5fbiur_5fchometz_5fma_7',['sof_biur_chometz_ma',['../structhc__zmanim__s.html#a94a5b73a501703f30391e1148959d0dd',1,'hc_zmanim_s']]],
-  ['sof_5fshma_8',['sof_shma',['../structhc__zmanim__s.html#ac5c1764372b993ddeef130f6cccc6530',1,'hc_zmanim_s']]],
-  ['sof_5fshma_5fgra_9',['sof_shma_gra',['../structhc__zmanim__s.html#a225356daf67af0f7a9cf581a121898c9',1,'hc_zmanim_s']]],
-  ['sof_5fshma_5fma_10',['sof_shma_ma',['../structhc__zmanim__s.html#a62a5d5bca21067fb80fd77f7e93fe536',1,'hc_zmanim_s']]],
-  ['sof_5ftfila_11',['sof_tfila',['../structhc__zmanim__s.html#a3f41d141b6184333b1500a9211cff9f2',1,'hc_zmanim_s']]],
-  ['sof_5ftfila_5fgra_12',['sof_tfila_gra',['../structhc__zmanim__s.html#a7f267eddebd8269c1f7dc78130c54404',1,'hc_zmanim_s']]],
-  ['sof_5ftfila_5fma_13',['sof_tfila_ma',['../structhc__zmanim__s.html#a24b8ac5e475699f666576b2d122c0f1d',1,'hc_zmanim_s']]]
+  ['parshiyot_0',['parshiyot',['../structhc__torah__reading.html#ab7005323aa1831358b9285d70dbef173',1,'hc_torah_reading']]],
+  ['plag_5fhamincha_1',['plag_hamincha',['../structhc__zmanim__s.html#a569f1f4f4f6c98bc630d1204622cf65a',1,'hc_zmanim_s']]],
+  ['plag_5fhamincha_5fgra_2',['plag_hamincha_gra',['../structhc__zmanim__s.html#aa42821885a53db3c95baa77f82a800b3',1,'hc_zmanim_s']]],
+  ['plag_5fhamincha_5fma_3',['plag_hamincha_ma',['../structhc__zmanim__s.html#a26c5ac6ae4c5ab9158ea1c98c56b3f0d',1,'hc_zmanim_s']]]
 ];
