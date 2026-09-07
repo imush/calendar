@@ -123,11 +123,14 @@ void test_hconverter(void)
         hc_date d;
         set_hc_date(&d, 100, 3, 1, JULIAN);
         hc_convert(&d, GREGORIAN);
-        /* Julian March 1 year 100 = Gregorian March 2 year 100:
-           Julian has Feb 29 (year 100 is Julian leap), Gregorian doesn't → Gregorian is 1 day ahead */
+        /* Julian 1 March 100 = proleptic Gregorian 28 February 100. By the
+           second century the Julian calendar has drifted a day ahead of the
+           Gregorian, and the epochs differ by two more: Gregorian 1 Jan 1 CE
+           is Julian 3 Jan 1 CE. Checked against Julian Day Number arithmetic;
+           this expected 2 March while the two calendars shared one epoch. */
         HC_ASSERT_EQ_INT(100, d.year);
-        HC_ASSERT_EQ_INT(3,   d.month);
-        HC_ASSERT_EQ_INT(2,   d.day);
+        HC_ASSERT_EQ_INT(2,   d.month);
+        HC_ASSERT_EQ_INT(28,  d.day);
     }
 
     /* hc_check */

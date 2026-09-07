@@ -27,7 +27,7 @@ static int jul_check_date(const int year, const int month, const int day)
 
 static long jul_to_abs_date(const int year, const int month, const int day)
 {
-	long int ret = COMMON_BEGINNING;
+	long int ret = JULIAN_BEGINNING;
 	int m;
 	int passed_years = year-1;
 
@@ -43,14 +43,14 @@ static long jul_to_abs_date(const int year, const int month, const int day)
 
 static int jul_compute_date(const long abs_date, hc_date *target)
 {
-	const long dy = abs_date - COMMON_BEGINNING;
+	const long dy = abs_date - JULIAN_BEGINNING;
 	/* compute approximate lower bound for year */
 	int yr = (int)(dy/366);
 	int mh;
 	long dcount, next_dec31, next_eom;
 
 	// error - calendar does not exist yet
-    if (abs_date <= COMMON_BEGINNING)
+    if (abs_date <= JULIAN_BEGINNING)
         return -1;
 
 	/* set dcount to 31DEC of yr-1 */

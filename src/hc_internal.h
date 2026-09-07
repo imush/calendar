@@ -33,6 +33,14 @@ extern hc_cal_impl *jul_impl;
 /** Days since creation to start of Gregorian and Julian calendars */
 extern const long COMMON_BEGINNING;
 
+/** Absolute day of Julian 1 January 1 CE.
+ *
+ * Two days before the Gregorian epoch: proleptic Gregorian 1 Jan 1 CE falls on
+ * Julian 3 Jan 1 CE, so the same absolute day is a different date in each
+ * calendar. Sharing one constant between them put every Julian date two days
+ * out -- in both directions, since the same constant converts each way. */
+extern const long JULIAN_BEGINNING;
+
 /** Standard month lengths for Gregorian and Julian calendars */
 extern const int COMMON_MONTH_LENGTH[12];
 

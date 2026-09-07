@@ -4,6 +4,7 @@
 
 /** Days since creation to start of Gregorian and Julian calendars */
 const long COMMON_BEGINNING = 1373429;
+const long JULIAN_BEGINNING = 1373427;   /* two days earlier; see hc_internal.h */
 
 /** Standard month lengths for Gregorian and Julian calendars */
 const int COMMON_MONTH_LENGTH[12] =
