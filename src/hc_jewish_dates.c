@@ -674,3 +674,19 @@ int hc_get_special_days(hc_date *date, int in_israel,
 
     return 0;
 }
+
+/* ── Chametz deadlines ─────────────────────────────────────────────────────── */
+
+int hc_chametz_deadlines(hc_date *date)
+{
+    if (!date) return -1;
+    hc_date hd = *date;
+    if (hd.calendar_type != HEBREW && hc_convert(&hd, HEBREW) != 0) return -1;
+    if (hd.month != 1) return 0;                 /* Nisan */
+    int dow = heb_dow(hd.year, hd.month, hd.day); /* 1=Sun..7=Sat */
+    if (hd.day == 14)
+        return HC_CHAMETZ_EAT | (dow == 7 ? HC_CHAMETZ_DISPOSE : HC_CHAMETZ_BURN);
+    if (hd.day == 13 && dow == 6)                /* Friday before a Shabbat erev Pesach */
+        return HC_CHAMETZ_BURN;
+    return 0;
+}

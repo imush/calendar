@@ -149,6 +149,27 @@ int hc_sd_is_eruv_tavshilin(hc_special_day d);
 int hc_sd_is_rosh_chodesh  (hc_special_day d);
 int hc_sd_is_shabbat_mevarchim(hc_special_day d);
 int hc_sd_is_named_shabbat    (hc_special_day d);
+
+/*!
+ * Chametz deadlines that fall on a date, as a bitmask.
+ *
+ * Erev Pesach is always 14 Nisan, but the burning is not always on it: when
+ * 14 Nisan is Shabbat, chametz is burned on Friday 13 Nisan, and on Shabbat
+ * what remains is disposed of instead. The times themselves are the zmanim
+ * struct's sof_tfila (eat, 4 sha'ot) and sof_biur_chometz (burn or dispose,
+ * 5 sha'ot); this says which of them apply today.
+ */
+typedef enum hc_chametz {
+    HC_CHAMETZ_EAT     = 1, /*!< latest time to eat: 14 Nisan                         */
+    HC_CHAMETZ_BURN    = 2, /*!< burn: 14 Nisan, or Friday 13 Nisan when 14 is Shabbat */
+    HC_CHAMETZ_DISPOSE = 4  /*!< dispose of what remains: a Shabbat 14 Nisan           */
+} hc_chametz;
+
+/*!
+ * \param[in] date any calendar
+ * \return bitmask of #hc_chametz, 0 when none apply, -1 on a bad date
+ */
+int hc_chametz_deadlines(hc_date *date);
 int hc_sd_is_tal_umatar       (hc_special_day d);
 /*! Returns 1–8 if d is a Chanukah day (= candles to light that night), 0 otherwise. */
 int hc_sd_chanukah_night      (hc_special_day d);

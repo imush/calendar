@@ -19,10 +19,28 @@ static void get_days(int hy, int hm, int hd, int in_israel,
     hc_get_special_days(&dt, in_israel, days, count);
 }
 
+static int chametz(int y, int m, int d, hc_calendar_type t)
+{
+    hc_date dt; dt.calendar_type = t; dt.year = y; dt.month = m; dt.day = d;
+    return hc_chametz_deadlines(&dt);
+}
+
 void test_jewish_dates(void)
 {
     hc_special_day days[HC_MAX_SPECIAL_DAYS];
     int count;
+
+    /* Chametz deadlines. 14 Nisan 5785 was Shabbat: burn Friday, eat and
+       dispose on Shabbat. 14 Nisan 5786 is a Wednesday. */
+    HC_ASSERT_TRUE(chametz(5785, 1, 12, HEBREW) == 0);
+    HC_ASSERT_TRUE(chametz(5785, 1, 13, HEBREW) == HC_CHAMETZ_BURN);
+    HC_ASSERT_TRUE(chametz(5785, 1, 14, HEBREW) == (HC_CHAMETZ_EAT | HC_CHAMETZ_DISPOSE));
+    HC_ASSERT_TRUE(chametz(5786, 1, 13, HEBREW) == 0);
+    HC_ASSERT_TRUE(chametz(5786, 1, 14, HEBREW) == (HC_CHAMETZ_EAT | HC_CHAMETZ_BURN));
+    HC_ASSERT_TRUE(chametz(5786, 7, 14, HEBREW) == 0);            /* not Nisan */
+    HC_ASSERT_TRUE(chametz(2025, 4, 11, GREGORIAN) == HC_CHAMETZ_BURN);
+    HC_ASSERT_TRUE(chametz(2025, 4, 12, GREGORIAN) == (HC_CHAMETZ_EAT | HC_CHAMETZ_DISPOSE));
+    HC_ASSERT_TRUE(hc_chametz_deadlines(0) == -1);
 
     /* Rosh Hashana */
     get_days(5777, 7, 1, 0, days, &count);
