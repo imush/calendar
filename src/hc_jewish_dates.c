@@ -690,3 +690,27 @@ int hc_chametz_deadlines(hc_date *date)
         return HC_CHAMETZ_BURN;
     return 0;
 }
+
+/* ── Fast times ────────────────────────────────────────────────────────────── */
+
+int hc_fast_times(hc_date *date)
+{
+    if (!date) return -1;
+    hc_date hd = *date;
+    if (hd.calendar_type != HEBREW && hc_convert(&hd, HEBREW) != 0) return -1;
+    hc_special_day days[HC_MAX_SPECIAL_DAYS];
+    int count;
+    if (hc_get_special_days(&hd, 0, days, &count) != 0) return -1;
+    int r = 0;
+    for (int i = 0; i < count; i++) {
+        if (!hc_sd_is_fast(days[i])) continue;
+        r |= HC_FAST_ENDS_NIGHTFALL;
+        if (days[i] != HC_SD_FAST_9_AV) r |= HC_FAST_BEGINS_DAWN;
+    }
+    /* The fast of 9 Av falls on the 9th or, deferred from Shabbat, the 10th. */
+    if (hd.month == 5 && hd.day <= 9 && is_fast_9_av(hd.year, 5, hd.day + 1))
+        r |= HC_FAST_BEGINS_SUNSET;
+    if (hd.month == 7 && hd.day == 9)            /* erev Yom Kippur */
+        r |= HC_FAST_BEGINS_CANDLES;
+    return r;
+}

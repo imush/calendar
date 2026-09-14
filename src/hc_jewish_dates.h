@@ -170,6 +170,30 @@ typedef enum hc_chametz {
  * \return bitmask of #hc_chametz, 0 when none apply, -1 on a bad date
  */
 int hc_chametz_deadlines(hc_date *date);
+
+/*!
+ * Fast times that fall on a date, as a bitmask.
+ *
+ * A minor fast runs from dawn to nightfall on its own day. Tisha b'Av begins
+ * at sunset the evening before -- on a Shabbat too, when 9 Av is Shabbat and
+ * the fast is deferred to Sunday: eating stops at sunset, not when Shabbat
+ * ends. Yom Kippur begins when the candles are lit on its eve, and ends with
+ * the Yom Tov rather than at a fast's nightfall. The times themselves are the
+ * zmanim struct's dawn, sunset, candle lighting and three-stars nightfall;
+ * this says which of them apply today. Fasts are the same in Israel.
+ */
+typedef enum hc_fast_time {
+    HC_FAST_BEGINS_DAWN    = 1, /*!< a minor fast begins at dawn today                     */
+    HC_FAST_BEGINS_SUNSET  = 2, /*!< Tisha b'Av begins at sunset tonight, a Shabbat eve too */
+    HC_FAST_BEGINS_CANDLES = 4, /*!< erev Yom Kippur: the fast begins with the candles     */
+    HC_FAST_ENDS_NIGHTFALL = 8  /*!< a minor fast or Tisha b'Av ends at nightfall today    */
+} hc_fast_time;
+
+/*!
+ * \param[in] date any calendar
+ * \return bitmask of #hc_fast_time, 0 when none apply, -1 on a bad date
+ */
+int hc_fast_times(hc_date *date);
 int hc_sd_is_tal_umatar       (hc_special_day d);
 /*! Returns 1–8 if d is a Chanukah day (= candles to light that night), 0 otherwise. */
 int hc_sd_chanukah_night      (hc_special_day d);

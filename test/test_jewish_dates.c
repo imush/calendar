@@ -25,6 +25,12 @@ static int chametz(int y, int m, int d, hc_calendar_type t)
     return hc_chametz_deadlines(&dt);
 }
 
+static int fast(int y, int m, int d, hc_calendar_type t)
+{
+    hc_date dt; dt.calendar_type = t; dt.year = y; dt.month = m; dt.day = d;
+    return hc_fast_times(&dt);
+}
+
 void test_jewish_dates(void)
 {
     hc_special_day days[HC_MAX_SPECIAL_DAYS];
@@ -41,6 +47,25 @@ void test_jewish_dates(void)
     HC_ASSERT_TRUE(chametz(2025, 4, 11, GREGORIAN) == HC_CHAMETZ_BURN);
     HC_ASSERT_TRUE(chametz(2025, 4, 12, GREGORIAN) == (HC_CHAMETZ_EAT | HC_CHAMETZ_DISPOSE));
     HC_ASSERT_TRUE(hc_chametz_deadlines(0) == -1);
+
+    /* Fast times. Tzom Gedalia 5787 is Monday 14 Sep 2026, and Yom Kippur
+       Monday 21 Sep. Tisha b'Av is Thursday 23 Jul 2026; in 2029 9 Av is
+       Shabbat 21 Jul and the fast is on Sunday. 17 Tammuz 5789 is Shabbat,
+       deferred to Sunday 1 Jul 2029. Ta'anit Esther 5788 moves back to
+       Thursday 9 Mar 2028. */
+    HC_ASSERT_TRUE(fast(2026, 9, 13, GREGORIAN) == 0);
+    HC_ASSERT_TRUE(fast(2026, 9, 14, GREGORIAN) == (HC_FAST_BEGINS_DAWN | HC_FAST_ENDS_NIGHTFALL));
+    HC_ASSERT_TRUE(fast(2026, 9, 20, GREGORIAN) == HC_FAST_BEGINS_CANDLES);
+    HC_ASSERT_TRUE(fast(2026, 9, 21, GREGORIAN) == 0);
+    HC_ASSERT_TRUE(fast(2026, 7, 22, GREGORIAN) == HC_FAST_BEGINS_SUNSET);
+    HC_ASSERT_TRUE(fast(2026, 7, 23, GREGORIAN) == HC_FAST_ENDS_NIGHTFALL);
+    HC_ASSERT_TRUE(fast(2029, 7, 20, GREGORIAN) == 0);
+    HC_ASSERT_TRUE(fast(2029, 7, 21, GREGORIAN) == HC_FAST_BEGINS_SUNSET);
+    HC_ASSERT_TRUE(fast(2029, 7, 22, GREGORIAN) == HC_FAST_ENDS_NIGHTFALL);
+    HC_ASSERT_TRUE(fast(2029, 6, 30, GREGORIAN) == 0);
+    HC_ASSERT_TRUE(fast(2029, 7, 1, GREGORIAN) == (HC_FAST_BEGINS_DAWN | HC_FAST_ENDS_NIGHTFALL));
+    HC_ASSERT_TRUE(fast(2028, 3, 9, GREGORIAN) == (HC_FAST_BEGINS_DAWN | HC_FAST_ENDS_NIGHTFALL));
+    HC_ASSERT_TRUE(hc_fast_times(0) == -1);
 
     /* Rosh Hashana */
     get_days(5777, 7, 1, 0, days, &count);
